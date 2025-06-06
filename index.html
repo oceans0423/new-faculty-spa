@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新進教師教學輔導與培訓機制</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutral Harmony -->
+    <!-- Application Structure Plan: The SPA uses an interactive, stage-based timeline structure. Users select a development year (1, 2, or 3) from a main selector. The content for the selected year is then displayed below, organized into clickable tabs representing the key "發展重點" (Development Focus Areas). This hierarchical, interactive design was chosen to break down the dense, text-heavy plan into digestible, explorable segments, directly mirroring the report's logical progression while enhancing user navigation and preventing information overload. -->
+    <!-- Visualization & Content Choices: Report Info: Three-year faculty development plan. Goal: Allow users to easily explore the plan for each year. Viz/Presentation: Interactive 3-stage selector with tab-based content display for focus areas. Interaction: JS-powered dynamic content rendering on click events for both stages and tabs. Justification: This structure provides an intuitive, non-linear way to explore the hierarchical information, making the dense text more accessible. Library/Method: Vanilla JavaScript for all DOM manipulation and event handling. No charts needed. CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: #FDFBF8;
+        }
+        .active-stage {
+            background-color: #264653 !important;
+            color: #ffffff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .active-tab {
+            border-color: #2A9D8F;
+            color: #2A9D8F;
+            background-color: #E9C46A1A;
+        }
+        .stage-card {
+            transition: all 0.3s ease-in-out;
+        }
+        .content-area {
+            transition: opacity 0.5s ease-in-out;
+        }
+        .content-item ul {
+            list-style-position: outside;
+            padding-left: 1.5rem;
+        }
+        .content-item li {
+            margin-bottom: 0.75rem;
+            padding-left: 0.5rem;
+            position: relative;
+        }
+        .content-item li::before {
+            content: '▪';
+            position: absolute;
+            left: -0.25rem;
+            top: 0rem;
+            color: #E9C46A;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body class="text-stone-800">
+
+    <div class="container mx-auto max-w-6xl px-4 py-8 md:py-12">
+        
+        <header class="text-center mb-8 md:mb-12">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">新進教師教學輔導與培訓機制</h1>
+            <p class="mt-3 text-lg text-gray-600">一個持續成長的系統化教學專業發展路徑</p>
+        </header>
+
+        <main>
+            <div id="stage-selector" class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
+            </div>
+
+            <div id="stage-objective" class="p-6 bg-white rounded-2xl shadow-sm mb-8 border border-gray-200">
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm p-6 md:p-8">
+                <div id="focus-tabs" class="flex flex-wrap border-b border-gray-200 mb-6 -mx-2">
+                </div>
+                <div id="content-display" class="content-area min-h-[300px]">
+                </div>
+            </div>
+        </main>
+
+        <footer class="text-center mt-12 text-gray-500 text-sm">
+            <p>&copy; 2025 教學發展中心. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        const planData = {
+            stage1: {
+                title: '第一階段 (第1年)',
+                subtitle: '適應、定向與基礎培力',
+                objective: `
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">第一階段核心目標與重點</h3>
+                    <p class="text-gray-600">此階段的<strong>核心目標</strong>在於協助新進教師<strong>快速適應</strong>本校的學術與社群環境，順利完成職涯轉換。教師必須清晰理解其未來在校內的<strong>發展藍圖</strong>，明確知曉學校對其的<strong>期待與要求</strong>，並充分掌握學校可提供的各項<strong>教學資源</strong>。同時，深刻理解並認同本校的<strong>教學理念與FAITH核心價值</strong>，確保其發展方向與學校整體發展目標一致，進而成為學校未來發展的潛在推力。在教學實務上，目標是使教師掌握核心教學設計原則、課堂經營技巧與多元評量方法，初步接觸並嘗試應用本校「一師一認證」計畫的相關教學方法於課程中，為成為一名<strong>合格的大學教師</strong>奠定基礎。</p>`,
+                focuses: {
+                    focus1: {
+                        title: '融入學校文化與價值',
+                        icon: '🏛️',
+                        content: `
+                            <div class="content-item">
+                                <h4 class="font-bold text-lg mb-4 text-gray-700">具體策略與行動規劃</h4>
+                                <ul>
+                                    <li><strong>新進教師研習營：</strong>規劃為期三天兩夜的沈浸式研習活動，融合制度認知與情感凝聚。內容應包含學校中長程發展藍圖解析、校史與組織文化介紹；天主教全人教育精神、本校FAITH核心價值；校內各項教學、研究、服務資源介紹與獲取途徑說明；以及學校對新進教師的期待、學術倫理規範及相關權益說明。</li>
+                                </ul>
+                            </div>`
+                    },
+                    focus2: {
+                        title: '核心教學技能培訓',
+                        icon: '📚',
+                        content: `
+                            <div class="content-item">
+                                <h4 class="font-bold text-lg mb-4 text-gray-700">具體策略與行動規劃</h4>
+                                <ul>
+                                    <li><strong>「一師一認證」系列工坊：</strong>針對「數位與AI」、「PBL與行動研究」、「EMI全英語」、「永續議題」、「跨領域教學」等五大認證領域，開設入門簡介與體驗工作坊，說明各領域核心能力指標及學校推動重點，鼓勵新進教師依個人興趣與發展需求，選擇至少一至二項進行初步接觸與了解，為成為合格大學教師做好準備。</li>
+                                </ul>
+                            </div>`
+                    },
+                    focus3: {
+                        title: '教學輔導與支持',
+                        icon: '🤝',
+                        content: `
+                            <div class="content-item">
+                                <h4 class="font-bold text-lg mb-4 text-gray-700">具體策略與行動規劃</h4>
+                                <ul>
+                                    <li><strong>導師制度啟動：</strong>為每位新進教師指派教學經驗豐富的資深教師擔任導師，提供個人化的輔導，協助新進教師融入系、所、院、校之學術與社群文化；引導理解並實踐學校的教學理念與價值；提供教學設計、教學方法、班級經營、評量設計等專業諮詢與輔導；並協助解決教學過程中遇到的困難與挑戰。</li>
+                                </ul>
+                            </div>`
+                    },
+                    focus4: {
+                        title: '初步教學實踐與反思',
+                        icon: '✍️',
+                        content: `
+                            <div class="content-item">
+                                <h4 class="font-bold text-lg mb-4 text-gray-700">具體策略與行動規劃</h4>
+                                <ul>
+                                    <li>鼓勵新進教師將於各項研習活動中所學的知識與技能實際應用於至少一門所授課程中。</li>
+                                    <li><strong>同儕教學觀摩：</strong>鼓勵參與非評鑑性質的「同儕互訪觀課」活動，安排觀摩顧問或校內教學優良教師的課堂，學習多元教學風格與技巧。</li>
+                                    <li>引導新進教師定期進行教學反思，與顧問進行深度的教學反思對談與回饋。</li>
+                                </ul>
+                            </div>`
+                    }
+                }
+            },
+            stage2: {
+                title: '第二階段 (第2年)',
+                subtitle: '能力深化、風格塑造與主動參與',
+                objective: `
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">第二階段核心目標與重點</h3>
+                    <p class="text-gray-600">進入第二年，<strong>核心目標</strong>是引導新進教師在<strong>能力本位</strong>的基礎上，創造個人在教學上的<strong>辨識度</strong>。教師應至少完成一項本校「一師一認證」所設定領域的深度學習與課程實踐，並能將所學<strong>實際應用</strong>於課程設計中，展現<strong>教學創新</strong>的能力。更重要的是，培養教師<strong>主動承擔</strong>的積極態度，鼓勵其活躍參與各類<strong>教師成長社群</strong>，主動連結校內外學術資源，特別是推動<strong>跨領域合作</strong>，深化與同儕之間的專業交流與協作。最終目標是協助教師發展出個人獨特的<strong>教學風格與教學路徑</strong>，形成對教學的深刻認知與精熟技巧。</p>`,
+                focuses: {
+                    focus1: {
+                        title: '「一師一認證」深度發展',
+                        icon: '🏅',
+                        content: `
+                            <div class="content-item">
+                                <h4 class="font-bold text-lg mb-4 text-gray-700">具體策略與行動規劃</h4>
+                                <ul>
+                                    <li>新進教師應至少選擇一個「一師一認證」的特定領域，進行系統性且深度的研習，完成該領域設定的所有培訓時數與能力要求，並將所學實際應用於課程設計與教學中，創造個人教學的辨識度。</li>
+                                    <li>教學發展中心將針對各認證領域，提供工作坊課程，協助教師將理論轉化為有效的教學實踐。</li>
+                                    <li>鼓勵新進教師積極申請校內的「教學精進計畫」、「參與式學習教學計畫」相關補助，以支持其開發與執行符合「一師一認證」標準之創新課程。</li>
+                                </ul>
+                            </div>`
+                    },
+                    focus2: {
+                        title: '教學創新行動',
+                        icon: '💡',
+                        content: `
+                            <div class="content-item">
+                                <h4 class="font-bold text-lg mb-4 text-gray-700">具體策略與行動規劃</h4>
+                                <ul>
+                                    <li>鼓勵新進教師將「一師一認證」所學更廣泛地應用於多門課程中，或進行更具深度的教學實驗與探究，積極發展個人化的教學風格與教學路徑。</li>
+                                    <li>推動新進教師參與校內外的教學創新或教學成果發表會，展現其教學能量與創新思考。</li>
+                                    <li>鼓勵教師將教學實踐經驗，轉化為具體成果（教學案例、分享文章、教學研究），於校內教師社群或相關研討會中分享。</li>
+                                </ul>
+                            </div>`
+                    },
+                    focus3: {
+                        title: '教學社群參與及合作',
+                        icon: '👥',
+                        content: `
+                            <div class="content-item">
+                                <h4 class="font-bold text-lg mb-4 text-gray-700">具體策略與行動規劃</h4>
+                                <ul>
+                                    <li>新進教師應主動積極並持續參與校內相關的教師社群，並在社群中主動承擔角色，例如分享經驗、提出問題、共同規劃活動等。</li>
+                                    <li><strong>同儕教學觀摩：</strong>建立常態性的同儕互訪觀課機制，鼓勵教師主動邀請或觀摩同儕的課堂，以深化交流並提升教學技巧。</li>
+                                    <li>鼓勵與同儕共同備課、合作設計跨領域的課程模組，或嘗試進行協同教學，主動連結校內學術資源。</li>
+                                    <li>參與教學發展中心定期舉辦之教學交流活動，促進教師間的實質合作。</li>
+                                </ul>
+                            </div>`
+                    }
+                }
+            },
+            stage3: {
+                title: '第三階段 (第3年)',
+                subtitle: '專精發展、成果輸出與教學領導養成',
+                objective: `
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">第三階段核心目標與重點</h3>
+                    <p class="text-gray-600">在第三年，<strong>核心目標</strong>是支持新進教師在特定教學領域達到<strong>專精</strong>程度，並開始展現初步的<strong>教學領導能力</strong>與<strong>主導性</strong>。教師應能基於其能力本位的學習與實踐，產出具體的<strong>教學成果</strong>（例如：優良教案、創新教材、教學研究報告等），並能主動將這些成果進行有效的<strong>分享與傳承</strong>。此階段的教師應逐漸轉化為校內教學資源的貢獻者與創造者，有意識地成為在教學上能做出實質貢獻、引領風氣的榜樣。</p>`,
+                focuses: {
+                    focus1: {
+                        title: '教學專長深化與認證',
+                        icon: '🌟',
+                        content: `
+                            <div class="content-item">
+                                <h4 class="font-bold text-lg mb-4 text-gray-700">具體策略與行動規劃</h4>
+                                <ul>
+                                    <li>新進教師應完成並取得「一師一認證」之認證資格，展現其能力本位的學習成效與教學專精程度。</li>
+                                    <li>鼓勵教師積極參與或爭取教學創新相關計畫（如：教育部教學實踐計畫）、學術研討會，持續深化專業。</li>
+                                    <li><strong>制度性肯定：</strong>相關成就將與教學實務升等、校內教學優良教師的遴選等重要職涯發展事項掛鉤。</li>
+                                </ul>
+                            </div>`
+                    },
+                    focus2: {
+                        title: '教學領導與成果輸出',
+                        icon: '🚀',
+                        content: `
+                            <div class="content-item">
+                                <h4 class="font-bold text-lg mb-4 text-gray-700">具體策略與行動規劃</h4>
+                                <ul>
+                                    <li>新進教師應具備主導性，積極將其在特定教學領域的專長與成果進行輸出。鼓勵擔任校內教學工作坊的講師、研討會發表人、成果經驗分享者等，展現初步的教學領導能力。</li>
+                                    <li>鼓勵教師將個人成功的教學模式、發展的優良教材或創新的評量工具，進行系統化的整理，並樂於在校內的資源平台或社群中分享，供其他教師參考，進行經驗傳承。</li>
+                                    <li><strong>成果發表：</strong>強烈鼓勵並支持教師將教學創新成果發表於學術研討會或期刊（教學實踐研究）。</li>
+                                </ul>
+                            </div>`
+                    },
+                    focus3: {
+                        title: '課程發展與系所貢獻',
+                        icon: '📈',
+                        content: `
+                            <div class="content-item">
+                                <h4 class="font-bold text-lg mb-4 text-gray-700">具體策略與行動規劃</h4>
+                                <ul>
+                                    <li>協助系（所）推動各項特色教學計畫。</li>
+                                    <li>將個人的教學研究成果或創新教學的實踐經驗，具體回饋於系所的課程改進與教學品質提升。</li>
+                                </ul>
+                            </div>`
+                    },
+                    focus4: {
+                        title: '持續專業發展規劃',
+                        icon: '🗺️',
+                        content: `
+                            <div class="content-item">
+                                <h4 class="font-bold text-lg mb-4 text-gray-700">具體策略與行動規劃</h4>
+                                <ul>
+                                    <li>在第三年結束前，應與其導師或系所主管共同檢視專業發展歷程，一同規劃未來三至五年的個人教學專業發展藍圖，強調持續成長的重要性。</li>
+                                </ul>
+                            </div>`
+                    }
+                }
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const stageSelector = document.getElementById('stage-selector');
+            const stageObjective = document.getElementById('stage-objective');
+            const focusTabsContainer = document.getElementById('focus-tabs');
+            const contentDisplay = document.getElementById('content-display');
+            let currentStage = 'stage1';
+
+            function renderStageSelector() {
+                Object.keys(planData).forEach(stageId => {
+                    const stage = planData[stageId];
+                    const button = document.createElement('button');
+                    button.dataset.stage = stageId;
+                    button.className = 'stage-card p-4 md:p-6 text-left bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-md hover:border-teal-500/50';
+                    button.innerHTML = `
+                        <div class="font-bold text-lg md:text-xl text-teal-700">${stage.title}</div>
+                        <div class="text-sm text-gray-500 mt-1">${stage.subtitle}</div>`;
+                    button.addEventListener('click', () => {
+                        currentStage = stageId;
+                        render();
+                    });
+                    stageSelector.appendChild(button);
+                });
+            }
+            
+            function renderFocusTabs(stageId) {
+                focusTabsContainer.innerHTML = '';
+                const focuses = planData[stageId].focuses;
+                Object.keys(focuses).forEach(focusId => {
+                    const focus = focuses[focusId];
+                    const tab = document.createElement('button');
+                    tab.dataset.focus = focusId;
+                    tab.className = 'px-3 py-2 md:px-4 md:py-2 mx-2 mb-2 text-sm md:text-base font-medium border-b-2 border-transparent hover:text-teal-600 transition-colors duration-300';
+                    tab.innerHTML = `<span class="mr-2">${focus.icon}</span>${focus.title}`;
+                    tab.addEventListener('click', () => renderTabContent(stageId, focusId));
+                    focusTabsContainer.appendChild(tab);
+                });
+            }
+
+            function renderTabContent(stageId, focusId) {
+                contentDisplay.style.opacity = 0;
+                setTimeout(() => {
+                    contentDisplay.innerHTML = planData[stageId].focuses[focusId].content;
+                    
+                    document.querySelectorAll('#focus-tabs button').forEach(t => t.classList.remove('active-tab'));
+                    document.querySelector(`#focus-tabs button[data-focus="${focusId}"]`).classList.add('active-tab');
+                    
+                    contentDisplay.style.opacity = 1;
+                }, 250);
+            }
+
+            function render() {
+                document.querySelectorAll('#stage-selector button').forEach(btn => {
+                    btn.classList.toggle('active-stage', btn.dataset.stage === currentStage);
+                });
+                
+                stageObjective.innerHTML = planData[currentStage].objective;
+                renderFocusTabs(currentStage);
+
+                const firstFocusId = Object.keys(planData[currentStage].focuses)[0];
+                renderTabContent(currentStage, firstFocusId);
+            }
+
+            renderStageSelector();
+            render();
+        });
+    </script>
+
+</body>
+</html>
