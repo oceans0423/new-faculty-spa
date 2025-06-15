@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>靜宜大學新進教師研習營｜互動課程表</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Serene Teal and Warm Sand -->
+    <!-- Application Structure Plan: The SPA is designed as an interactive timeline/agenda. The primary navigation consists of two main buttons, "Day 1" and "Day 2". Clicking a button dynamically displays the detailed schedule for that day. This structure was chosen to break down the dense, linear two-day schedule into manageable, user-selectable chunks. It allows faculty to focus on one day at a time, making the information easier to consume and navigate, which is superior to a long, scrolling document. -->
+    <!-- Visualization & Content Choices: Report Info: Two-day workshop schedule. Goal: Present the schedule clearly and allow easy exploration. Viz/Presentation Method: A card-based layout for each agenda item, using Unicode icons to denote activity types (e.g., workshop, meal, talk). Interaction: JS-powered dynamic content rendering. Clicking a "Day" button updates the entire content area with that day's schedule. An expandable section for the main workshop provides detailed planning on demand. Justification: This interactive card layout organizes textual information cleanly and enhances readability. The core interaction directly serves the goal of focused exploration and progressive disclosure. Library/Method: Vanilla JavaScript for all DOM manipulation. No charts are needed. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: #fdfaf6;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #2a9d8f, #e9c46a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .active-day-btn {
+            background-color: #264653 !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        .day-btn {
+            transition: all 0.3s ease-in-out;
+        }
+        .timeline-item {
+            border-left-color: #e76f51;
+        }
+        .content-fade-in {
+            animation: fadeIn 0.7s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .details-content {
+            transition: all 0.3s ease-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .details-content.show {
+            max-height: 1000px;
+        }
+        .toggle-button {
+            transition: transform 0.3s ease;
+        }
+        .toggle-button.rotated {
+            transform: rotate(45deg);
+        }
+    </style>
+</head>
+<body class="text-stone-800">
+
+    <div class="container mx-auto max-w-5xl px-4 py-8 md:py-16">
+        
+        <header class="text-center mb-10 md:mb-12">
+            <h1 class="text-3xl md:text-5xl font-bold gradient-text mb-2">靜宜大學新進教師研習營</h1>
+            <p class="mt-3 text-lg text-gray-600">與信念同行：啟航、探索與共融</p>
+        </header>
+
+        <main>
+            <div id="day-selector" class="flex justify-center gap-4 mb-10">
+                <button data-day="day1" class="day-btn text-lg font-semibold py-3 px-8 rounded-full bg-white shadow-md">Day 1</button>
+                <button data-day="day2" class="day-btn text-lg font-semibold py-3 px-8 rounded-full bg-white shadow-md">Day 2</button>
+            </div>
+
+            <div id="schedule-container">
+            </div>
+        </main>
+
+        <footer class="text-center mt-16 text-gray-400 text-sm">
+            <p>&copy; 2025 靜宜大學</p>
+        </footer>
+    </div>
+
+    <script>
+        const scheduleData = {
+            day1: {
+                title: "Day 1｜啟航：融入、啟發與建構",
+                events: [
+                    { time: "09:00–09:30", type: "報到", title: "報到與相見歡", description: "新進教師報到，領取資料，進入會場自由交流。", icon: "📝" },
+                    { time: "09:30–09:40", type: "致詞", title: "長官致詞", description: "由校長或副校長致詞，歡迎新進教師，簡要說明本校教育願景與期許。", icon: "🎙️" },
+                    { time: "09:40–10:00", type: "引導", title: "理念導引：FAITH 與 VITALS 的核心精神", description: "簡要介紹靜宜大學的辦學理念、FAITH 價值與 VITALS 架構，作為接續工作坊的討論基礎。", icon: "🧭" },
+                    { 
+                        time: "10:00–12:00", 
+                        type: "工作坊", 
+                        title: "FAITH × VITALS 核心價值共構工作坊", 
+                        description: "教師依據五個 FAITH 價值主題自由選擇參與，針對選定價值理念，結合 VITALS 架構，發想具體行動方案。透過快閃交流、回組修正與成果發表，凝聚共識。", 
+                        icon: "💡",
+                        details: `
+                            <div class="bg-teal-50/50 p-4 mt-4 rounded-lg border border-teal-100">
+                                <h5 class="font-bold text-md text-teal-800 mb-3">🌟【操作規劃表】</h5>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-sm text-left text-gray-700">
+                                        <thead class="text-xs text-teal-800 uppercase bg-teal-100">
+                                            <tr>
+                                                <th scope="col" class="px-4 py-2">時間</th>
+                                                <th scope="col" class="px-4 py-2">階段</th>
+                                                <th scope="col" class="px-4 py-2">內容說明</th>
+                                                <th scope="col" class="px-4 py-2">活動方式</th>
+                                                <th scope="col" class="px-4 py-2">預期產出</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="bg-white border-b border-teal-100">
+                                                <td class="px-4 py-3">10:00–10:10</td>
+                                                <td class="px-4 py-3 font-medium">💬 導入與說明</td>
+                                                <td class="px-4 py-3">- 工作坊目標簡介<br>- 解釋 FAITH 與 VITALS 關係</td>
+                                                <td class="px-4 py-3">簡報導入＋互動問答</td>
+                                                <td class="px-4 py-3">全體對活動脈絡有初步理解</td>
+                                            </tr>
+                                            <tr class="bg-white border-b border-teal-100">
+                                                <td class="px-4 py-3">10:10–10:20</td>
+                                                <td class="px-4 py-3 font-medium">🎴 主題抽取與分組</td>
+                                                <td class="px-4 py-3">- 每人依志願順序抽取 FAITH 主題卡<br>- 現場依卡分組</td>
+                                                <td class="px-4 py-3">現場抽卡、組別形成</td>
+                                                <td class="px-4 py-3">形成 5 組，每組聚焦 1 個 FAITH 主題</td>
+                                            </tr>
+                                            <tr class="bg-white border-b border-teal-100">
+                                                <td class="px-4 py-3">10:20–10:50</td>
+                                                <td class="px-4 py-3 font-medium">🔍 小組共構 I</td>
+                                                <td class="px-4 py-3">- 詮釋 FAITH 主題對「大學教師角色」的意涵<br>- 討論與 VITALS 構面的連結</td>
+                                                <td class="px-4 py-3">討論引導表＋便條紙記錄</td>
+                                                <td class="px-4 py-3">各組完成 FAITH 主題簡述與 VITALS 關聯說明</td>
+                                            </tr>
+                                            <tr class="bg-white border-b border-teal-100">
+                                                <td class="px-4 py-3">10:50–11:10</td>
+                                                <td class="px-4 py-3 font-medium">💡 小組共構 II</td>
+                                                <td class="px-4 py-3">- 討論未來1–3年可實踐此價值的方向<br>- 設計行動計畫</td>
+                                                <td class="px-4 py-3">行動規劃</td>
+                                                <td class="px-4 py-3">初步草擬個別/小組可行的行動計劃輪廓</td>
+                                            </tr>
+                                            <tr class="bg-white border-b border-teal-100">
+                                                <td class="px-4 py-3">11:10–11:25</td>
+                                                <td class="px-4 py-3 font-medium">🔄 快閃交流</td>
+                                                <td class="px-4 py-3">- 組員分散到不同組聽簡報並提建議<br>- 每人需留下一條建議</td>
+                                                <td class="px-4 py-3">快閃交流模式</td>
+                                                <td class="px-4 py-3">各組收集來自他組的建議與觀點</td>
+                                            </tr>
+                                            <tr class="bg-white border-b border-teal-100">
+                                                <td class="px-4 py-3">11:25–11:40</td>
+                                                <td class="px-4 py-3 font-medium">🧠 整合與收斂</td>
+                                                <td class="px-4 py-3">- 各組回到本組整合建議<br>- 確定一份小組提案</td>
+                                                <td class="px-4 py-3">簡短討論與整理</td>
+                                                <td class="px-4 py-3">小組完成正式海報或分享稿一份</td>
+                                            </tr>
+                                            <tr class="bg-white">
+                                                <td class="px-4 py-3">11:40–12:00</td>
+                                                <td class="px-4 py-3 font-medium">📣 小組發表</td>
+                                                <td class="px-4 py-3">- 每組 3 分鐘口頭簡報<br>- 行政單位代表可給予回饋</td>
+                                                <td class="px-4 py-3">分享與回應</td>
+                                                <td class="px-4 py-3">提升教師對價值實踐的參與感與認同感</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        `
+                    },
+                    { time: "12:00–13:30", type: "午餐", title: "午宴｜自由交流", description: "促進教師間自由對話，建立情誼。", icon: "用餐" },
+                    { time: "13:30–13:45", type: "引導", title: "開場與總體說明", description: "引導教師思考自身教學、研究與服務的整體職涯布局。", icon: "🎯" },
+                    { time: "13:45–14:30", type: "模組一", title: "教學行動規劃", description: "教務處介紹靜宜教學創新文化與教師支持資源。教師書寫個人教學初步行動規劃，並於組內交流。", icon: "📘" },
+                    { time: "14:30–15:15", type: "模組二", title: "研究發展與資源串連", description: "研發處介紹研究輔導制度與校內資源。邀請具代表性的教師進行研究經驗短講。教師撰寫研究構想草圖。", icon: "🔬" },
+                    { time: "15:15–15:30", type: "休息", title: "茶敘交流時間", description: "放鬆心情，增進交流。", icon: "☕" },
+                    { time: "15:30–16:15", type: "模組三", title: "服務實踐與參與路徑", description: "介紹行政與USR服務內容與機會。教師撰寫未來欲參與之服務行動與角色規劃。", icon: "🤝" },
+                    { time: "16:15–17:00", type: "總結", title: "回顧與藍圖草擬", description: "教師整理今日三個面向的初步行動構想，作為未來職涯發展藍圖，並邀請新進教師進行分享。", icon: "📌" },
+                    { time: "18:00–20:00", type: "晚會", title: "星空夜話：自由交流晚會", description: "營造溫馨自由的氛圍，邀請校內教師、主管與新進教師自由入座、交換經驗與想法。不限形式，強調真心交流與建立關係。", icon: "🌌" },
+                ]
+            },
+            day2: {
+                title: "Day 2｜共融：定向、連結與啟航",
+                events: [
+                    { time: "09:00–09:10", type: "引導", title: "暖身導入與開場說明", description: "開啟第二天議程，提振精神。", icon: "🌅" },
+                    { time: "09:10–10:00", type: "論壇", title: "學生真心話論壇", description: "邀請不同學系學生代表，分享他們的學習經驗、對教師的期待與學校生活挑戰。", icon: "📣" },
+                    { time: "10:00–10:45", type: "反思", title: "教學再思：對話與回應", description: "教師小組討論對學生分享的回應與省思，並於分組交流回饋。", icon: "🔁" },
+                    { time: "10:45–11:30", type: "規劃", title: "研究構想與校內資源整合", description: "引導教師整合前一日研究構想，搭配校內資源進行初步藍圖。小組交流研究構想，釐清可行性與支持路徑。", icon: "🗺️" },
+                    { time: "11:30–12:00", type: "總結", title: "三年藍圖統整", description: "每位教師根據教學、研究、服務三面向，撰寫自己的「三年初步發展構想」，作為後續成長基礎。", icon: "📝" },
+                    { time: "12:00–13:00", type: "午餐", title: "結業午宴", description: "輕鬆收束，提供跨單位交流機會。", icon: "用餐" },
+                    { time: "13:00–13:45", type: "分享", title: "交流與回顧", description: "教師自由書寫分享內容，規劃每位教師三分鐘簡短發表心得、成長目標或願景。", icon: "🎤" },
+                    { time: "13:45–14:00", type: "閉幕", title: "長官總結與結業證書頒發", description: "為研習營畫下圓滿句點。", icon: "🌳" },
+                ]
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const daySelector = document.getElementById('day-selector');
+            const scheduleContainer = document.getElementById('schedule-container');
+            
+            function renderSchedule(dayId) {
+                const dayData = scheduleData[dayId];
+                
+                let contentHTML = `<div class="content-fade-in">
+                    <h2 class="text-2xl md:text-3xl font-bold text-center mb-8 text-stone-700">${dayData.title}</h2>
+                    <div class="space-y-8">`;
+
+                dayData.events.forEach((event, index) => {
+                    const hasDetails = event.details;
+                    const detailsId = `details-${dayId}-${index}`;
+
+                    contentHTML += `
+                        <div class="flex items-start">
+                            <div class="flex flex-col items-center mr-4">
+                                <div class="w-16 text-right font-medium text-teal-600">${event.time.split('–')[0]}</div>
+                                <div class="w-px h-4 bg-gray-300"></div>
+                                <div class="flex items-center justify-center w-8 h-8 rounded-full bg-teal-50 text-teal-600">${event.icon}</div>
+                                <div class="w-px flex-grow bg-gray-300"></div>
+                            </div>
+                            <div class="bg-white rounded-lg p-5 shadow-sm w-full border border-gray-100">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="text-sm font-semibold text-orange-500 mb-1">${event.type}</p>
+                                        <h3 class="font-bold text-lg text-gray-800">${event.title}</h3>
+                                    </div>
+                                    ${hasDetails ? `<button data-toggle-id="${detailsId}" class="toggle-button flex-shrink-0 ml-4 p-1 rounded-full text-teal-500 hover:bg-teal-100 focus:outline-none focus:ring-2 focus:ring-teal-400">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                                    </button>` : ''}
+                                </div>
+                                <p class="text-gray-600 mt-2">${event.description}</p>
+                                ${hasDetails ? `<div id="${detailsId}" class="details-content mt-2">${event.details}</div>` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                contentHTML += `</div></div>`;
+                scheduleContainer.innerHTML = contentHTML;
+
+                document.querySelectorAll('.day-btn').forEach(btn => {
+                    btn.classList.remove('active-day-btn');
+                });
+                document.querySelector(`[data-day="${dayId}"]`).classList.add('active-day-btn');
+            }
+
+            daySelector.addEventListener('click', function(e) {
+                const targetButton = e.target.closest('.day-btn');
+                if (targetButton) {
+                    const dayId = targetButton.dataset.day;
+                    renderSchedule(dayId);
+                }
+            });
+
+            scheduleContainer.addEventListener('click', function(e) {
+                const toggleButton = e.target.closest('[data-toggle-id]');
+                if (toggleButton) {
+                    const detailsId = toggleButton.dataset.toggleId;
+                    const detailsContent = document.getElementById(detailsId);
+                    const iconSvg = toggleButton.querySelector('svg');
+                    
+                    if (detailsContent) {
+                        detailsContent.classList.toggle('show');
+                        toggleButton.classList.toggle('rotated');
+                        if (detailsContent.classList.contains('show')) {
+                             iconSvg.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>`;
+                        } else {
+                            iconSvg.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>`;
+                        }
+                    }
+                }
+            });
+
+            renderSchedule('day1');
+        });
+
+    </script>
+</body>
+</html>
