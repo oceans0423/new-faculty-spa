@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第三人生大學 - 開啟人生下半場的精彩學習旅程</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #FAFAFA;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* 導航欄 */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #FF8A65;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #FF8A65;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-box {
+            padding: 8px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            outline: none;
+            width: 200px;
+            transition: border-color 0.3s;
+        }
+
+        .search-box:focus {
+            border-color: #FF8A65;
+        }
+
+        .login-btn {
+            background: #FF8A65;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .login-btn:hover {
+            background: #FF7043;
+        }
+
+        /* 主視覺橫幅 - Banner輪播 */
+        .hero {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .banner-slider {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .banner-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .banner-slide.active {
+            opacity: 1;
+        }
+
+        .banner-slide:nth-child(1) {
+            background: linear-gradient(135deg, #FF8A65 0%, #FFAB91 100%);
+        }
+
+        .banner-slide:nth-child(2) {
+            background: linear-gradient(135deg, #81C784 0%, #A5D6A7 100%);
+        }
+
+        .banner-slide:nth-child(3) {
+            background: linear-gradient(135deg, #64B5F6 0%, #90CAF9 100%);
+        }
+
+        .banner-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 2;
+        }
+
+        .banner-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .banner-content p {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+
+        .banner-btn {
+            background: white;
+            color: #FF8A65;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .banner-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* 輪播指示器 */
+        .banner-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 3;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .indicator.active {
+            background: white;
+        }
+
+        /* 課程分類 */
+        .categories {
+            padding: 60px 0;
+            background: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 區塊標題 - 現代設計風格 */
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: #333;
+            font-weight: 600;
+            position: relative;
+            padding-left: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title .more-link {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 400;
+            cursor: pointer;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+        }
+
+        .section-title .more-link:hover {
+            color: #FF8A65;
+        }
+
+        .section-title .more-link::after {
+            content: '';
+            width: 6px;
+            height: 10px;
+            border: solid #666;
+            border-width: 0 2px 2px 0;
+            transform: rotate(-45deg);
+            transition: border-color 0.3s;
+        }
+
+        .section-title .more-link:hover::after {
+            border-color: #FF8A65;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .category-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .category-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* 課程推薦 */
+        .courses {
+            padding: 60px 0;
+            background: #F8F9FA;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .course-card {
+            background: transparent;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .course-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .course-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(45deg, #FFD54F, #FF8A65);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s;
+        }
+
+        .course-card:hover .course-image {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .course-content {
+            padding: 0;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            height: 200px; /* 固定高度確保對齊 */
+        }
+
+        .course-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .instructor {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .course-desc {
+            color: #777;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            flex: 1; /* 讓描述區域佔用剩餘空間 */
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* 限制最多3行 */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .course-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-top: auto; /* 確保footer總是在底部 */
+        }
+
+        .course-time {
+            color: #666;
+            font-size: 0.85rem;
+            flex: 1;
+        }
+
+        .enroll-btn {
+            background: #FF8A65;
+            color: white;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            white-space: nowrap;
+        }
+
+        .enroll-btn:hover {
+            background: #FF7043;
+            transform: translateY(-1px);
+        }
+
+        /* 課程圖片變化效果 */
+        .course-card:nth-child(1) .course-image {
+            background: linear-gradient(45deg, #FF8A65, #FFAB91);
+        }
+
+        .course-card:nth-child(2) .course-image {
+            background: linear-gradient(45deg, #81C784, #A5D6A7);
+        }
+
+        .course-card:nth-child(3) .course-image {
+            background: linear-gradient(45deg, #64B5F6, #90CAF9);
+        }
+
+        .course-card:nth-child(4) .course-image {
+            background: linear-gradient(45deg, #FFB74D, #FFCC02);
+        }
+
+        .course-card:nth-child(5) .course-image {
+            background: linear-gradient(45deg, #F06292, #F8BBD9);
+        }
+
+        .course-card:nth-child(6) .course-image {
+            background: linear-gradient(45deg, #9575CD, #B39DDB);
+        }
+
+        /* 精選文章 */
+        .articles {
+            padding: 60px 0;
+            background: white;
+        }
+
+        .article-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .article-image {
+            height: 200px;
+            background: linear-gradient(45deg, #FFAB91, #FF8A65);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .article-content {
+            padding: 20px;
+        }
+
+        .article-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .article-excerpt {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .read-more {
+            color: #FF8A65;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        /* 最新消息 */
+        .news {
+            padding: 60px 0;
+            background: #F8F9FA;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .news-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #333;
+            border-left: 4px solid #FF8A65;
+            padding-left: 15px;
+        }
+
+        .news-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .news-item h4 {
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .news-item p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .news-date {
+            color: #999;
+            font-size: 0.8rem;
+        }
+
+        /* 底部 */
+        .footer {
+            background: #2C3E50;
+            color: white;
+            padding: 40px 0 20px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 15px;
+            color: #FF8A65;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #BDC3C7;
+            text-decoration: none;
+            line-height: 1.8;
+        }
+
+        .footer-section a:hover {
+            color: #FF8A65;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #34495E;
+            color: #95A5A6;
+        }
+
+        /* 授課教師群 */
+        .teachers {
+            padding: 60px 0;
+            background: white;
+            position: relative;
+        }
+
+        .teachers-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .teacher-slider {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .teacher-grid {
+            display: flex;
+            transition: transform 0.3s ease;
+            gap: 25px;
+        }
+
+        .teacher-card {
+            position: relative;
+            height: 400px;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            flex: 0 0 calc(25% - 19px);
+            min-width: 280px;
+        }
+
+        .teacher-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .teacher-image {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #81C784, #4CAF50);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .teacher-card:nth-child(1) .teacher-image {
+            background: linear-gradient(135deg, #81C784, #66BB6A);
+        }
+
+        .teacher-card:nth-child(2) .teacher-image {
+            background: linear-gradient(135deg, #FFB74D, #FFA726);
+        }
+
+        .teacher-card:nth-child(3) .teacher-image {
+            background: linear-gradient(135deg, #F06292, #EC407A);
+        }
+
+        .teacher-card:nth-child(4) .teacher-image {
+            background: linear-gradient(135deg, #64B5F6, #42A5F5);
+        }
+
+        .teacher-card:nth-child(5) .teacher-image {
+            background: linear-gradient(135deg, #9C27B0, #BA68C8);
+        }
+
+        .teacher-card:nth-child(6) .teacher-image {
+            background: linear-gradient(135deg, #FF7043, #FFAB91);
+        }
+
+        .teacher-accent {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.2);
+            clip-path: polygon(0 0, 100% 0, 0 100%);
+        }
+
+        .teacher-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: #666;
+            margin-bottom: 20px;
+            margin-top: 60px;
+        }
+
+        .teacher-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 20px;
+            text-align: left;
+            height: 120px; /* 固定高度確保對齊 */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .teacher-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.3;
+            height: 28px; /* 固定標題高度 */
+            overflow: hidden;
+        }
+
+        .teacher-desc {
+            font-size: 0.8rem;
+            line-height: 1.4;
+            opacity: 0.9;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .teacher-course-tag {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(255,255,255,0.9);
+            color: #333;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* 滑動控制按鈕 */
+        .teacher-nav {
+            width: 32px;
+            height: 32px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .teacher-nav:hover {
+            border-color: #FF8A65;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .teacher-nav::after {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border: solid #666;
+            border-width: 0 1.5px 1.5px 0;
+            transform: rotate(-45deg);
+        }
+
+        .teacher-nav.prev::after {
+            transform: rotate(135deg);
+            margin-left: 2px;
+        }
+
+        .teacher-nav.next::after {
+            transform: rotate(-45deg);
+            margin-right: 2px;
+        }
+
+        .teacher-nav:hover::after {
+            border-color: #FF8A65;
+        }
+
+        .teacher-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .promo-banner {
+            background: linear-gradient(135deg, #00BCD4 0%, #26C6DA 100%);
+            padding: 60px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .promo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .promo-content {
+            color: white;
+        }
+
+        .promo-subtitle {
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .promo-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .promo-image {
+            position: relative;
+            height: 300px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .promo-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 40%;
+            height: 200%;
+            background: rgba(255,255,255,0.1);
+            transform: rotate(15deg);
+        }
+
+        .promo-placeholder {
+            color: white;
+            font-size: 4rem;
+            opacity: 0.7;
+            z-index: 2;
+            position: relative;
+        }
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-box {
+                width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 導航欄 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">第三人生大學</a>
+            <ul class="nav-menu">
+                <li><a href="#courses">課程分類</a></li>
+                <li><a href="#articles">精選文章</a></li>
+                <li><a href="#student">學員專區</a></li>
+                <li><a href="#about">關於我們</a></li>
+            </ul>
+            <div class="nav-right">
+                <input type="text" class="search-box" placeholder="搜尋課程或文章...">
+                <button class="login-btn">登入/註冊</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主視覺橫幅 - Banner輪播 -->
+    <section class="hero">
+        <div class="banner-slider">
+            <div class="banner-slide active">
+                <div class="banner-content">
+                    <h2>創建高效模式</h2>
+                    <p>30種零門檻 AI 工作應用術</p>
+                    <button class="banner-btn">立即探索</button>
+                </div>
+            </div>
+            <div class="banner-slide">
+                <div class="banner-content">
+                    <h2>跨越焦慮產品開發</h2>
+                    <p>2025 軟體產品年會精華課程</p>
+                    <button class="banner-btn">了解更多</button>
+                </div>
+            </div>
+            <div class="banner-slide">
+                <div class="banner-content">
+                    <h2>自媒體經營術</h2>
+                    <p>新手必學的100招增粉技巧</p>
+                    <button class="banner-btn">開始學習</button>
+                </div>
+            </div>
+        </div>
+        <div class="banner-indicators">
+            <div class="indicator active" onclick="currentSlide(1)"></div>
+            <div class="indicator" onclick="currentSlide(2)"></div>
+            <div class="indicator" onclick="currentSlide(3)"></div>
+        </div>
+    </section>
+
+    <!-- 課程分類 -->
+    <section class="categories" id="courses">
+        <div class="container">
+            <h2 class="section-title">
+                探索學習領域
+                <a href="#" class="more-link">更多</a>
+            </h2>
+            <div class="category-grid">
+                <div class="category-card">
+                    <div class="category-icon">💻</div>
+                    <h3>數位科技</h3>
+                    <p>智慧手機應用、電腦基礎、網路安全等現代科技課程</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🎨</div>
+                    <h3>藝術文創</h3>
+                    <p>繪畫、手工藝、攝影、音樂等創意藝術課程</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🏛️</div>
+                    <h3>社會文化</h3>
+                    <p>歷史文化、社會議題、人文思辨等知識課程</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">✨</div>
+                    <h3>生活美學</h3>
+                    <p>居家佈置、園藝、烹飪、時尚等美學課程</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🌱</div>
+                    <h3>永續生活</h3>
+                    <p>環保實踐、綠色生活、循環經濟等永續課程</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 課程推薦 -->
+    <section class="courses">
+        <div class="container">
+            <h2 class="section-title">
+                本學期開設課程
+                <a href="#" class="more-link">更多</a>
+            </h2>
+            <div class="course-grid">
+                <div class="course-card">
+                    <div class="course-image">📖</div>
+                    <div class="course-content">
+                        <h3>自我與家族故事書寫</h3>
+                        <p class="instructor">授課老師：汪淑珍</p>
+                        <p class="course-desc">透過書寫探索自我生命歷程，記錄家族珍貴回憶，創作屬於自己的生命故事</p>
+                        <div class="course-footer">
+                            <span class="course-time">每週三 14:00-16:00</span>
+                            <button class="enroll-btn">我要報名</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="course-card">
+                    <div class="course-image">📱</div>
+                    <div class="course-content">
+                        <h3>社群媒體與數位生活</h3>
+                        <p class="instructor">授課老師：申惠豐</p>
+                        <p class="course-desc">學習社群媒體操作技巧，掌握數位時代的溝通方式與生活應用</p>
+                        <div class="course-footer">
+                            <span class="course-time">每週五 09:00-11:00</span>
+                            <button class="enroll-btn">我要報名</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="course-card">
+                    <div class="course-image">🌿</div>
+                    <div class="course-content">
+                        <h3>生態美學與藝術表達</h3>
+                        <p class="instructor">授課老師：林靜秀</p>
+                        <p class="course-desc">結合自然生態觀察與藝術創作，用美學視角探索環境，表達對自然的感受</p>
+                        <div class="course-footer">
+                            <span class="course-time">每週二 10:00-12:00</span>
+                            <button class="enroll-btn">我要報名</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="course-card">
+                    <div class="course-image">💻</div>
+                    <div class="course-content">
+                        <h3>電腦基礎操作</h3>
+                        <p class="instructor">授課老師：王志強</p>
+                        <p class="course-desc">零基礎學習電腦操作，包含文書處理、網路使用等實用技能</p>
+                        <div class="course-footer">
+                            <span class="course-time">每週一 10:00-12:00</span>
+                            <button class="enroll-btn">我要報名</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="course-card">
+                    <div class="course-image">🧘</div>
+                    <div class="course-content">
+                        <h3>銀髮族瑜珈</h3>
+                        <p class="instructor">授課老師：林雅惠</p>
+                        <p class="course-desc">專為銀髮族設計的溫和瑜珈課程，改善身體柔軟度</p>
+                        <div class="course-footer">
+                            <span class="course-time">每週四 15:00-16:30</span>
+                            <button class="enroll-btn">我要報名</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="course-card">
+                    <div class="course-image">🎭</div>
+                    <div class="course-content">
+                        <h3>台語歌唱班</h3>
+                        <p class="instructor">授課老師：蔡春美</p>
+                        <p class="course-desc">學習經典台語歌曲演唱技巧，重溫美好年代</p>
+                        <div class="course-footer">
+                            <span class="course-time">每週六 14:00-16:00</span>
+                            <button class="enroll-btn">我要報名</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 精選文章 -->
+    <section class="articles" id="articles">
+        <div class="container">
+            <h2 class="section-title">
+                學習故事與精彩分享
+                <a href="#" class="more-link">更多</a>
+            </h2>
+            <div class="article-grid">
+                <div class="article-card">
+                    <div class="article-image">📸</div>
+                    <div class="article-content">
+                        <h3>60歲開始學攝影，王奶奶的精彩人生</h3>
+                        <p class="article-excerpt">退休後的王奶奶重新拾起相機，用鏡頭記錄生活的美好瞬間，她的作品讓人驚艷...</p>
+                        <div class="article-meta">
+                            <span>2024-06-15</span>
+                            <a href="#" class="read-more">閱讀更多</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-card">
+                    <div class="article-image">🎨</div>
+                    <div class="article-content">
+                        <h3>從零開始的水彩之旅</h3>
+                        <p class="article-excerpt">分享學員在水彩課程中的學習心得，從基礎筆法到創作心得的完整記錄...</p>
+                        <div class="article-meta">
+                            <span>2024-06-12</span>
+                            <a href="#" class="read-more">閱讀更多</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-card">
+                    <div class="article-image">🌱</div>
+                    <div class="article-content">
+                        <h3>香草園藝課程作品展示</h3>
+                        <p class="article-excerpt">學員們在課程中培育的各種香草植物成果展示，綠意盎然的學習成果...</p>
+                        <div class="article-meta">
+                            <span>2024-06-10</span>
+                            <a href="#" class="read-more">閱讀更多</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 最新消息 -->
+    <section class="news">
+        <div class="container">
+            <h2 class="section-title">
+                最新消息
+                <a href="#" class="more-link">更多</a>
+            </h2>
+            <div class="news-grid">
+                <div class="news-section">
+                    <h3>📢 開課公告</h3>
+                    <div class="news-item">
+                        <h4>夏季課程開始報名</h4>
+                        <p>7月份新課程開放報名，包含攝影、繪畫、園藝等多項課程</p>
+                        <span class="news-date">2024-06-18</span>
+                    </div>
+                    <div class="news-item">
+                        <h4>數位科技課程加開班級</h4>
+                        <p>由於報名踴躍，智慧手機應用課程將加開晚間班級</p>
+                        <span class="news-date">2024-06-15</span>
+                    </div>
+                </div>
+                <div class="news-section">
+                    <h3>📅 校園活動</h3>
+                    <div class="news-item">
+                        <h4>學員作品展覽會</h4>
+                        <p>本月底將舉辦學員藝術作品展覽，歡迎大家共襄盛舉</p>
+                        <span class="news-date">2024-06-16</span>
+                    </div>
+                    <div class="news-item">
+                        <h4>校園健康講座</h4>
+                        <p>邀請專業醫師分享銀髮族健康保健知識</p>
+                        <span class="news-date">2024-06-14</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 授課教師群 -->
+    <section class="teachers">
+        <div class="teachers-container">
+            <h2 class="section-title teacher-title">
+                專業教師群
+                <div class="teacher-controls">
+                    <div class="teacher-nav prev" onclick="slideTeachers('prev')"></div>
+                    <div class="teacher-nav next" onclick="slideTeachers('next')"></div>
+                </div>
+            </h2>
+            <div class="teacher-slider">
+                <div class="teacher-grid" id="teacherGrid">
+                    <div class="teacher-card">
+                        <div class="teacher-course-tag">課程</div>
+                        <div class="teacher-image">
+                            <div class="teacher-accent"></div>
+                            <div class="teacher-avatar">👨‍🏫</div>
+                            <div class="teacher-info">
+                                <div class="teacher-name">汪淑珍 | 故事書寫創作人</div>
+                                <div class="teacher-desc">擁有豐富的文學創作經驗，專精於個人生命故事書寫與家族史記錄，致力於協助學員探索內在聲音</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="teacher-card">
+                        <div class="teacher-course-tag">課程</div>
+                        <div class="teacher-image">
+                            <div class="teacher-accent"></div>
+                            <div class="teacher-avatar">👨‍💻</div>
+                            <div class="teacher-info">
+                                <div class="teacher-name">申惠豐 | 數位生活專家</div>
+                                <div class="teacher-desc">資深數位媒體講師，專長社群經營與數位工具應用，幫助銀髮族輕鬆融入數位時代</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="teacher-card">
+                        <div class="teacher-course-tag">課程</div>
+                        <div class="teacher-image">
+                            <div class="teacher-accent"></div>
+                            <div class="teacher-avatar">👩‍🎨</div>
+                            <div class="teacher-info">
+                                <div class="teacher-name">林靜秀 | 生態藝術家</div>
+                                <div class="teacher-desc">結合生態學與藝術創作的專業講師，致力於推廣環境美學教育，引導學員發現自然之美</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="teacher-card">
+                        <div class="teacher-course-tag">課程</div>
+                        <div class="teacher-image">
+                            <div class="teacher-accent"></div>
+                            <div class="teacher-avatar">👩‍🏫</div>
+                            <div class="teacher-info">
+                                <div class="teacher-name">張美玲 | 攝影藝術講師</div>
+                                <div class="teacher-desc">專業攝影師，擅長手機攝影教學，用簡單易懂的方式教授攝影技巧，讓每個人都能拍出好照片</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="teacher-card">
+                        <div class="teacher-course-tag">課程</div>
+                        <div class="teacher-image">
+                            <div class="teacher-accent"></div>
+                            <div class="teacher-avatar">🧘‍♀️</div>
+                            <div class="teacher-info">
+                                <div class="teacher-name">林雅惠 | 瑜珈指導師</div>
+                                <div class="teacher-desc">專業瑜珈教練，專門為銀髮族設計安全有效的瑜珈課程，幫助改善身體柔軟度與平衡感</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="teacher-card">
+                        <div class="teacher-course-tag">課程</div>
+                        <div class="teacher-image">
+                            <div class="teacher-accent"></div>
+                            <div class="teacher-avatar">🎭</div>
+                            <div class="teacher-info">
+                                <div class="teacher-name">蔡春美 | 音樂教育家</div>
+                                <div class="teacher-desc">資深音樂教師，專精台語歌曲教學，用音樂連結世代情感，讓學員重溫美好年代</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 宣傳標語區塊 -->
+    <section class="promo-banner">
+        <div class="promo-container">
+            <div class="promo-content">
+                <p class="promo-subtitle">BECOME THE ONE YOU LIKE</p>
+                <h2 class="promo-title">打造人生新成就</h2>
+            </div>
+            <div class="promo-image">
+                <div class="promo-placeholder">👩‍🎓</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>聯絡資訊</h3>
+                <p>📍 433303臺中市沙鹿區臺灣大道7段200號</p>
+                <p>📞 04-2632-8001轉17031</p>
+                <p>✉️ pu20640@pu.edu.tw</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速連結</h3>
+                <p><a href="#">課程總覽</a></p>
+                <p><a href="#">報名方式</a></p>
+                <p><a href="#">常見問題</a></p>
+                <p><a href="#">學員專區</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>關於我們</h3>
+                <p><a href="#">辦學理念</a></p>
+                <p><a href="#">師資團隊</a></p>
+                <p><a href="#">校園環境</a></p>
+                <p><a href="#">隱私政策</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>社群連結</h3>
+                <p><a href="#">Facebook</a></p>
+                <p><a href="#">Instagram</a></p>
+                <p><a href="#">LINE官方帳號</a></p>
+                <p><a href="#">YouTube頻道</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 第三人生大學. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 簡單的互動效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // Banner輪播功能
+            let slideIndex = 1;
+            const slides = document.querySelectorAll('.banner-slide');
+            const indicators = document.querySelectorAll('.indicator');
+            
+            function showSlide(n) {
+                if (n > slides.length) slideIndex = 1;
+                if (n < 1) slideIndex = slides.length;
+                
+                slides.forEach(slide => slide.classList.remove('active'));
+                indicators.forEach(indicator => indicator.classList.remove('active'));
+                
+                slides[slideIndex - 1].classList.add('active');
+                indicators[slideIndex - 1].classList.add('active');
+            }
+            
+            window.currentSlide = function(n) {
+                slideIndex = n;
+                showSlide(slideIndex);
+            }
+            
+            // 自動輪播
+            setInterval(() => {
+                slideIndex++;
+                showSlide(slideIndex);
+            }, 5000);
+
+            // 教師滑動功能
+            let teacherCurrentIndex = 0;
+            const teacherGrid = document.getElementById('teacherGrid');
+            const teacherCards = document.querySelectorAll('.teacher-card');
+            const totalTeachers = teacherCards.length;
+            let visibleCards = 4; // 桌面版顯示4張
+
+            function updateVisibleCards() {
+                if (window.innerWidth <= 768) {
+                    visibleCards = 2; // 平板顯示2張
+                } else if (window.innerWidth <= 480) {
+                    visibleCards = 1; // 手機顯示1張
+                } else {
+                    visibleCards = 4; // 桌面顯示4張
+                }
+            }
+
+            window.slideTeachers = function(direction) {
+                updateVisibleCards();
+                
+                if (direction === 'next') {
+                    teacherCurrentIndex++;
+                    if (teacherCurrentIndex > totalTeachers - visibleCards) {
+                        teacherCurrentIndex = 0;
+                    }
+                } else {
+                    teacherCurrentIndex--;
+                    if (teacherCurrentIndex < 0) {
+                        teacherCurrentIndex = totalTeachers - visibleCards;
+                    }
+                }
+                
+                const cardWidth = teacherCards[0].offsetWidth + 25; // 卡片寬度 + gap
+                const translateX = -teacherCurrentIndex * cardWidth;
+                teacherGrid.style.transform = `translateX(${translateX}px)`;
+            }
+
+            // 監聽視窗大小變化
+            window.addEventListener('resize', updateVisibleCards);
+            updateVisibleCards(); // 初始化
+
+            // 平滑滾動
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // 課程卡片點擊效果
+            document.querySelectorAll('.course-card, .category-card, .article-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (!e.target.classList.contains('enroll-btn')) {
+                        this.style.transform = 'scale(0.98)';
+                        setTimeout(() => {
+                            this.style.transform = '';
+                        }, 150);
+                    }
+                });
+            });
+
+            // 報名按鈕點擊效果
+            document.querySelectorAll('.enroll-btn, .banner-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    alert('報名功能開發中，敬請期待！');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
