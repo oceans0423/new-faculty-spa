@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>課程總覽 - 第三人生大學</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #FF8A65;
+            --primary-dark: #FF7043;
+            --secondary-color: #26C6DA;
+            --accent-color: #667eea;
+            --success-color: #4CAF50;
+            --warning-color: #FF9800;
+            --danger-color: #f44336;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --text-light: #999;
+            --bg-primary: #fafafa;
+            --bg-secondary: #ffffff;
+            --border-color: #e0e0e0;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            box-shadow: var(--shadow-light);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .dashboard-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        /* Main Content - 統一容器 */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Controls Section - 統一對齊 */
+        .controls-section {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-light);
+            margin-bottom: 32px;
+        }
+
+        .controls-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        /* Semester Toggle */
+        .semester-toggle {
+            display: flex;
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 4px;
+        }
+
+        .semester-btn {
+            padding: 12px 24px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            min-width: 100px;
+        }
+
+        .semester-btn.active {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 2px 8px rgba(255, 138, 101, 0.3);
+        }
+
+        /* Search Box */
+        .search-container {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 20px 12px 50px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 138, 101, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .search-help {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        /* Course Grid - 統一對齊 */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 24px;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .course-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+            border-color: var(--primary-color);
+        }
+
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .course-code {
+            background: var(--accent-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .course-status {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-available {
+            background: rgba(76, 175, 80, 0.1);
+            color: var(--success-color);
+        }
+
+        .status-enrolled {
+            background: rgba(255, 138, 101, 0.1);
+            color: var(--primary-color);
+        }
+
+        .status-full {
+            background: rgba(244, 67, 54, 0.1);
+            color: var(--danger-color);
+        }
+
+        .status-preselect {
+            background: rgba(255, 152, 0, 0.1);
+            color: var(--warning-color);
+        }
+
+        .course-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .course-teacher {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .teacher-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .teacher-info h4 {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+            font-size: 0.9rem;
+        }
+
+        .teacher-info p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .course-details {
+            margin-bottom: 14px;
+        }
+
+        .detail-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .detail-icon {
+            width: 16px;
+            text-align: center;
+        }
+
+        .course-description {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            flex: 1;
+            font-size: 0.85rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-full {
+            background: var(--text-light);
+            color: white;
+            cursor: not-allowed;
+        }
+
+        /* Course Tags */
+        .course-tags {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .course-tag {
+            padding: 2px 8px;
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--accent-color);
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .tag-hot {
+            background: rgba(255, 152, 0, 0.1);
+            color: var(--warning-color);
+        }
+
+        .tag-new {
+            background: rgba(76, 175, 80, 0.1);
+            color: var(--success-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .course-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px 16px;
+            }
+
+            .controls-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 16px;
+            }
+
+            .course-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .course-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .empty-text {
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">第三人生大學</a>
+            <nav class="nav-menu">
+                <a href="#" class="nav-link">首頁</a>
+                <a href="#" class="nav-link active">課程介紹</a>
+                <a href="#" class="nav-link">師資陣容</a>
+                <a href="#" class="nav-link">關於我們</a>
+                <a href="#" class="nav-link">聯絡我們</a>
+            </nav>
+            <div class="user-info">
+                <div class="user-avatar">王</div>
+                <a href="#" class="dashboard-btn">回到儀表板</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">課程總覽</h1>
+            <p class="page-subtitle">探索豐富多元的學習機會，開啟您的第三人生新篇章</p>
+        </div>
+
+        <!-- Controls Section -->
+        <div class="controls-section">
+            <div class="controls-row">
+                <!-- Semester Toggle -->
+                <div class="semester-toggle">
+                    <button class="semester-btn active" onclick="switchSemester('current')">本學期</button>
+                    <button class="semester-btn" onclick="switchSemester('next')">下學期</button>
+                </div>
+
+                <!-- Search -->
+                <div class="search-container">
+                    <div class="search-icon">🔍</div>
+                    <input type="text" class="search-input" placeholder="搜尋課程名稱、教師姓名或課程代碼..." id="searchInput">
+                    <div class="search-help">例如：AI應用、張老師、CS101</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course Grid -->
+        <div class="course-grid" id="courseGrid">
+        <!-- Course Card 1 -->
+        <div class="course-card" data-course="人工智慧基礎應用" data-teacher="張志明" data-code="CS101">
+            <div class="course-header">
+                <div class="course-code">CS101</div>
+                <div class="course-status status-available">可報名</div>
+            </div>
+            <div class="course-tags">
+                <span class="course-tag tag-hot">熱門</span>
+                <span class="course-tag">科技類</span>
+            </div>
+            <h3 class="course-title">人工智慧基礎應用</h3>
+            <div class="course-teacher">
+                <div class="teacher-avatar">張</div>
+                <div class="teacher-info">
+                    <h4>張志明 教授</h4>
+                    <p>資訊工程學系</p>
+                </div>
+            </div>
+            <div class="course-details">
+                <div class="detail-row">
+                    <span class="detail-icon">📚</span>
+                    <span>2學分</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-icon">🕐</span>
+                    <span>週三 14:00-16:00</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-icon">📍</span>
+                    <span>資訊大樓 A101</span>
+                </div>
+            </div>
+            <p class="course-description">
+                深入淺出介紹人工智慧基本概念與實際應用，適合初學者入門，包含機器學習、深度學習等主題。
+            </p>
+            <div class="course-actions">
+                <button class="btn btn-primary" onclick="enrollCourse('CS101')">立即報名</button>
+                <a href="#" class="btn btn-secondary" onclick="viewCourseDetail('CS101')">查看詳情</a>
+            </div>
+        </div>
+
+        <!-- Course Card 2 -->
+        <div class="course-card" data-course="金融科技概論" data-teacher="李美玲" data-code="FN201">
+            <div class="course-header">
+                <div class="course-code">FN201</div>
+                <div class="course-status status-enrolled">已報名</div>
+            </div>
+            <div class="course-tags">
+                <span class="course-tag">金融類</span>
+            </div>
+            <h3 class="course-title">金融科技概論</h3>
+            <div class="course-teacher">
+                <div class="teacher-avatar">李</div>
+                <div class="teacher-info">
+                    <h4>李美玲 副教授</h4>
+                    <p>財務金融學系</p>
+                </div>
+            </div>
+            <div class="course-details">
+                <div class="detail-row">
+                    <span class="detail-icon">📚</span>
+                    <span>2學分</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-icon">🕐</span>
+                    <span>週五 10:00-12:00</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-icon">📍</span>
+                    <span>管理大樓 B203</span>
+                </div>
+            </div>
+            <p class="course-description">
+                探討數位金融發展趨勢，包含行動支付、區塊鏈技術、數位貨幣等現代金融科技應用。
+            </p>
+            <div class="course-actions">
+                <button class="btn btn-secondary" disabled>已報名</button>
+                <a href="#" class="btn btn-secondary" onclick="viewCourseDetail('FN201')">查看詳情</a>
+            </div>
+        </div>
+
+        <!-- Course Card 3 -->
+        <div class="course-card" data-course="健康管理實務" data-teacher="王建國" data-code="HE301">
+            <div class="course-header">
+                <div class="course-code">HE301</div>
+                <div class="course-status status-available">可報名</div>
+            </div>
+            <div class="course-tags">
+                <span class="course-tag tag-new">新開</span>
+                <span class="course-tag">健康類</span>
+            </div>
+            <h3 class="course-title">健康管理實務</h3>
+            <div class="course-teacher">
+                <div class="teacher-avatar">王</div>
+                <div class="teacher-info">
+                    <h4>王建國 教授</h4>
+                    <p>健康管理學系</p>
+                </div>
+            </div>
+            <div class="course-details">
+                <div class="detail-row">
+                    <span class="detail-icon">📚</span>
+                    <span>2學分</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-icon">🕐</span>
+                    <span>週六 09:00-11:00</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-icon">📍</span>
+                    <span>健康大樓 C105</span>
+                </div>
+            </div>
+            <p class="course-description">
+                學習如何建立健康的生活方式，包含營養管理、運動規劃、疾病預防等實用健康知識。
+            </p>
+            <div class="course-actions">
+                <button class="btn btn-primary" onclick="enrollCourse('HE301')">立即報名</button>
+                <a href="#" class="btn btn-secondary" onclick="viewCourseDetail('HE301')">查看詳情</a>
+            </div>
+        </div>
+
+        <!-- Course Card 4 -->
+        <div class="course-card" data-course="投資理財入門" data-teacher="陳雅惠" data-code="FN102">
+            <div class="course-header">
+                <div class="course-code">FN102</div>
+                <div class="course-status status-full">已額滿</div>
+            </div>
+            <div class="course-tags">
+                <span class="course-tag tag-hot">熱門</span>
+                <span class="course-tag">理財類</span>
+            </div>
+            <h3 class="course-title">投資理財入門</h3>
+            <div class="course-teacher">
+                <div class="teacher-avatar">陳</div>
+                <div class="teacher-info">
+                    <h4>陳雅惠 副教授</h4>
+                    <p>財務金融學系</p>
+                </div>
+            </div>
+            <div class="course-details">
+                <div class="detail-row">
+                    <span class="detail-icon">📚</span>
+                    <span>2學分</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-icon">🕐</span>
+                    <span>週一 10:00-12:00</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-icon">📍</span>
+                    <span>管理大樓 B201</span>
+                </div>
+            </div>
+            <p class="course-description">
+                從基礎開始學習投資理財知識，包含股票、基金、保險等投資工具的認識與應用。
+            </p>
+            <div class="course-actions">
+                <button class="btn btn-full" disabled>已額滿</button>
+                <a href="#" class="btn btn-secondary" onclick="viewCourseDetail('FN102')">查看詳情</a>
+            </div>
+        </div>
+
+        <!-- Course Card 5 -->
+        <div class="course-card" data-course="生態美學與藝術表達" data-teacher="林靜秀" data-code="AR401">
+            <div class="course-header">
+                <div class="course-code">AR401</div>
+                <div class="course-status status-available">可報名</div>
+            </div>
+            <div class="course-tags">
+                <span class="course-tag">藝術類</span>
+            </div>
+            <h3 class="course-title">生態美學與藝術表達</h3>
+            <div class="course-teacher">
+                <div class="teacher-avatar">林</div>
+                <div class="teacher-info">
+                    <h4>林靜秀 副教授</h4>
+                    <p>藝術設計學系</p>
+                </div>
+            </div>
+            <div class="course-details">
+                <div class="detail-row">
+                    <span class="detail-icon">📚</span>
+                    <span>2學分</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-icon">🕐</span>
+                    <span>週二 10:00-12:00</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-icon">📍</span>
+                    <span>藝術大樓 D301</span>
+                </div>
+            </div>
+            <p class="course-description">
+                透過自然觀察與藝術創作，培養美感素養，學習用不同媒材表達對生態環境的感受。
+            </p>
+            <div class="course-actions">
+                <button class="btn btn-primary" onclick="enrollCourse('AR401')">立即報名</button>
+                <a href="#" class="btn btn-secondary" onclick="viewCourseDetail('AR401')">查看詳情</a>
+            </div>
+        </div>
+
+        <!-- Course Card 6 -->
+        <div class="course-card" data-course="社會參與與志工服務" data-teacher="林雅惠" data-code="SO501">
+            <div class="course-header">
+                <div class="course-code">SO501</div>
+                <div class="course-status status-available">可報名</div>
+            </div>
+            <div class="course-tags">
+                <span class="course-tag">社會類</span>
+            </div>
+            <h3 class="course-title">社會參與與志工服務</h3>
+            <div class="course-teacher">
+                <div class="teacher-avatar">林</div>
+                <div class="teacher-info">
+                    <h4>林雅惠 教授</h4>
+                    <p>社會工作學系</p>
+                </div>
+            </div>
+            <div class="course-details">
+                <div class="detail-row">
+                    <span class="detail-icon">📚</span>
+                    <span>2學分</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-icon">🕐</span>
+                    <span>週三 09:00-11:00</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-icon">📍</span>
+                    <span>社科大樓 E201</span>
+                </div>
+            </div>
+            <p class="course-description">
+                培養社會責任感，學習志工服務技巧與社會參與方式，實際參與社區服務專案。
+            </p>
+            <div class="course-actions">
+                <button class="btn btn-primary" onclick="enrollCourse('SO501')">立即報名</button>
+                <a href="#" class="btn btn-secondary" onclick="viewCourseDetail('SO501')">查看詳情</a>
+            </div>
+        </div>
+
+        <!-- Course Card 7 -->
+        <div class="course-card" data-course="手機攝影技巧" data-teacher="蔡春美" data-code="AR202">
+            <div class="course-header">
+                <div class="course-code">AR202</div>
+                <div class="course-status status-available">可報名</div>
+            </div>
+            <div class="course-tags">
+                <span class="course-tag tag-new">新開</span>
+                <span class="course-tag">攝影類</span>
+            </div>
+            <h3 class="course-title">手機攝影技巧</h3>
+            <div class="course-teacher">
+                <div class="teacher-avatar">蔡</div>
+                <div class="teacher-info">
+                    <h4>蔡春美 講師</h4>
+                    <p>數位媒體學系</p>
+                </div>
+            </div>
+            <div class="course-details">
+                <div class="detail-row">
+                    <span class="detail-icon">📚</span>
+                    <span>2學分</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-icon">🕐</span>
+                    <span>週五 14:00-16:00</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-icon">📍</span>
+                    <span>藝術大樓 D205</span>
+                </div>
+            </div>
+            <p class="course-description">
+                運用手機學習攝影基本技巧，包含構圖、光線運用、後製技巧等實用攝影知識。
+            </p>
+            <div class="course-actions">
+                

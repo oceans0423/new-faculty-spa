@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>師資陣容 - 第三人生大學</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #FF8A65;
+            --primary-dark: #FF7043;
+            --secondary-color: #26C6DA;
+            --accent-color: #667eea;
+            --success-color: #4CAF50;
+            --warning-color: #FF9800;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --text-light: #999;
+            --bg-primary: #fafafa;
+            --bg-secondary: #ffffff;
+            --border-color: #e0e0e0;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            box-shadow: var(--shadow-light);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .dashboard-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 32px;
+            line-height: 1.7;
+        }
+
+        .intro-highlight {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 24px 32px;
+            border-radius: 16px;
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Search and Filter Section */
+        .controls-section {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-light);
+            margin-bottom: 40px;
+        }
+
+        .controls-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        /* Category Filter */
+        .category-filter {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--border-color);
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Search Box */
+        .search-container {
+            position: relative;
+            max-width: 350px;
+            flex: 1;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 20px 12px 50px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 138, 101, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        /* Faculty Grid */
+        .faculty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .faculty-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .faculty-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+            border-color: var(--primary-color);
+        }
+
+        .faculty-header {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .faculty-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 600;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .faculty-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .faculty-info {
+            flex: 1;
+        }
+
+        .faculty-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .faculty-title {
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .faculty-department {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .faculty-specialties {
+            margin-bottom: 16px;
+        }
+
+        .specialty-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .specialty-tag {
+            padding: 4px 10px;
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--accent-color);
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .specialty-tag.tech {
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--accent-color);
+        }
+
+        .specialty-tag.finance {
+            background: rgba(255, 138, 101, 0.1);
+            color: var(--primary-color);
+        }
+
+        .specialty-tag.health {
+            background: rgba(38, 198, 218, 0.1);
+            color: var(--secondary-color);
+        }
+
+        .specialty-tag.art {
+            background: rgba(255, 152, 0, 0.1);
+            color: var(--warning-color);
+        }
+
+        .specialty-tag.general {
+            background: rgba(76, 175, 80, 0.1);
+            color: var(--success-color);
+        }
+
+        .faculty-education {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .faculty-courses {
+            margin-bottom: 16px;
+        }
+
+        .courses-title {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .courses-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .course-item {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            padding: 4px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .course-item:last-child {
+            border-bottom: none;
+        }
+
+        .faculty-highlights {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        .highlights-title {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        .highlights-content {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .faculty-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Recommended Faculty Section */
+        .recommended-section {
+            background: white;
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-light);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .recommended-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .recommended-card {
+            display: flex;
+            gap: 16px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .recommended-card:hover {
+            background: rgba(255, 138, 101, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .recommended-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .recommended-info {
+            flex: 1;
+        }
+
+        .recommended-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .recommended-specialty {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+        }
+
+        .recommended-reason {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-style: italic;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            color: white;
+            padding: 32px;
+            border-radius: 16px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .contact-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .contact-text {
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+        }
+
+        .contact-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .contact-value {
+            font-weight: 600;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .empty-text {
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px 16px;
+            }
+
+            .page-title {
+                font-size: 1.8rem;
+            }
+
+            .controls-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 16px;
+            }
+
+            .category-filter {
+                justify-content: center;
+            }
+
+            .faculty-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .faculty-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .recommended-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .faculty-card {
+            animation: fadeInUp 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">第三人生大學</a>
+            <nav class="nav-menu">
+                <a href="#" class="nav-link">首頁</a>
+                <a href="#" class="nav-link">課程介紹</a>
+                <a href="#" class="nav-link active">師資陣容</a>
+                <a href="#" class="nav-link">關於我們</a>
+                <a href="#" class="nav-link">聯絡我們</a>
+            </nav>
+            <div class="user-info">
+                <div class="user-avatar">王</div>
+                <a href="#" class="dashboard-btn">回到儀表板</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">師資陣容</h1>
+            <p class="page-subtitle">
+                匯集各領域專業教師，以豐富的教學經驗與專業知識，<br>
+                為第三人生學習者提供最優質的教育服務
+            </p>
+            <div class="intro-highlight">
+                <p>我們的教師團隊不僅具備深厚的專業素養，更重要的是擁有適合銀髮族學習的教學方式。每位教師都經過專業培訓，懂得如何以耐心、親切的態度，讓複雜的知識變得淺顯易懂，陪伴您在第三人生的學習旅程中，收穫知識與快樂。</p>
+            </div>
+        </div>
+
+        <!-- Search and Filter Section -->
+        <div class="controls-section">
+            <div class="controls-row">
+                <!-- Category Filter -->
+                <div class="category-filter">
+                    <button class="category-btn active" onclick="filterByCategory('all')">全部師資</button>
+                    <button class="category-btn" onclick="filterByCategory('tech')">科技應用</button>
+                    <button class="category-btn" onclick="filterByCategory('finance')">財經管理</button>
+                    <button class="category-btn" onclick="filterByCategory('health')">健康照護</button>
+                    <button class="category-btn" onclick="filterByCategory('art')">生活藝術</button>
+                    <button class="category-btn" onclick="filterByCategory('general')">通識教育</button>
+                </div>
+
+                <!-- Search -->
+                <div class="search-container">
+                    <div class="search-icon">🔍</div>
+                    <input type="text" class="search-input" placeholder="搜尋教師姓名、專長或課程..." id="searchInput" onkeyup="searchFaculty()">
+                </div>
+            </div>
+        </div>
+
+        <!-- Faculty Grid -->
+        <div class="faculty-grid" id="facultyGrid">
+            <!-- Faculty Card 1 -->
+            <div class="faculty-card" data-category="tech" data-name="張志明" data-courses="人工智慧基礎應用,智慧生活科技應用" data-specialty="人工智慧,機器學習">
+                <div class="faculty-header">
+                    <div class="faculty-avatar">張</div>
+                    <div class="faculty-info">
+                        <h3 class="faculty-name">張志明 教授</h3>
+                        <div class="faculty-title">資訊工程學系教授兼系主任</div>
+                        <div class="faculty-department">科技應用領域</div>
+                    </div>
+                </div>
+                <div class="faculty-specialties">
+                    <div class="specialty-tags">
+                        <span class="specialty-tag tech">人工智慧</span>
+                        <span class="specialty-tag tech">機器學習</span>
+                        <span class="specialty-tag tech">資料探勘</span>
+                    </div>
+                </div>
+                <div class="faculty-education">
+                    <strong>學歷：</strong>國立臺灣大學資訊工程學系博士<br>
+                    <strong>經歷：</strong>科技部人工智慧研究中心副主任、IEEE高級會員
+                </div>
+                <div class="faculty-courses">
+                    <div class="courses-title">📚 開設課程</div>
+                    <div class="courses-list">
+                        <div class="course-item">• 人工智慧基礎應用</div>
+                        <div class="course-item">• 智慧生活科技應用</div>
+                    </div>
+                </div>
+                <div class="faculty-highlights">
+                    <div class="highlights-title">🌟 教學特色</div>
+                    <div class="highlights-content">
+                        擅長將複雜的AI概念轉化為生活化的實例，20年教學經驗，深受學生喜愛。
+                    </div>
+                </div>
+                <div class="faculty-actions">
+                    <button class="btn btn-primary" onclick="viewProfile('張志明')">詳細資料</button>
+                    <button class="btn btn-secondary" onclick="viewCourses('張志明')">開設課程</button>
+                </div>
+            </div>
+
+            <!-- Faculty Card 2 -->
+            <div class="faculty-card" data-category="finance" data-name="李美玲" data-courses="金融科技概論,投資理財入門" data-specialty="金融科技,投資理財">
+                <div class="faculty-header">
+                    <div class="faculty-avatar" style="background: var(--primary-color);">李</div>
+                    <div class="faculty-info">
+                        <h3 class="faculty-name">李美玲 副教授</h3>
+                        <div class="faculty-title">財務金融學系副教授</div>
+                        <div class="faculty-department">財經管理領域</div>
+                    </div>
+                </div>
+                <div class="faculty-specialties">
+                    <div class="specialty-tags">
+                        <span class="specialty-tag finance">金融科技</span>
+                        <span class="specialty-tag finance">投資理財</span>
+                        <span class="specialty-tag finance">風險管理</span>
+                    </div>
+                </div>
+                <div class="faculty-education">
+                    <strong>學歷：</strong>國立政治大學財務管理學系博士<br>
+                    <strong>經歷：</strong>證券分析師、銀行理專主管、金融研訓院講師
+                </div>
+                <div class="faculty-courses">
+                    <div class="courses-title">📚 開設課程</div>
+                    <div class="courses-list">
+                        <div class="course-item">• 金融科技概論</div>
+                        <div class="course-item">• 投資理財入門</div>
+                    </div>
+                </div>
+                <div class="faculty-highlights">
+                    <div class="highlights-title">🌟 教學特色</div>
+                    <div class="highlights-content">
+                        結合理論與實務，用淺顯易懂的方式解釋複雜的金融概念，特別關注銀髮族理財需求。
+                    </div>
+                </div>
+                <div class="faculty-actions">
+                    <button class="btn btn-primary" onclick="viewProfile('李美玲')">詳細資料</button>
+                    <button class="btn btn-secondary" onclick="viewCourses('李美玲')">開設課程</button>
+                </div>
+            </div>
+
+            <!-- Faculty Card 3 -->
+            <div class="faculty-card" data-category="health" data-name="王建國" data-courses="健康管理實務,高齡照護實務" data-specialty="健康管理,高齡照護">
+                <div class="faculty-header">
+                    <div class="faculty-avatar" style="background: var(--secondary-color);">王</div>
+                    <div class="faculty-info">
+                        <h3 class="faculty-name">王建國 教授</h3>
+                        <div class="faculty-title">健康管理學系教授</div>
+                        <div class="faculty-department">健康照護領域</div>
+                    </div>
+                </div>
+                <div class="faculty-specialties">
+                    <div class="specialty-tags">
+                        <span class="specialty-tag health">健康管理</span>
+                        <span class="specialty-tag health">高齡照護</span>
+                        <span class="specialty-tag health">營養學</span>
+                    </div>
+                </div>
+                <div class="faculty-education">
+                    <strong>學歷：</strong>國立陽明交通大學公共衛生學系博士<br>
+                    <strong>經歷：</strong>醫院副院長、衛生局局長、健康促進學會理事長
+                </div>
+                <div class="faculty-courses">
+                    <div class="courses-title">📚 開設課程</div>
+                    <div class="courses-list">
+                        <div class="course-item">• 健康管理實務</div>
+                        <div class="course-item">• 高齡照護實務</div>
+                    </div>
+                </div>
+                <div class="faculty-highlights">
+                    <div class="highlights-title">🌟 教學特色</div>
+                    <div class="highlights-content">
+                        豐富的醫療管理經驗，專精銀髮族健康議題，教學生動活潑，深受學員信賴。
+                    </div>
+                </div>
+                <div class="faculty-actions">
+                    <button class="btn btn-primary" onclick="viewProfile('王建國')">詳細資料</button>
+                    <button class="btn btn-secondary" onclick="viewCourses('王建國')">開設課程</button>
+                </div>
+            </div>
+
+            <!-- Faculty Card 4 -->
+            <div class="faculty-card" data-category="finance" data-name="陳雅惠" data-courses="退休財務規劃,保險規劃實務" data-specialty="理財規劃,保險">
+                <div class="faculty-header">
+                    <div class="faculty-avatar" style="background: var(--warning-color);">陳</div>
+                    <div class="faculty-info">
+                        <h3 class="faculty-name">陳雅惠 副教授</h3>
+                        <div class="faculty-title">財務金融學系副教授</div>
+                        <div class="faculty-department">財經管理領域</div>
+                    </div>
+                </div>
+                <div class="faculty-specialties">
+                    <div class="specialty-tags">
+                        <span class="specialty-tag finance">理財規劃</span>
+                        <span class="specialty-tag finance">保險規劃</span>
+                        <span class="specialty-tag finance">退休規劃</span>
+                    </div>
+                </div>
+                <div class="faculty-education">
+                    <strong>學歷：</strong>國立中央大學財務金融學系博士<br>
+                    <strong>經歷：</strong>理財規劃顧問公司總經理、CFP國際認證理財規劃顧問
+                </div>
+                <div class="faculty-courses">
+                    <div class="courses-title">📚 開設課程</div>
+                    <div class="courses-list">
+                        <div class="course-item">• 退休財務規劃</div>
+                        <div class="course-item">• 保險規劃實務</div>
+                    </div>
+                </div>
+                <div class="faculty-highlights">
+                    <div class="highlights-title">🌟 教學特色</div>
+                    <div class="highlights-content">
+                        專精退休理財規劃，能針對不同背景學員提供個人化建議，實務經驗豐富。
+                    </div>
+                </div>
+                <div class="faculty-actions">
+                    <button class="btn btn-primary" onclick="viewProfile('陳雅惠')">詳細資料</button>
+                    <button class="btn btn-secondary" onclick="viewCourses('陳雅惠')">開設課程</button>
+                </div>
+            </div>
+
+            <!-- Faculty Card 5 -->
+            <div class="faculty-card" data-category="art" data-name="林靜秀" data-courses="生態美學與藝術表達,創意手作與設計" data-specialty="美學,藝術創作">
+                <div class="faculty-header">
+                    <div class="faculty-avatar" style="background: var(--success-color);">林</div>
+                    <div class="faculty-info">
+                        <h3 class="faculty-name">林靜秀 副教授</h3>
+                        <div class="faculty-title">藝術設計學系副教授</div>
+                        <div class="faculty-department">生活藝術領域</div>
+                    </div>
+                </div>
+                <div class="faculty-specialties">
+                    <div class="specialty-tags">
+                        <span class="specialty-tag art">美學教育</span>
+                        <span class="specialty-tag art">藝術創作</span>
+                        <span class="specialty-tag art">生態藝術</span>
+                    </div>
+                </div>
+                <div class="faculty-education">
+                    <strong>學歷：</strong>國立臺灣師範大學美術學系博士<br>
+                    <strong>經歷：</strong>美術館策展人、藝術治療師、社區藝術推廣講師
+                </div>
+                <div class="faculty-courses">
+                    <div class="courses-title">📚 開設課程</div>
+                    <div class="courses-list">
+                        <div class="course-item">• 生態美學與藝術表達</div>
+                        <div class="course-item">• 創意手作與設計</div>
+                    </div>
+                </div>
+                <div class="faculty-highlights">
+                    <div class="highlights-title">🌟 教學特色</div>
+                    <div class="highlights-content">
+                        透過藝術創作療癒身心，擅長引導學員發現生活中的美，激發創作潛能。
+                    </div>
+                </div>
+                <div class="faculty-actions">
+                    <button class="btn btn-primary" onclick="viewProfile('林靜秀')">詳細資料</button>
+                    <button class="btn btn-secondary" onclick="viewCourses('林靜秀')">開設課程</button>
+                </div>
+            </div>
+
+            <!-- Faculty Card 6 -->
+            <div class="faculty-card" data-category="general" data-name="黃文雄" data-courses="社會參與與志工服務,人際關係與溝通" data-specialty="社會工作,溝通技巧">
+                <div class="faculty-header">
+                    <div class="faculty-avatar" style="background: var(--accent-color);">黃</div>
+                    <div class="faculty-info">
+                        <h3 class="faculty-name">黃文雄 教授</h3>
+                        <div class="faculty-title">社會工作學系教授</div>
+                        <div class="faculty-department">通識教育領域</div>
+                    </div>
+                </div>
+                <div class="faculty-specialties">
+                    <div class="specialty-tags">
+                        <span class="specialty-tag general">社會工作</span>
+                        <span class="specialty-tag general">溝通技巧</span>
+                        <span class="specialty-tag general">志工服務</span>
+                    </div>
+                </div>
+                <div class="faculty-education">
+                    <strong>學歷：</strong>國立臺灣大學社會工作學系博士<br>
+                    <strong>經歷：</strong>社福機構執行長、志工培訓講師、社區發展協會顧問
+                </div>
+                <div class="faculty-courses">
+                    <div class="courses-title">📚 開設課程</div>
+                    <div class="courses-list">
+                        <div class="course-item">• 社會參與與志工服務</div>
+                        <div class="course-item">• 人際關係與溝通</div>
+                    </div>
+                </div>
+                <div class="faculty-highlights">
+                    <div class="highlights-title">🌟 教學特色</div>
+                    <div class="highlights-content">
+                        豐富的社會服務經驗，善於啟發學員的社會參與熱忱，建立正向人際關係。
+                    </div>
+                </div>
+                <div class="faculty-actions">
+                    <button class="btn btn-primary" onclick="viewProfile('黃文雄')">詳細資料</button>
+                    <button class="btn btn-secondary" onclick="viewCourses('黃文雄')">開設課程</button>
+                </div>
+            </div>
+
+            <!-- Faculty Card 7 -->
+            <div class="faculty-card" data-category="tech" data-name="劉志強" data-courses="手機攝影技巧,數位生活應用" data-specialty="數位攝影,科技應用">
+                <div class="faculty-header">
+                    <div class="faculty-avatar" style="background: var(--accent-color);">劉</div>
+                    <div class="faculty-info">
+                        <h3 class="faculty-name">劉志強 副教授</h3>
+                        <div class="faculty-title">數位媒體學系副教授</div>
+                        <div class="faculty-department">科技應用領域</div>
+                    </div>
+                </div>
+                <div class="faculty-specialties">
+                    <div class="specialty-tags">
+                        <span class="specialty-tag tech">數位攝影</span>
+                        <span class="specialty-tag tech">影像處理</span>
+                        <span class="specialty-tag tech">多媒體</span>
+                    </div>
+                </div>
+                <div class="faculty-education">
+                    <strong>學歷：</strong>國立臺灣藝術大學多媒體動畫藝術學系博士<br>
+                    <strong>經歷：</strong>攝影工作室創辦人、商業攝影師、數位影像講師
+                </div>
+                <div class="faculty-courses">
+                    <div class="courses-title">📚 開設課程</div>
+                    <div class="courses-list">
+                        <div class="course-item">• 手機攝影技巧</div>
+                        <div class="course-item">• 數位生活應用</div>
+                    </div>
+                </div>
+                <div class="faculty-highlights">
+                    <div class="highlights-title">🌟 教學特色</div>
+                    <div class="highlights-content">
+                        專精手機攝影技巧，能讓學員用最簡單的工具創作出專業水準的作品。
+                    </div>
+                </div>
+                <div class="faculty-actions">
+                    <button class="btn btn-primary" onclick="viewProfile('劉志強')">詳細資料</button>
+                    <button class="btn btn-secondary" onclick="viewCourses('劉志強')">開設課程</button>
+                </div>
+            </div>
+
+            <!-- Faculty Card 8 -->
+            <div class="faculty-card" data-category="art" data-name="趙美娟" data-courses="園藝治療與植栽,手工藝創作" data-specialty="園藝治療,手工藝">
+                <div class="faculty-header">
+                    <div class="faculty-avatar" style="background: var(--success-color);">趙</div>
+                    <div class="faculty-info">
+                        <h3 class="faculty-name">趙美娟 助理教授</h3>
+                        <div class="faculty-title">生活科學系助理教授</div>
+                        <div class="faculty-department">生活藝術領域</div>
+                    </div>
+                </div>
+                <div class="faculty-specialties">
+                    <div class="specialty-tags">
+                        <span class="specialty-tag art">園藝治療</span>
+                        <span class="specialty-tag art">手工藝</span>
+                        <span class="specialty-tag art">植栽設計</span>
+                    </div>
+                </div>
+                <div class="faculty-education">
+                    <strong>學歷：</strong>國立中興大學園藝學系博士<br>
+                    <strong>經歷：</strong>園藝治療師、植物園解說員、手工藝坊創辦人
+                </div>
+                <div class="faculty-courses">
+                    <div class="courses-title">📚 開設課程</div>
+                    <div class="courses-list">
+                        <div class="course-item">• 園藝治療與植栽</div>
+                        <div class="course-item">• 手工藝創作</div>
+                    </div>
+                </div>
+                <div class="faculty-highlights">
+                    <div class="highlights-title">🌟 教學特色</div>
+                    <div class="highlights-content">
+                        結合園藝與治療，透過植物栽培和手作活動，幫助學員放鬆身心、找到生活樂趣。
+                    </div>
+                </div>
+                <div class="faculty-actions">
+                    <button class="btn btn-primary" onclick="viewProfile('趙美娟')">詳細資料</button>
+                    <button class="btn btn-secondary" onclick="viewCourses('趙美娟')">開設課程</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommended Faculty Section -->
+        <div class="recommended-section">
+            <h2 class="section-title">💡 推薦師資</h2>
+            <div class="recommended-grid">
+                <div class="recommended-card" onclick="viewProfile('張志明')">
+                    <div class="recommended-avatar">張</div>
+                    <div class="recommended-info">
+                        <div class="recommended-name">張志明 教授</div>
+                        <div class="recommended-specialty">人工智慧專家</div>
+                        <div class="recommended-reason">讓AI變得簡單易懂，適合零基礎學員</div>
+                    </div>
+                </div>
+                <div class="recommended-card" onclick="viewProfile('陳雅惠')">
+                    <div class="recommended-avatar" style="background: var(--primary-color);">陳</div>
+                    <div class="recommended-info">
+                        <div class="recommended-name">陳雅惠 副教授</div>
+                        <div class="recommended-specialty">理財規劃專家</div>
+                        <div class="recommended-reason">專精退休財務規劃，深受學員信賴</div>
+                    </div>
+                </div>
+                <div class="recommended-card" onclick="viewProfile('林靜秀')">
+                    <div class="recommended-avatar" style="background: var(--success-color);">林</div>
+                    <div class="recommended-info">
+                        <div class="recommended-name">林靜秀 副教授</div>
+                        <div class="recommended-specialty">藝術療癒專家</div>
+                        <div class="recommended-reason">透過藝術創作，讓學習充滿樂趣</div>
+                    </div>
+                </div>
+                <div class="recommended-card" onclick="viewProfile('王建國')">
+                    <div class="recommended-avatar" style="background: var(--secondary-color);">王</div>
+                    <div class="recommended-info">
+                        <div class="recommended-name">王建國 教授</div>
+                        <div class="recommended-specialty">健康管理專家</div>
+                        <div class="recommended-reason">豐富醫療經驗，專注銀髮族健康</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="contact-section">
+            <h2 class="contact-title">想要了解更多師資資訊？</h2>
+            <p class="contact-text">我們很樂意為您介紹適合的老師，或安排與教師面談的機會</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">📞</div>
+                    <div class="contact-label">服務電話</div>
+                    <div class="contact-value">04-2632-8001 轉 17031</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">✉️</div>
+                    <div class="contact-label">電子信箱</div>
+                    <div class="contact-value">pu20640@pu.edu.tw</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">🕐</div>
+                    <div class="contact-label">服務時間</div>
+                    <div class="contact-value">週一至週五 09:00-17:00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Category filter functionality
+        function filterByCategory(category) {
+            const cards = document.querySelectorAll('.faculty-card');
+            const buttons = document.querySelectorAll('.category-btn');
+            
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter cards
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+
+            // Check if no results
+            setTimeout(() => {
+                checkEmptyState();
+            }, 400);
+        }
+
+        // Search functionality
+        function searchFaculty() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.faculty-card');
+            
+            cards.forEach(card => {
+                const name = card.dataset.name.toLowerCase();
+                const courses = card.dataset.courses.toLowerCase();
+                const specialty = card.dataset.specialty.toLowerCase();
+                
+                if (name.includes(searchTerm) || 
+                    courses.includes(searchTerm) || 
+                    specialty.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+
+            setTimeout(() => {
+                checkEmptyState();
+            }, 400);
+        }
+
+        // Check for empty search results
+        function checkEmptyState() {
+            const cards = document.querySelectorAll('.faculty-card');
+            const visibleCards = Array.from(cards).filter(card => 
+                card.style.display !== 'none' && card.style.opacity !== '0'
+            );
+            
+            const grid = document.getElementById('facultyGrid');
+            const existingEmpty = document.querySelector('.empty-state');
+            
+            if (visibleCards.length === 0) {
+                if (!existingEmpty) {
+                    const emptyState = document.createElement('div');
+                    emptyState.className = 'empty-state';
+                    emptyState.innerHTML = `
+                        <div class="empty-icon">👨‍🏫</div>
+                        <div class="empty-title">找不到符合條件的教師</div>
+                        <div class="empty-text">請嘗試其他搜尋關鍵字或選擇不同的專長分類</div>
+                    `;
+                    grid.appendChild(emptyState);
+                }
+            } else {
+                if (existingEmpty) {
+                    existingEmpty.remove();
+                }
+            }
+        }
+
+        // View teacher profile
+        function viewProfile(teacherName) {
+            alert(`即將前往 ${teacherName} 老師的詳細資料頁面\n\n包含完整的學術背景、教學理念、研究成果等資訊`);
+        }
+
+        // View teacher courses
+        function viewCourses(teacherName) {
+            alert(`查看 ${teacherName} 老師開設的所有課程\n\n包含課程時間、教室、報名狀況等詳細資訊`);
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add fade-in animation
+            const cards = document.querySelectorAll('.faculty-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+
+            // Add scroll animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            document.querySelectorAll('.recommended-section, .contact-section').forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'all 0.6s ease';
+                observer.observe(section);
+            });
+
+            // Add hover effects
+            const facultyCards = document.querySelectorAll('.faculty-card');
+            facultyCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(-4px)';
+                });
+            });
+        });
+
+        // Clear search
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            searchFaculty();
+        }
+
+        // Contact functions
+        function contactFaculty() {
+            alert('師資諮詢服務\n\n📞 電話：04-2632-8001 轉 17031\n✉️ Email：pu20640@pu.edu.tw\n\n我們將安排專人為您介紹適合的教師！');
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                clearSearch();
+                // Reset category filter to 'all'
+                filterByCategory('all');
+                document.querySelector('.category-btn').click();
+            }
+        });
+
+        // Share faculty page
+        function sharePage() {
+            if (navigator.share) {
+                navigator.share({
+                    title: '師資陣容 - 第三人生大學',
+                    text: '查看我們優秀的師資團隊！',
+                    url: window.location.href
+                });
+            } else {
+                const url = window.location.href;
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('頁面連結已複製到剪貼簿！');
+                });
+            }
+        }
+    </script>
+</body>
+</html>

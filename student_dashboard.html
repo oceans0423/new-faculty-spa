@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>學員儀表板 - 第三人生大學</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #FF8A65;
+            --primary-dark: #FF7043;
+            --secondary-color: #26C6DA;
+            --accent-color: #667eea;
+            --success-color: #4CAF50;
+            --warning-color: #FF9800;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --text-light: #999;
+            --bg-primary: #fafafa;
+            --bg-secondary: #ffffff;
+            --border-color: #e0e0e0;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            box-shadow: var(--shadow-light);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .user-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .logout-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* Main Layout */
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 32px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+        }
+
+        .welcome-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .welcome-text h2 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .welcome-text p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .quick-btn {
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .quick-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Card Styles */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-medium);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .card-action {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .card-action:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Learning Progress */
+        .progress-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .progress-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow-light);
+            text-align: center;
+        }
+
+        .progress-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .progress-card:nth-child(2) .progress-number {
+            color: var(--secondary-color);
+        }
+
+        .progress-card:nth-child(3) .progress-number {
+            color: var(--success-color);
+        }
+
+        .progress-card:nth-child(4) .progress-number {
+            color: var(--warning-color);
+        }
+
+        .progress-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Course List */
+        .course-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .course-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .course-item:hover {
+            background: #f0f0f0;
+            transform: translateX(4px);
+        }
+
+        .course-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .course-icon.ai {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .course-icon.finance {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+
+        .course-icon.health {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+        }
+
+        .course-icon.care {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+        }
+
+        .course-info {
+            flex: 1;
+        }
+
+        .course-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .course-details {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .course-progress {
+            text-align: right;
+        }
+
+        .progress-bar {
+            width: 100px;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 4px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--success-color);
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Course Selection */
+        .selection-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 16px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: var(--primary-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .course-selection {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .selection-item {
+            padding: 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .selection-item:hover {
+            border-color: var(--primary-color);
+            background: rgba(255, 138, 101, 0.05);
+        }
+
+        .selection-item.enrolled {
+            border-color: var(--success-color);
+            background: rgba(76, 175, 80, 0.05);
+        }
+
+        .selection-item.preselect {
+            border-color: var(--warning-color);
+            background: rgba(255, 152, 0, 0.05);
+        }
+
+        .selection-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 0.9rem;
+        }
+
+        .selection-meta {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .selection-status {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        .status-enrolled {
+            background: rgba(76, 175, 80, 0.1);
+            color: var(--success-color);
+        }
+
+        .status-preselect {
+            background: rgba(255, 152, 0, 0.1);
+            color: var(--warning-color);
+        }
+
+        .status-available {
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--accent-color);
+        }
+
+        /* Rankings */
+        .ranking-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .ranking-number {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .ranking-number.gold {
+            background: #FFD700;
+        }
+
+        .ranking-number.silver {
+            background: #C0C0C0;
+        }
+
+        .ranking-number.bronze {
+            background: #CD7F32;
+        }
+
+        .ranking-info {
+            flex: 1;
+        }
+
+        .ranking-name {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .ranking-score {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* News List */
+        .news-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .news-item {
+            padding: 12px;
+            border-left: 3px solid var(--primary-color);
+            background: #f8f9fa;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .news-title {
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+
+        .news-date {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+                padding: 20px 16px;
+                gap: 20px;
+            }
+
+            .welcome-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .progress-cards {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .quick-actions {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .course-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 12px;
+            }
+
+            .course-progress {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .progress-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .header-content {
+                padding: 0 16px;
+            }
+
+            .card {
+                padding: 16px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            animation: fadeInUp 0.5s ease;
+        }
+
+        /* Loading States */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary-color);
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">第三人生大學</div>
+            <div class="user-info">
+                <div class="user-avatar">王</div>
+                <span class="user-name">王麗華</span>
+                <button class="logout-btn" onclick="logout()">登出</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard -->
+    <div class="dashboard">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <div class="welcome-content">
+                <div class="welcome-text">
+                    <h2>午安，王麗華同學！</h2>
+                    <p>今天繼續您的學習旅程吧！累積知識，豐富人生 🌟</p>
+                </div>
+                <div class="quick-actions">
+                    <a href="#" class="quick-btn" onclick="showCourseTable()">查看課表</a>
+                    <a href="#" class="quick-btn" onclick="showCourseSelection()">選課</a>
+                    <a href="#" class="quick-btn" onclick="contactSchool()">聯絡學校</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Learning Statistics -->
+            <div class="progress-cards">
+                <div class="progress-card">
+                    <div class="progress-number">3</div>
+                    <div class="progress-label">已完成課程數</div>
+                </div>
+                <div class="progress-card">
+                    <div class="progress-number">24</div>
+                    <div class="progress-label">累積學分數</div>
+                </div>
+                <div class="progress-card">
+                    <div class="progress-number">2</div>
+                    <div class="progress-label">獲得證書</div>
+                </div>
+                <div class="progress-card">
+                    <div class="progress-number">1,250</div>
+                    <div class="progress-label">技能點數</div>
+                </div>
+            </div>
+
+            <!-- Current Courses -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">進行中的課程</h3>
+                    <a href="#" class="card-action" onclick="manageProfile()">個人資料</a>
+                </div>
+                <div class="course-list">
+                    <div class="course-item">
+                        <div class="course-icon ai">🤖</div>
+                        <div class="course-info">
+                            <div class="course-title">人工智慧基礎應用</div>
+                            <div class="course-details">2學分 • 週三 14:00-16:00 • 資訊科學系</div>
+                        </div>
+                        <div class="course-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%;"></div>
+                            </div>
+                            <div class="progress-text">進度 75%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="course-item">
+                        <div class="course-icon finance">💰</div>
+                        <div class="course-info">
+                            <div class="course-title">金融科技概論</div>
+                            <div class="course-details">2學分 • 週五 10:00-12:00 • 管理學院</div>
+                        </div>
+                        <div class="course-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 50%;"></div>
+                            </div>
+                            <div class="progress-text">進度 50%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="course-item">
+                        <div class="course-icon health">🏥</div>
+                        <div class="course-info">
+                            <div class="course-title">健康管理實務</div>
+                            <div class="course-details">2學分 • 週六 09:00-11:00 • 健康學院</div>
+                        </div>
+                        <div class="course-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 25%;"></div>
+                            </div>
+                            <div class="progress-text">進度 25%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="course-item">
+                        <div class="course-icon care">🌿</div>
+                        <div class="course-info">
+                            <div class="course-title">生態美學與藝術表達</div>
+                            <div class="course-details">2學分 • 週二 10:00-12:00 • 藝術學院</div>
+                        </div>
+                        <div class="course-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 90%;"></div>
+                            </div>
+                            <div class="progress-text">進度 90%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievements -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">我的證書與成就</h3>
+                    <a href="#" class="card-action" onclick="viewAllAchievements()">查看全部</a>
+                </div>
+                <div class="course-list">
+                    <div class="course-item">
+                        <div class="course-icon" style="background: var(--success-color);">🏆</div>
+                        <div class="course-info">
+                            <div class="course-title">數位生活應用學程證書</div>
+                            <div class="course-details">2024年12月取得 • 18學分</div>
+                        </div>
+                    </div>
+                    
+                    <div class="course-item">
+                        <div class="course-icon" style="background: var(--warning-color);">🥇</div>
+                        <div class="course-info">
+                            <div class="course-title">終身學習先鋒徽章</div>
+                            <div class="course-details">完成3個學分學程獲得</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <!-- Course Selection -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">選課功能</h3>
+                </div>
+                <div class="selection-tabs">
+                    <button class="tab-btn active" onclick="switchTab('current')">本學期</button>
+                    <button class="tab-btn" onclick="switchTab('next')">下學期</button>
+                </div>
+                <div class="course-selection" id="currentSemester">
+                    <div class="selection-item enrolled">
+                        <div class="selection-title">高齡照護實務</div>
+                        <div class="selection-meta">2學分 • 週四 14:00-16:00 • 健康學院</div>
+                        <span class="selection-status status-enrolled">已報名</span>
+                    </div>
+                    <div class="selection-item">
+                        <div class="selection-title">投資理財入門</div>
+                        <div class="selection-meta">2學分 • 週一 10:00-12:00 • 管理學院</div>
+                        <span class="selection-status status-available">可報名</span>
+                    </div>
+                    <div class="selection-item">
+                        <div class="selection-title">社會參與與志工服務</div>
+                        <div class="selection-meta">2學分 • 週三 09:00-11:00 • 社會科學院</div>
+                        <span class="selection-status status-available">可報名</span>
+                    </div>
+                    <div class="selection-item">
+                        <div class="selection-title">手機攝影技巧</div>
+                        <div class="selection-meta">2學分 • 週五 14:00-16:00 • 藝術學院</div>
+                        <span class="selection-status status-available">可報名</span>
+                    </div>
+                </div>
+                <div class="course-selection" id="nextSemester" style="display: none;">
+                    <div class="selection-item preselect">
+                        <div class="selection-title">智慧生活科技應用</div>
+                        <div class="selection-meta">2學分 • 週二 14:00-16:00 • 資訊學院</div>
+                        <span class="selection-status status-preselect">已預選</span>
+                    </div>
+                    <div class="selection-item">
+                        <div class="selection-title">創意手作與設計</div>
+                        <div class="selection-meta">2學分 • 週六 10:00-12:00 • 藝術學院</div>
+                        <span class="selection-status status-available">可預選</span>
+                    </div>
+                    <div class="selection-item">
+                        <div class="selection-title">退休財務規劃</div>
+                        <div class="selection-meta">2學分 • 週四 10:00-12:00 • 管理學院</div>
+                        <span class="selection-status status-available">可預選</span>
+                    </div>
+                    <div class="selection-item">
+                        <div class="selection-title">園藝治療與植栽</div>
+                        <div class="selection-meta">2學分 • 週一 14:00-16:00 • 生活學院</div>
+                        <span class="selection-status status-available">可預選</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rankings -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">學習排行榜</h3>
+                    <a href="#" class="card-action" onclick="viewFullRanking()">完整排行</a>
+                </div>
+                <div class="ranking-list">
+                    <div class="ranking-item">
+                        <div class="ranking-number gold">1</div>
+                        <div class="ranking-info">
+                            <div class="ranking-name">張志明</div>
+                            <div class="ranking-score">36學分 • 2,100點</div>
+                        </div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="ranking-number silver">2</div>
+                        <div class="ranking-info">
+                            <div class="ranking-name">李美玲</div>
+                            <div class="ranking-score">32學分 • 1,890點</div>
+                        </div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="ranking-number bronze">3</div>
+                        <div class="ranking-info">
+                            <div class="ranking-name">王麗華</div>
+                            <div class="ranking-score">24學分 • 1,250點</div>
+                        </div>
+                    </div>
+                    <div class="ranking-item">
+                        <div class="ranking-number">4</div>
+                        <div class="ranking-info">
+                            <div class="ranking-name">陳建國</div>
+                            <div class="ranking-score">22學分 • 1,180點</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Latest News -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">最新消息</h3>
+                    <a href="#" class="card-action" onclick="viewAllNews()">查看全部</a>
+                </div>
+                <div class="news-list">
+                    <div class="news-item">
+                        <div class="news-title">115學年度新開課程申請開始</div>
+                        <div class="news-date">2025.06.20</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">期末學習成果發表會報名</div>
+                        <div class="news-date">2025.06.18</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">暑期學習活動開放報名</div>
+                        <div class="news-date">2025.06.15</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">學分學程證書頒發典禮</div>
+                        <div class="news-date">2025.06.10</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notifications -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">通知中心</h3>
+                    <a href="#" class="card-action" onclick="markAllRead()">全部已讀</a>
+                </div>
+                <div class="news-list">
+                    <div class="news-item" style="border-left-color: var(--warning-color);">
+                        <div class="news-title">人工智慧基礎應用本週三上課</div>
+                        <div class="news-date">提醒：明天 14:00</div>
+                    </div>
+                    <div class="news-item" style="border-left-color: var(--success-color);">
+                        <div class="news-title">數位生活學程證書已核發</div>
+                        <div class="news-date">昨天</div>
+                    </div>
+                    <div class="news-item" style="border-left-color: var(--secondary-color);">
+                        <div class="news-title">新學期選課開放中</div>
+                        <div class="news-date">3天前</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        function switchTab(tab) {
+            const currentTab = document.getElementById('currentSemester');
+            const nextTab = document.getElementById('nextSemester');
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            
+            tabBtns.forEach(btn => btn.classList.remove('active'));
+            
+            if (tab === 'current') {
+                currentTab.style.display = 'flex';
+                nextTab.style.display = 'none';
+                tabBtns[0].classList.add('active');
+            } else {
+                currentTab.style.display = 'none';
+                nextTab.style.display = 'flex';
+                tabBtns[1].classList.add('active');
+            }
+        }
+
+        // Interactive functions
+        function showCourseTable() {
+            alert('課表功能：顯示本週課程安排\n\n本週課程：\n• 週三 14:00-16:00 人工智慧應用\n• 週五 10:00-12:00 金融科技概論\n• 週六 09:00-11:00 健康管理實務');
+        }
+
+        function showCourseSelection() {
+            alert('選課功能：前往選課系統');
+        }
+
+        function contactSchool() {
+            alert('聯絡學校\n\n📞 04-2632-8001轉17031\n✉️ pu20640@pu.edu.tw\n📍 433303臺中市沙鹿區臺灣大道7段200號');
+        

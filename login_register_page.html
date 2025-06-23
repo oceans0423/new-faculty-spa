@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登入/註冊 - 第三人生大學</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #FF8A65;
+            --primary-dark: #FF7043;
+            --secondary-color: #26C6DA;
+            --accent-color: #667eea;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --text-light: #999;
+            --bg-primary: #fafafa;
+            --bg-secondary: #ffffff;
+            --border-color: #e0e0e0;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 4px 20px rgba(0,0,0,0.15);
+            --shadow-heavy: 0 8px 30px rgba(0,0,0,0.2);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #FF8A65 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background Animation */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 138, 101, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(38, 198, 218, 0.2) 0%, transparent 50%);
+            animation: backgroundFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes backgroundFloat {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(180deg); }
+        }
+
+        /* Main Container */
+        .auth-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: var(--shadow-heavy);
+            width: 100%;
+            max-width: 900px;
+            min-height: 600px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Left Panel - Branding */
+        .brand-panel {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand-panel::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            animation: brandFloat 15s ease-in-out infinite;
+        }
+
+        @keyframes brandFloat {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(360deg); }
+        }
+
+        .brand-logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .brand-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .brand-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+            max-width: 280px;
+        }
+
+        .brand-features {
+            margin-top: 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .feature-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        /* Right Panel - Forms */
+        .form-panel {
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .form-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .form-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Tab Navigation */
+        .tab-navigation {
+            display: flex;
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 32px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: var(--primary-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Form Styles */
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 138, 101, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-light);
+        }
+
+        /* Password Input */
+        .password-container {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 4px;
+        }
+
+        /* Checkbox */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-color);
+        }
+
+        .checkbox-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .checkbox-label a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .checkbox-label a:hover {
+            text-decoration: underline;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 138, 101, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Divider */
+        .divider {
+            margin: 24px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 16px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Social Login */
+        .social-login {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .social-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        /* Forgot Password */
+        .forgot-password {
+            text-align: center;
+            margin-top: 24px;
+        }
+
+        .forgot-password a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        /* Form Row */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        /* Select Input */
+        .form-select {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 138, 101, 0.1);
+        }
+
+        /* Success Message */
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+            display: none;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+            display: none;
+        }
+
+        /* Loading State */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .loading .submit-btn::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border: 2px solid white;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-left: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .auth-container {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                min-height: auto;
+            }
+
+            .brand-panel {
+                display: none;
+            }
+
+            .form-panel {
+                padding: 40px 30px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .social-login {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .auth-container {
+                border-radius: 16px;
+            }
+
+            .form-panel {
+                padding: 30px 20px;
+            }
+
+            .form-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <!-- Left Panel - Branding -->
+        <div class="brand-panel">
+            <div class="brand-logo">🎓</div>
+            <h2 class="brand-title">第三人生大學</h2>
+            <p class="brand-subtitle">為銀髮族量身打造的學習平台，開啟人生新篇章</p>
+            
+            <div class="brand-features">
+                <div class="feature-item">
+                    <div class="feature-icon">✓</div>
+                    <span>專業師資團隊</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">✓</div>
+                    <span>豐富課程選擇</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">✓</div>
+                    <span>友善學習環境</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">✓</div>
+                    <span>彈性上課時間</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel - Forms -->
+        <div class="form-panel">
+            <div class="form-header">
+                <h1 class="form-title">歡迎回來</h1>
+                <p class="form-subtitle">請登入您的帳戶或建立新帳戶</p>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="tab-navigation">
+                <button class="tab-btn active" onclick="switchTab('login')">登入</button>
+                <button class="tab-btn" onclick="switchTab('register')">註冊</button>
+            </div>
+
+            <!-- Success/Error Messages -->
+            <div class="success-message" id="successMessage"></div>
+            <div class="error-message" id="errorMessage"></div>
+
+            <!-- Login Form -->
+            <form class="auth-form active" id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail" class="form-label">電子信箱</label>
+                    <input type="email" id="loginEmail" class="form-input" placeholder="請輸入您的電子信箱" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPassword" class="form-label">密碼</label>
+                    <div class="password-container">
+                        <input type="password" id="loginPassword" class="form-input" placeholder="請輸入您的密碼" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('loginPassword')">👁️</button>
+                    </div>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="rememberMe" class="checkbox">
+                    <label for="rememberMe" class="checkbox-label">記住我</label>
+                </div>
+
+                <button type="submit" class="submit-btn">登入</button>
+
+                <div class="forgot-password">
+                    <a href="#" onclick="showForgotPassword()">忘記密碼？</a>
+                </div>
+
+                <div class="divider">
+                    <span>或使用以下方式登入</span>
+                </div>
+
+                <div class="social-login">
+                    <button type="button" class="social-btn" onclick="socialLogin('google')">
+                        🔗 Google
+                    </button>
+                    <button type="button" class="social-btn" onclick="socialLogin('facebook')">
+                        📘 Facebook
+                    </button>
+                </div>
+            </form>
+
+            <!-- Register Form -->
+            <form class="auth-form" id="registerForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName" class="form-label">姓氏</label>
+                        <input type="text" id="firstName" class="form-input" placeholder="姓氏" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName" class="form-label">名字</label>
+                        <input type="text" id="lastName" class="form-input" placeholder="名字" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerEmail" class="form-label">電子信箱</label>
+                    <input type="email" id="registerEmail" class="form-input" placeholder="請輸入您的電子信箱" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone" class="form-label">聯絡電話</label>
+                    <input type="tel" id="phone" class="form-input" placeholder="請輸入您的聯絡電話" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="birthYear" class="form-label">出生年份</label>
+                        <select id="birthYear" class="form-select" required>
+                            <option value="">請選擇</option>
+                            <option value="1940">1940年</option>
+                            <option value="1941">1941年</option>
+                            <option value="1942">1942年</option>
+                            <option value="1943">1943年</option>
+                            <option value="1944">1944年</option>
+                            <option value="1945">1945年</option>
+                            <option value="1946">1946年</option>
+                            <option value="1947">1947年</option>
+                            <option value="1948">1948年</option>
+                            <option value="1949">1949年</option>
+                            <option value="1950">1950年</option>
+                            <option value="1951">1951年</option>
+                            <option value="1952">1952年</option>
+                            <option value="1953">1953年</option>
+                            <option value="1954">1954年</option>
+                            <option value="1955">1955年</option>
+                            <option value="1956">1956年</option>
+                            <option value="1957">1957年</option>
+                            <option value="1958">1958年</option>
+                            <option value="1959">1959年</option>
+                            <option value="1960">1960年</option>
+                            <option value="1961">1961年</option>
+                            <option value="1962">1962年</option>
+                            <option value="1963">1963年</option>
+                            <option value="1964">1964年</option>
+                            <option value="1965">1965年</option>
+                            <option value="1966">1966年</option>
+                            <option value="1967">1967年</option>
+                            <option value="1968">1968年</option>
+                            <option value="1969">1969年</option>
+                            <option value="1970">1970年</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender" class="form-label">性別</label>
+                        <select id="gender" class="form-select" required>
+                            <option value="">請選擇</option>
+                            <option value="male">男性</option>
+                            <option value="female">女性</option>
+                            <option value="other">其他</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerPassword" class="form-label">密碼</label>
+                    <div class="password-container">
+                        <input type="password" id="registerPassword" class="form-input" placeholder="請設定密碼（至少8個字元）" required minlength="8">
+                        <button type="button" class="password-toggle" onclick="togglePassword('registerPassword')">👁️</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword" class="form-label">確認密碼</label>
+                    <div class="password-container">
+                        <input type="password" id="confirmPassword" class="form-input" placeholder="請再次輸入密碼" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">👁️</button>
+                    </div>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="agreeTerms" class="checkbox" required>
+                    <label for="agreeTerms" class="checkbox-label">
+                        我同意 <a href="#" onclick="showTerms()">服務條款</a> 和 <a href="#" onclick="showPrivacy()">隱私政策</a>
+                    </label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="newsletter" class="checkbox">
+                    <label for="newsletter" class="checkbox-label">
+                        訂閱電子報，接收最新課程資訊
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn">建立帳戶</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Tab Switching
+        function switchTab(tab) {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            
+            // Remove active class from all tabs and forms
+            tabBtns.forEach(btn => btn.classList.remove('active'));
+            loginForm.classList.remove('active');
+            registerForm.classList.remove('active');
+            
+            // Add active class to selected tab
+            event.target.classList.add('active');
+            
+            // Show corresponding form
+            if (tab === 'login') {
+                loginForm.classList.add('active');
+                document.querySelector('.form-title').textContent = '歡迎回來';
+                document.querySelector('.form-subtitle').textContent = '請登入您的帳戶繼續學習';
+            } else {
+                registerForm.classList.add('active');
+                document.querySelector('.form-title').textContent = '建立新帳戶';
+                document.querySelector('.form-subtitle').textContent = '加入我們的學習社群';
+            }
+            
+            // Clear messages
+            clearMessages();
+        }
+
+        // Password Toggle
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const button = input.nextElementSibling;
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                button.textContent = '👁️';
+            }
+        }
+
+        // Form Submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleLogin();
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleRegister();
+        });
+
+        // Login Handler
+        function handleLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                showError('請填寫所有必填欄位');
+                return;
+            }
+            
+            setLoading(true);
+            
+            // Simulate API call
+            setTimeout(() => {
+                setLoading(false);
+                
+                // Demo logic - in real app, this would be an actual API call
+                if (email === 'demo@example.com' && password === 'demo123') {
+                    showSuccess('登入成功！即將跳轉到首頁...');
+                    setTimeout(() => {
+                        // Redirect to dashboard
+                        alert('登入成功！（這裡會跳轉到學員專區）');
+                    }, 1500);
+                } else {
+                    showError('電子信箱或密碼錯誤，請重新輸入');
+                }
+            }, 1500);
+        }
+
+        // Register Handler
+        function handleRegister() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('registerEmail').value;
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const agreeTerms = document.getElementById('agreeTerms').checked;
+            
+            // Validation
+            if (!firstName || !lastName || !email || !phone || !password || !confirmPassword) {
+                showError('請填寫所有必填欄位');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showError('密碼確認不一致，請重新輸入');
+                return;
+            }
+            
+            if (password.length < 8) {
+                showError('密碼至少需要8個字元');
+                return;
+            }
+            
+            if (!agreeTerms) {
+                showError('請同意服務條款和隱私政策');
+                return;
+            }
+            
+            setLoading(true);
+            
+            // Simulate API call
+            setTimeout(() => {
+                setLoading(false);
+                showSuccess('註冊成功！歡迎加入第三人生大學！');
+                
+                setTimeout(() => {
+                    // Switch to login tab
+                    document.querySelector('.tab-btn').click();
+                    // Pre-fill email
+                    document.getElementById('loginEmail').value = email;
+                }, 2000);
+            }, 2000);
+        }
+
+        // Social Login
+        function socialLogin(provider) {
+            alert(`${provider === 'google' ? 'Google' : 'Facebook'} 登入功能開發中...`);
+        }
+
+        // Forgot Password
+        function showForgotPassword() {
+            const email = prompt('請輸入您的電子信箱，我們將發送重設密碼連結：');
+            if (email) {
+                showSuccess('重設密碼連結已發送到您的信箱，請檢查您的電子郵件');
+            }
+        }
+
+        // Terms and Privacy
+        function showTerms() {
+            alert('服務條款頁面（開發中）');
+        }
+
+        function showPrivacy() {
+            alert('隱私政策頁面（開發中）');
+        }
+
+        // Utility Functions
+        function showSuccess(message) {
+            clearMessages();
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+        }
+
+        function showError(message) {
+            clearMessages();
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function clearMessages() {
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        function setLoading(isLoading) {
+            const forms = document.querySelectorAll('.auth-form');
+            forms.forEach(form => {
+                if (isLoading) {
+                    form.classList.add('loading');
+                } else {
+                    form.classList.remove('loading');
+                }
+            });
+        }
+
+        // Form Validation
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function validatePhone(phone) {
+            const re = /^[\d\-\(\)\+\s]+$/;
+            return re.test(phone) && phone.length >= 8;
+        }
+
+        // Real-time validation
+        document.getElementById('registerEmail').addEventListener('blur', function() {
+            if (this.value && !validateEmail(this.value)) {
+                this.style.borderColor = '#dc3545';
+                showError('請輸入有效的電子信箱格式');
+            } else {
+                this.style.borderColor = var(--border-color);
+                clearMessages();
+            }
+        });
+
+        document.getElementById('phone').addEventListener('blur', function() {
+            if (this.value && !validatePhone(this.value)) {
+                this.style.borderColor = '#dc3545';
+                showError('請輸入有效的電話號碼');
+            } else {
+                this.style.borderColor = var(--border-color);
+                clearMessages();
+            }
+        });
+
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            const password = document.getElementById('registerPassword').value;
+            if (this.value && this.value !== password) {
+                this.style.borderColor = '#dc3545';
+            } else {
+                this.style.borderColor = var(--border-color);
+            }
+        });
+
+        // Auto-populate birth year options
+        function populateBirthYears() {
+            const select = document.getElementById('birthYear');
+            const currentYear = new Date().getFullYear();
+            const startYear = currentYear - 100; // 100 years ago
+            const endYear = currentYear - 50;   // 50 years ago (for seniors)
+            
+            // Clear existing options except the first one
+            while (select.children.length > 1) {
+                select.removeChild(select.lastChild);
+            }
+            
+            for (let year = endYear; year >= startYear; year--) {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year + '年';
+                select.appendChild(option);
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            populateBirthYears();
+            
+            // Add enter key support for forms
+            document.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const activeForm = document.querySelector('.auth-form.active');
+                    if (activeForm) {
+                        const submitBtn = activeForm.querySelector('.submit-btn');
+                        if (submitBtn && !activeForm.classList.contains('loading')) {
+                            submitBtn.click();
+                        }
+                    }
+                }
+            });
+
+            // Demo account hint
+            setTimeout(() => {
+                const hint = document.createElement('div');
+                hint.style.cssText = `
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    background: rgba(0,0,0,0.8);
+                    color: white;
+                    padding: 12px 16px;
+                    border-radius: 8px;
+                    font-size: 0.85rem;
+                    z-index: 1000;
+                    max-width: 200px;
+                `;
+                hint.innerHTML = '💡 測試帳號<br>信箱: demo@example.com<br>密碼: demo123';
+                document.body.appendChild(hint);
+                
+                setTimeout(() => {
+                    hint.style.opacity = '0';
+                    hint.style.transition = 'opacity 0.5s';
+                    setTimeout(() => hint.remove(), 500);
+                }, 5000);
+            }, 2000);
+        });
+
+        // Accessibility improvements
+        function handleKeyNavigation(e) {
+            if (e.key === 'Tab') {
+                // Ensure proper tab order
+                const focusableElements = document.querySelectorAll(
+                    'input, button, select, textarea, a[href], [tabindex]:not([tabindex="-1"])'
+                );
+                const firstElement = focusableElements[0];
+                const lastElement = focusableElements[focusableElements.length - 1];
+                
+                if (e.shiftKey && document.activeElement === firstElement) {
+                    e.preventDefault();
+                    lastElement.focus();
+                } else if (!e.shiftKey && document.activeElement === lastElement) {
+                    e.preventDefault();
+                    firstElement.focus();
+                }
+            }
+        }
+
+        document.addEventListener('keydown', handleKeyNavigation);
+
+        // Form auto-save (for better UX)
+        function saveFormData() {
+            const forms = ['loginForm', 'registerForm'];
+            forms.forEach(formId => {
+                const form = document.getElementById(formId);
+                const inputs = form.querySelectorAll('input:not([type="password"])');
+                inputs.forEach(input => {
+                    const key = `${formId}_${input.id}`;
+                    if (input.value) {
+                        localStorage.setItem(key, input.value);
+                    }
+                });
+            });
+        }
+
+        function loadFormData() {
+            const forms = ['loginForm', 'registerForm'];
+            forms.forEach(formId => {
+                const form = document.getElementById(formId);
+                const inputs = form.querySelectorAll('input:not([type="password"])');
+                inputs.forEach(input => {
+                    const key = `${formId}_${input.id}`;
+                    const savedValue = localStorage.getItem(key);
+                    if (savedValue) {
+                        input.value = savedValue;
+                    }
+                });
+            });
+        }
+
+        // Load saved data on page load
+        window.addEventListener('load', loadFormData);
+
+        // Save data on input changes
+        document.addEventListener('input', function(e) {
+            if (e.target.tagName === 'INPUT' && e.target.type !== 'password') {
+                saveFormData();
+            }
+        });
+
+        // Clear saved data on successful login/register
+        function clearSavedData() {
+            const keys = Object.keys(localStorage).filter(key => 
+                key.startsWith('loginForm_') || key.startsWith('registerForm_')
+            );
+            keys.forEach(key => localStorage.removeItem(key));
+        }
+    </script>
+</body>
+</html>

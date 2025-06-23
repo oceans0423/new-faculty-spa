@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最新消息 - 第三人生大學</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #FF8A65;
+            --primary-dark: #FF7043;
+            --secondary-color: #26C6DA;
+            --accent-color: #667eea;
+            --success-color: #4CAF50;
+            --warning-color: #FF9800;
+            --danger-color: #f44336;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --text-light: #999;
+            --bg-primary: #fafafa;
+            --bg-secondary: #ffffff;
+            --border-color: #e0e0e0;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            box-shadow: var(--shadow-light);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-box {
+            padding: 8px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            outline: none;
+            width: 200px;
+            transition: border-color 0.3s;
+        }
+
+        .search-box:focus {
+            border-color: var(--primary-color);
+        }
+
+        .login-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .login-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb-link:hover {
+            color: var(--primary-color);
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-light);
+        }
+
+        .breadcrumb-current {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Controls Section */
+        .controls-section {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-light);
+            margin-bottom: 40px;
+        }
+
+        .controls-row {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+        }
+
+        /* Category Filter */
+        .category-filter {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .category-btn {
+            padding: 12px 24px;
+            border: 2px solid var(--border-color);
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-size: 0.9rem;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Search and Sort */
+        .search-sort-container {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .news-search {
+            position: relative;
+            flex: 1;
+            max-width: 350px;
+        }
+
+        .news-search input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .news-search input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 138, 101, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .sort-select {
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            min-width: 120px;
+        }
+
+        .sort-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        /* News Layout */
+        .news-layout {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 40px;
+        }
+
+        .news-main {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Featured News */
+        .featured-section {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-light);
+            overflow: hidden;
+            margin-bottom: 32px;
+        }
+
+        .featured-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .featured-icon {
+            font-size: 1.5rem;
+        }
+
+        .featured-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .featured-news {
+            padding: 24px;
+        }
+
+        .featured-item {
+            display: flex;
+            gap: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+
+        .featured-item:hover {
+            background: #f8f9fa;
+        }
+
+        .featured-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .featured-image {
+            width: 120px;
+            height: 80px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--warning-color), #FFA726);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .featured-content {
+            flex: 1;
+        }
+
+        .featured-item-category {
+            background: rgba(255, 138, 101, 0.1);
+            color: var(--primary-color);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .featured-item-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            color: var(--text-primary);
+        }
+
+        .featured-item-excerpt {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .featured-item-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* News List */
+        .news-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .news-item {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .news-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+            border-color: var(--primary-color);
+        }
+
+        .news-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .news-category {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .category-announcement {
+            background: rgba(255, 138, 101, 0.1);
+            color: var(--primary-color);
+        }
+
+        .category-activity {
+            background: rgba(38, 198, 218, 0.1);
+            color: var(--secondary-color);
+        }
+
+        .category-academic {
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--accent-color);
+        }
+
+        .category-urgent {
+            background: rgba(244, 67, 54, 0.1);
+            color: var(--danger-color);
+        }
+
+        .news-date {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .news-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .news-excerpt {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .news-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .news-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .news-tag {
+            padding: 4px 8px;
+            background: #f0f0f0;
+            color: var(--text-secondary);
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .read-more-btn {
+            background: rgba(255, 138, 101, 0.1);
+            color: var(--primary-color);
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .read-more-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .sidebar-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-light);
+        }
+
+        .sidebar-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Important Notices */
+        .important-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .important-item {
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(244, 67, 54, 0.05), rgba(255, 152, 0, 0.05));
+            border-left: 4px solid var(--danger-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .important-item:hover {
+            background: linear-gradient(135deg, rgba(244, 67, 54, 0.1), rgba(255, 152, 0, 0.1));
+        }
+
+        .important-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .important-date {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* Quick Links */
+        .quick-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .quick-link {
+            padding: 12px 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .quick-link:hover {
+            background: rgba(255, 138, 101, 0.1);
+            color: var(--primary-color);
+        }
+
+        .quick-link-icon {
+            font-size: 1.1rem;
+        }
+
+        /* Calendar Widget */
+        .calendar-widget {
+            text-align: center;
+        }
+
+        .calendar-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 12px;
+            border-radius: 8px 8px 0 0;
+            font-weight: 600;
+        }
+
+        .calendar-body {
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .calendar-date {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 4px;
+        }
+
+        .calendar-info {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 40px;
+        }
+
+        .pagination-btn {
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            min-width: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pagination-btn:hover:not(.disabled) {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .pagination-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .pagination-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-btn.prev::before {
+            content: '‹';
+            font-size: 1.2rem;
+        }
+
+        .pagination-btn.next::after {
+            content: '›';
+            font-size: 1.2rem;
+        }
+
+        .pagination-info {
+            margin: 0 16px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Results Info */
+        .results-info {
+            margin-bottom: 24px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .results-count {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .results-highlight {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .empty-text {
+            font-size: 1rem;
+            max-width: 400px;
+            margin: 0 auto 24px;
+            line-height: 1.6;
+        }
+
+        .empty-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .empty-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .news-layout {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .sidebar {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px 16px;
+            }
+
+            .page-title {
+                font-size: 1.8rem;
+            }
+
+            .controls-row {
+                flex-direction: column;
+                align-items: center;
+                gap: 16px;
+            }
+
+            .category-filter {
+                justify-content: center;
+            }
+
+            .search-sort-container {
+                flex-direction: column;
+                justify-content: center;
+                width: 100%;
+                max-width: none;
+            }
+
+            .news-search {
+                max-width: none;
+                width: 100%;
+            }
+
+            .featured-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .featured-image {
+                width: 100%;
+                height: 120px;
+                margin: 0 auto 12px;
+            }
+
+            .news-item-header {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .news-footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .sidebar {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .pagination {
+                gap: 4px;
+            }
+
+            .pagination-btn {
+                padding: 10px 12px;
+                min-width: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .category-filter {
+                overflow-x: auto;
+                padding-bottom: 8px;
+                justify-content: flex-start;
+            }
+
+            .category-btn {
+                padding: 10px 16px;
+                font-size: 0.85rem;
+                flex-shrink: 0;
+            }
+
+            .news-item {
+                padding: 20px;
+            }
+
+            .featured-news {
+                padding: 20px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .news-item, .featured-section, .sidebar-card {
+            animation: fadeInUp 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">第三人生大學</a>
+            <nav class="nav-menu">
+                <a href="#" class="nav-link">首頁</a>
+                <a href="#" class="nav-link">課程介紹</a>
+                <a href="#" class="nav-link">師資陣容</a>
+                <a href="#" class="nav-link">精選文章</a>
+                <a href="#" class="nav-link active">最新消息</a>
+                <a href="#" class="nav-link">關於我們</a>
+            </nav>
+            <div class="user-info">
+                <input type="text" class="search-box" placeholder="搜尋消息...">
+                <button class="login-btn">登入/註冊</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <div class="breadcrumb-list">
+                <a href="#" class="breadcrumb-link">首頁</a>
+                <span class="breadcrumb-separator">></span>
+                <span class="breadcrumb-current">最新消息</span>
+            </div>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">最新消息</h1>
+            <p class="page-subtitle">
+                掌握第三人生大學的最新動態<br>
+                包含開課公告、校園活動、重要通知等資訊
+            </p>
+        </div>
+
+        <!-- Controls Section -->
+        <div class="controls-section">
+            <div class="controls-row">
+                <!-- Category Filter -->
+                <div class="category-filter">
+                    <button class="category-btn active" onclick="filterByCategory('all')">全部消息</button>
+                    <button class="category-btn" onclick="filterByCategory('announcement')">開課公告</button>
+                    <button class="category-btn" onclick="filterByCategory('activity')">校園活動</button>
+                    <button class="category-btn" onclick="filterByCategory('academic')">教務資訊</button>
+                    <button class="category-btn" onclick="filterByCategory('urgent')">重要通知</button>
+                </div>
+
+                <!-- Search and Sort -->
+                <div class="search-sort-container">
+                    <div class="news-search">
+                        <div class="search-icon">🔍</div>
+                        <input type="text" placeholder="搜尋消息標題或內容..." id="newsSearchInput" onkeyup="searchNews()">
+                    </div>
+                    <select class="sort-select" id="sortSelect" onchange="sortNews()">
+                        <option value="latest">最新發布</option>
+                        <option value="important">重要程度</option>
+                        <option value="deadline">截止時間</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- News Layout -->
+        <div class="news-layout">
+            <!-- Main News Content -->
+            <div class="news-main">
+                <!-- Featured News Section -->
+                <div class="featured-section">
+                    <div class="featured-header">
+                        <span class="featured-icon">⭐</span>
+                        <h2 class="featured-title">重點消息</h2>
+                    </div>
+                    <div class="featured-news">
+                        <div class="featured-item" onclick="readNews('featured1')">
+                            <div class="featured-image">📢</div>
+                            <div class="featured-content">
+                                <div class="featured-item-category">重要通知</div>
+                                <h3 class="featured-item-title">2025年第二學期選課開始！</h3>
+                                <p class="featured-item-excerpt">第二學期課程開放選課，新增多門熱門課程，包含AI應用、手機攝影進階班等，請把握報名時間。</p>
+                                <div class="featured-item-meta">
+                                    <span>📅 2025年6月20日</span>
+                                    <span>👁️ 2,345次瀏覽</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="featured-item" onclick="readNews('featured2')">
+                            <div class="featured-image" style="background: linear-gradient(135deg, var(--success-color), #81C784);">🎓</div>
+                            <div class="featured-content">
+                                <div class="featured-item-category">校園活動</div>
+                                <h3 class="featured-item-title">期末學習成果展覽會</h3>
+                                <p class="featured-item-excerpt">展示本學期學員們的精彩作品，包含攝影、手工藝、園藝等各領域成果，歡迎大家蒞臨參觀。</p>
+                                <div class="featured-item-meta">
+                                    <span>📅 2025年6月18日</span>
+                                    <span>👁️ 1,892次瀏覽</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Info -->
+                <div class="results-info" id="resultsInfo">
+                    <div class="results-count">
+                        共找到 <span class="results-highlight">16</span> 則消息
+                    </div>
+                </div>
+
+                <!-- News List -->
+                <div class="news-list" id="newsList">
+                    <!-- News Item 1 -->
+                    <div class="news-item" data-category="announcement" data-title="夏季課程開始報名" onclick="readNews('1')">
+                        <div class="news-item-header">
+                            <div class="news-category category-announcement">開課公告</div>
+                            <div class="news-date">
+                                <span>📅</span>
+                                <span>2025年6月18日</span>
+                            </div>
+                        </div>
+                        <h3 class="news-title">夏季課程開始報名</h3>
+                        <p class="news-excerpt">7月份新課程開放報名，包含攝影進階班、水彩畫工作坊、園藝治療課程等多項精彩課程。課程設計特別針對銀髮族需求，提供舒適的學習環境和專業的師資指導。</p>
+                        <div class="news-footer">
+                            <div class="news-tags">
+                                <span class="news-tag">夏季課程</span>
+                                <span class="news-tag">報名中</span>
+                                <span class="news-tag">攝影</span>
+                            </div>
+                            <button class="read-more-btn">閱讀全文</button>
+                        </div>
+                    </div>
+
+                    <!-- News Item 2 -->
+                    <div class="news-item" data-category="activity" data-title="學員作品展覽會圓滿落幕" onclick="readNews('2')">
+                        <div class="news-item-header">
+                            <div class="news-category category-activity">校園活動</div>
+                            <div class="news-date">
+                                <span>📅</span>
+                                <span>2025年6月16日</span>
+                            </div>
+                        </div>
+                        <h3 class="news-title">學員作品展覽會圓滿落幕</h3>
+                        <p class="news-excerpt">本月學員作品展覽會於台中文化中心成功舉辦，展出超過200件優秀作品，包含攝影、繪畫、手工藝等多個類別。參觀人數超過1,500人次，獲得各界熱烈迴響。</p>
+                        <div class="news-footer">
+                            <div class="news-tags">
+                                <span class="news-tag">作品展</span>
+                                <span class="news-tag">學員創作</span>
+                                <span class="news-tag">成功舉辦</span>
+                            </div>
+                            <button class="read-more-btn">閱讀全文</button>
+                        </div>
+                    </div>
+
+                    <!-- News Item 3 -->
+                    <div class="news-item" data-category="announcement" data-title="數位科技課程加開班級" onclick="readNews('3')">
+                        <div class="news-item-header">
+                            <div class="news-category category-announcement">開課公告</div>
+                            <div class="news-date">
+                                <span>📅</span>
+                                <span>2025年6月15日</span>
+                            </div>
+                        </div>
+                        <h3 class="news-title">數位科技課程加開班級</h3>
+                        <p class="news-excerpt">由於報名踴躍，智慧手機應用課程、電腦基礎操作班將加開晚間班級，提供更多時段選擇。新增班級採小班制教學，確保每位學員都能獲得充分的個別指導。</p>
+                        <div class="news-footer">
+                            <div class="news-tags">
+                                <span class="news-tag">加開班級</span>
+                                <span class="news-tag">數位課程</span>
+                                <span class="news-tag">小班制</span>
+                            </div>
+                            <button class="read-more-btn">閱讀全文</button>
+                        </div>
+                    </div>
+
+                    <!-- News Item 4 -->
+                    <div class="news-item" data-category="academic" data-title="新學期學分認證說明" onclick="readNews('4')">
+                        <div class="news-item-header">
+                            <div class="news-category category-academic">教務資訊</div>
+                            <div class="news-date">
+                                <span>📅</span>
+                                <span>2025年6月14日</span>
+                            </div>
+                        </div>
+                        <h3 class="news-title">新學期學分認證說明</h3>
+                        <p class="news-excerpt">配合教育部終身學習政策，本校新增學分認證制度。學員完成課程並通過評量後，可獲得正式學分證明，未來可申請學分抵免或繼續進修使用。</p>
+                        <div class="news-footer">
+                            <div class="news-tags">
+                                <span class="news-tag">學分認證</span>
+                                <span class="news-tag">教務</span>
+                                <span class="news-tag">新制度</span>
+                            </div>
+                            <button class="read-more-btn">閱讀全文</button>
+                        </div>
+                    </div>
+
+                    <!-- News Item 5 -->
+                    <div class="news-item" data-category="activity" data-title="校園健康講座即將開講" onclick="readNews('5')">
+                        <div class="news-item-header">
+                            <div class="news-category category-activity">校園活動</div>
+                            <div class="news-date">
+                                <span>📅</span>
+                                <span>2025年6月12日</span>
+                            </div>
+                        </div>
+                        <h3 class="news-title">校園健康講座即將開講</h3>
+                        <p class="news-excerpt">邀請台中榮總專業醫師分享銀髮族健康保健知識，主題包含營養管理、運動保健、慢性病預防等。講座免費參加，歡迎學員及眷屬一同參與。</p>
+                        <div class="news-footer">
+                            <div class="news-tags">
+                                <span class="news-tag">健康講座</span>
+                                <span class="news-tag">專業醫師</span>
+                                <span class="news-tag">免費參加</span>
+                            </div>
+                            <button class="read-more-btn">閱讀全文</button>
+                        </div>
+                    </div>
+
+                    <!-- News Item 6 -->
+                    <div class="news-item" data-category="urgent" data-title="颱風停課通知" onclick="readNews('6')">
+                        <div class="news-item-header">
+                            <div class="news-category category-urgent">重要通知</div>
+                            <div class="news-date">
+                                <span>📅</span>
+                                <span>2025年6月10日</span>
+                            </div>
+                        </div>
+                        <h3 class="news-title">颱風停課通知</h3>
+                        <p class="news-excerpt">因應颱風警報，配合台中市政府宣布停班停課，本校6月11日（星期二）全日課程暫停。補課時間將另行通知，請學員注意安全，避免外出。</p>
+                        <div class="news-footer">
+                            <div class="news-tags">
+                                <span class="news-tag">停課通知</span>
+                                <span class="news-tag">颱風</span>
+                                <span class="news-tag">安全第一</span>
+                            </div>
+                            <button class="read-more-btn">閱讀全文</button>
+                        </div>
+                    </div>
+
+                    <!-- News Item 7 -->
+                    <div class="news-item" data-category="announcement" data-title="暑期學習活動開放報名" onclick="readNews('7')">
+                        <div class="news-item-header">
+                            <div class="news-category category-announcement">開課公告</div>
+                            <div class="news-date">
+                                <span>📅</span>
+                                <span>2025年6月8日</span>
+                            </div>
+                        </div>
+                        <h3 class="news-title">暑期學習活動開放報名</h3>
+                        <p class="news-excerpt">暑期特別企劃多項戶外學習活動，包含生態攝影之旅、文化古蹟巡禮、農村體驗活動等。結合課堂學習與實地體驗，讓學習更加豐富有趣。</p>
+                        <div class="news-footer">
+                            <div class="news-tags">
+                                <span class="news-tag">暑期活動</span>
+                                <span class="news-tag">戶外學習</span>
+                                <span class="news-tag">生態攝影</span>
+                            </div>
+                            <button class="read-more-btn">閱讀全文</button>
+                        </div>
+                    </div>
+
+                    <!-- News Item 8 -->
+                    <div class="news-item" data-category="academic" data-title="學分學程證書頒發典禮" onclick="readNews('8')">
+                        <div class="news-item-header">
+                            <div class="news-category category-academic">教務資訊</div>
+                            <div class="news-date">
+                                <span>📅</span>
+                                <span>2025年6月5日</span>
+                            </div>
+                        </div>
+                        <h3 class="news-title">學分學程證書頒發典禮</h3>
+                        <p class="news-excerpt">本學期共有85位學員完成學分學程，將於6月30日舉行證書頒發典禮。典禮將邀請家屬共同參與，分享學員們的學習成果和喜悅。</p>
+                        <div class="news-footer">
+                            <div class="news-tags">
+                                <span class="news-tag">證書頒發</span>
+                                <span class="news-tag">學分學程</span>
+                                <span class="news-tag">典禮</span>
+                            </div>
+                            <button class="read-more-btn">閱讀全文</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <button class="pagination-btn prev disabled" onclick="changePage('prev')"></button>
+                    <div class="pagination-info">第 1 頁，共 2 頁</div>
+                    <button class="pagination-btn active" onclick="goToPage(1)">1</button>
+                    <button class="pagination-btn" onclick="goToPage(2)">2</button>
+                    <button class="pagination-btn next" onclick="changePage('next')"></button>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <!-- Important Notices -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <span>🔔</span>
+                        重要通知
+                    </h3>
+                    <div class="important-list">
+                        <div class="important-item" onclick="readNews('important1')">
+                            <div class="important-title">選課截止提醒</div>
+                            <div class="important-date">截止日期：6月25日</div>
+                        </div>
+                        <div class="important-item" onclick="readNews('important2')">
+                            <div class="important-title">期末成果發表會</div>
+                            <div class="important-date">活動日期：6月30日</div>
+                        </div>
+                        <div class="important-item" onclick="readNews('important3')">
+                            <div class="important-title">暑假休課通知</div>
+                            <div class="important-date">休課期間：7月1-31日</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <span>🔗</span>
+                        快速連結
+                    </h3>
+                    <div class="quick-links">
+                        <a href="#" class="quick-link" onclick="quickAction('enrollment')">
+                            <span class="quick-link-icon">📝</span>
+                            <span>線上報名</span>
+                        </a>
+                        <a href="#" class="quick-link" onclick="quickAction('schedule')">
+                            <span class="quick-link-icon">📅</span>
+                            <span>課程時刻表</span>
+                        </a>
+                        <a href="#" class="quick-link" onclick="quickAction('contact')">
+                            <span class="quick-link-icon">📞</span>
+                            <span>聯絡我們</span>
+                        </a>
+                        <a href="#" class="quick-link" onclick="quickAction('faq')">
+                            <span class="quick-link-icon">❓</span>
+                            <span>常見問題</span>
+                        </a>
+                        <a href="#" class="quick-link" onclick="quickAction('download')">
+                            <span class="quick-link-icon">📋</span>
+                            <span>表單下載</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Calendar Widget -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <span>📅</span>
+                        今日資訊
+                    </h3>
+                    <div class="calendar-widget">
+                        <div class="calendar-header">
+                            2025年6月
+                        </div>
+                        <div class="calendar-body">
+                            <div class="calendar-date">23</div>
+                            <div class="calendar-info">星期一</div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Contact Info -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <span>📍</span>
+                        聯絡資訊
+                    </h3>
+                    <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem; color: var(--text-secondary);">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span>📞</span>
+                            <span>04-2632-8001轉17031</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span>✉️</span>
+                            <span>pu20640@pu.edu.tw</span>
+                        </div>
+                        <div style="display: flex; align-items: flex-start; gap: 8px;">
+                            <span>🏢</span>
+                            <span>433303臺中市沙鹿區臺灣大道7段200號</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span>🕐</span>
+                            <span>週一至週五 09:00-17:00</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        let currentCategory = 'all';
+        let currentSort = 'latest';
+
+        // Category filter functionality
+        function filterByCategory(category) {
+            currentCategory = category;
+            const buttons = document.querySelectorAll('.category-btn');
+            const items = document.querySelectorAll('.news-item');
+            
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter items
+            let visibleCount = 0;
+            items.forEach(item => {
+                const itemCategory = item.dataset.category;
+                if (category === 'all' || itemCategory === category) {
+                    item.style.display = 'block';
+                    visibleCount++;
+                    // Add stagger animation
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0)';
+                    }, visibleCount * 50);
+                } else {
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        item.style.display = 'none';
+                    }, 300);
+                }
+            });
+            
+            // Update results count
+            setTimeout(() => {
+                updateResultsCount(visibleCount);
+            }, 400);
+        }
+
+        // Search functionality
+        function searchNews() {
+            const searchTerm = document.getElementById('newsSearchInput').value.toLowerCase();
+            const items = document.querySelectorAll('.news-item');
+            let visibleCount = 0;
+            
+            items.forEach(item => {
+                const title = item.dataset.title.toLowerCase();
+                const content = item.querySelector('.news-excerpt').textContent.toLowerCase();
+                const category = item.dataset.category;
+                
+                const matchesSearch = title.includes(searchTerm) || content.includes(searchTerm);
+                const matchesCategory = currentCategory === 'all' || category === currentCategory;
+                
+                if (matchesSearch && matchesCategory) {
+                    item.style.display = 'block';
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                    visibleCount++;
+                } else {
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        item.style.display = 'none';
+                    }, 300);
+                }
+            });
+            
+            setTimeout(() => {
+                updateResultsCount(visibleCount);
+                if (visibleCount === 0) {
+                    showEmptyState();
+                } else {
+                    hideEmptyState();
+                }
+            }, 400);
+        }
+
+        // Sort functionality
+        function sortNews() {
+            const sortValue = document.getElementById('sortSelect').value;
+            const list = document.getElementById('newsList');
+            const items = Array.from(document.querySelectorAll('.news-item'));
+            
+            items.sort((a, b) => {
+                switch(sortValue) {
+                    case 'important':
+                        // Sort by category importance (urgent > announcement > academic > activity)
+                        const importanceOrder = {'urgent': 4, 'announcement': 3, 'academic': 2, 'activity': 1};
+                        return importanceOrder[b.dataset.category] - importanceOrder[a.dataset.category];
+                    case 'deadline':
+                        // Sort by urgency/deadline (could be enhanced with actual dates)
+                        return 0; // Placeholder
+                    case 'latest':
+                    default:
+                        // Keep original order (latest first)
+                        return 0;
+                }
+            });
+            
+            // Clear and re-append sorted items
+            list.innerHTML = '';
+            items.forEach(item => list.appendChild(item));
+            
+            currentSort = sortValue;
+        }
+
+        // Update results count
+        function updateResultsCount(count) {
+            const resultsInfo = document.getElementById('resultsInfo');
+            const highlight = resultsInfo.querySelector('.results-highlight');
+            highlight.textContent = count;
+        }
+
+        // Show empty state
+        function showEmptyState() {
+            const list = document.getElementById('newsList');
+            const existing = document.querySelector('.empty-state');
+            
+            if (!existing) {
+                const emptyState = document.createElement('div');
+                emptyState.className = 'empty-state';
+                emptyState.innerHTML = `
+                    <div class="empty-icon">📰</div>
+                    <div class="empty-title">找不到相關消息</div>
+                    <div class="empty-text">請嘗試調整搜尋關鍵字或選擇其他分類</div>
+                    <button class="empty-btn" onclick="clearFilters()">重設篩選條件</button>
+                `;
+                list.appendChild(emptyState);
+            }
+        }
+
+        // Hide empty state
+        function hideEmptyState() {
+            const existing = document.querySelector('.empty-state');
+            if (existing) {
+                existing.remove();
+            }
+        }
+
+        // Clear all filters
+        function clearFilters() {
+            document.getElementById('newsSearchInput').value = '';
+            document.getElementById('sortSelect').value = 'latest';
+            document.querySelector('.category-btn.active').classList.remove('active');
+            document.querySelector('.category-btn').classList.add('active');
+            currentCategory = 'all';
+            currentSort = 'latest';
+            
+            // Show all items
+            const items = document.querySelectorAll('.news-item');
+            items.forEach(item => {
+                item.style.display = 'block';
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+            });
+            
+            hideEmptyState();
+            updateResultsCount(items.length);
+        }
+
+        // Pagination functions
+        function changePage(direction) {
+            if (direction === 'prev' && currentPage > 1) {
+                currentPage--;
+            } else if (direction === 'next' && currentPage < 2) {
+                currentPage++;
+            }
+            updatePagination();
+        }
+
+        function goToPage(page) {
+            currentPage = page;
+            updatePagination();
+        }
+
+        function updatePagination() {
+            const prevBtn = document.querySelector('.pagination-btn.prev');
+            const nextBtn = document.querySelector('.pagination-btn.next');
+            const pageInfo = document.querySelector('.pagination-info');
+            const pageButtons = document.querySelectorAll('.pagination-btn:not(.prev):not(.next)');
+            
+            // Update page info
+            pageInfo.textContent = `第 ${currentPage} 頁，共 2 頁`;
+            
+            // Update prev/next buttons
+            prevBtn.classList.toggle('disabled', currentPage === 1);
+            nextBtn.classList.toggle('disabled', currentPage === 2);
+            
+            // Update page number buttons
+            pageButtons.forEach((btn, index) => {
+                btn.classList.toggle('active', index + 1 === currentPage);
+            });
+            
+            // Simulate loading new content
+            simulatePageLoad();
+        }
+
+        function simulatePageLoad() {
+            const list = document.getElementById('newsList');
+            list.style.opacity = '0.5';
+            
+            setTimeout(() => {
+                list.style.opacity = '1';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 300);
+        }
+
+        // Read news function
+        function readNews(id) {
+            alert(`即將前往消息詳情頁面 (ID: ${id})\n\n此功能將導向消息詳情頁面，展示完整內容。`);
+        }
+
+        // Quick actions
+        function quickAction(action) {
+            const actions = {
+                'enrollment': '前往線上報名系統',
+                'schedule': '查看課程時刻表',
+                'contact': '聯絡學校服務',
+                'faq': '查看常見問題',
+                'download': '下載相關表單'
+            };
+            alert(`${actions[action]}\n\n功能開發中，將導向相應頁面。`);
+        }
+
+        // Newsletter subscription
+        /*
+        function subscribeNewsletter() {
+            const email = event.target.previousElementSibling.value;
+            if (!email) {
+                alert('請輸入電子信箱地址');
+                return;
+            }
+            if (!validateEmail(email)) {
+                alert('請輸入有效的電子信箱格式');
+                return;
+            }
+            alert('訂閱成功！\n\n感謝您訂閱第三人生大學電子報，我們將定期為您提供最新消息和活動資訊。');
+            event.target.previousElementSibling.value = '';
+        }
+        */
+
+        // Email validation
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add fade-in animation for items
+            const items = document.querySelectorAll('.news-item, .featured-section, .sidebar-card');
+            items.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    item.style.transition = 'all 0.5s ease';
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+
+            // Add search input real-time feedback
+            const searchInput = document.getElementById('newsSearchInput');
+            let searchTimeout;
+            
+            searchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    searchNews();
+                }, 300);
+            });
+
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    clearFilters();
+                }
+            });
+
+            // Update calendar with current date
+            updateCalendar();
+        });
+
+        // Update calendar widget
+        function updateCalendar() {
+            const now = new Date();
+            const monthNames = ['1月', '2月', '3月', '4月', '5月', '6月', 
+                               '7月', '8月', '9月', '10月', '11月', '12月'];
+            const dayNames = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+            
+            document.querySelector('.calendar-header').textContent = 
+                `${now.getFullYear()}年${monthNames[now.getMonth()]}`;
+            document.querySelector('.calendar-date').textContent = now.getDate();
+            document.querySelector('.calendar-info').textContent = dayNames[now.getDay()];
+        }
+
+        // Auto-refresh news (optional)
+        function autoRefreshNews() {
+            // In a real application, this would fetch new news from the server
+            console.log('Auto-refreshing news...');
+        }
+
+        // Set up auto-refresh every 5 minutes
+        setInterval(autoRefreshNews, 5 * 60 * 1000);
+    </script>
+</body>
+</html>

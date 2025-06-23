@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人工智慧基礎應用 - 課程詳情 - 第三人生大學</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #FF8A65;
+            --primary-dark: #FF7043;
+            --secondary-color: #26C6DA;
+            --accent-color: #667eea;
+            --success-color: #4CAF50;
+            --warning-color: #FF9800;
+            --danger-color: #f44336;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --text-light: #999;
+            --bg-primary: #fafafa;
+            --bg-secondary: #ffffff;
+            --border-color: #e0e0e0;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            box-shadow: var(--shadow-light);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .dashboard-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 20px 0;
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb-link:hover {
+            color: var(--primary-color);
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-light);
+        }
+
+        .breadcrumb-current {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px 60px;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 40px;
+        }
+
+        /* Course Hero Section */
+        .course-hero {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+        }
+
+        .hero-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 40px;
+        }
+
+        .hero-info {
+            flex: 1;
+        }
+
+        .course-code-badge {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+
+        .course-title-main {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .course-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 24px;
+        }
+
+        .course-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .meta-icon {
+            font-size: 1.1rem;
+        }
+
+        .meta-text {
+            font-weight: 500;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            min-width: 200px;
+        }
+
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .status-available {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .status-enrolled {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .status-full {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background: #f8f9fa;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Content Area */
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--shadow-light);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-icon {
+            font-size: 1.3rem;
+        }
+
+        .section-content {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        /* Teacher Section */
+        .teacher-card {
+            display: flex;
+            gap: 24px;
+            padding: 24px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-top: 16px;
+        }
+
+        .teacher-avatar-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .teacher-info {
+            flex: 1;
+        }
+
+        .teacher-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .teacher-title {
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .teacher-bio {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Curriculum Table */
+        .curriculum-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        .curriculum-table th,
+        .curriculum-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .curriculum-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .curriculum-table td {
+            color: var(--text-secondary);
+        }
+
+        .curriculum-table tr:hover {
+            background: rgba(255, 138, 101, 0.05);
+        }
+
+        /* Learning Objectives */
+        .objectives-list {
+            list-style: none;
+            margin-top: 16px;
+        }
+
+        .objectives-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .objectives-list li:last-child {
+            border-bottom: none;
+        }
+
+        .objective-icon {
+            color: var(--success-color);
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        /* Target Audience */
+        .audience-tags {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .audience-tag {
+            padding: 8px 16px;
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--accent-color);
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .sidebar-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-light);
+        }
+
+        .sidebar-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        /* Course Info Card */
+        .info-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Important Dates */
+        .dates-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .date-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .date-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .date-value {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Fee Information */
+        .fee-breakdown {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .fee-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+        }
+
+        .fee-total {
+            border-top: 2px solid var(--border-color);
+            padding-top: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+        }
+
+        /* FAQ */
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .faq-item {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 12px 16px;
+            background: #f8f9fa;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            padding: 12px 16px;
+            color: var(--text-secondary);
+            display: none;
+        }
+
+        .faq-answer.show {
+            display: block;
+        }
+
+        /* Enrollment Section */
+        .enrollment-section {
+            background: linear-gradient(135deg, var(--success-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            margin-top: 32px;
+        }
+
+        .enrollment-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .enrollment-text {
+            margin-bottom: 24px;
+            opacity: 0.9;
+        }
+
+        .enrollment-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        /* Recommended Courses */
+        .recommended-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .recommended-item {
+            display: flex;
+            gap: 12px;
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .recommended-item:hover {
+            border-color: var(--primary-color);
+            background: rgba(255, 138, 101, 0.05);
+        }
+
+        .recommended-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .recommended-info {
+            flex: 1;
+        }
+
+        .recommended-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+            font-size: 0.9rem;
+        }
+
+        .recommended-meta {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                padding: 20px 16px;
+                gap: 24px;
+            }
+
+            .hero-content {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .course-title-main {
+                font-size: 1.8rem;
+            }
+
+            .course-meta-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .teacher-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .curriculum-table {
+                font-size: 0.9rem;
+            }
+
+            .enrollment-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-section {
+            animation: fadeInUp 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">第三人生大學</a>
+            <nav class="nav-menu">
+                <a href="#" class="nav-link">首頁</a>
+                <a href="#" class="nav-link active">課程介紹</a>
+                <a href="#" class="nav-link">師資陣容</a>
+                <a href="#" class="nav-link">關於我們</a>
+                <a href="#" class="nav-link">聯絡我們</a>
+            </nav>
+            <div class="user-info">
+                <div class="user-avatar">王</div>
+                <a href="#" class="dashboard-btn">回到儀表板</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-list">
+            <a href="#" class="breadcrumb-link">首頁</a>
+            <span class="breadcrumb-separator">></span>
+            <a href="#" class="breadcrumb-link">課程總覽</a>
+            <span class="breadcrumb-separator">></span>
+            <span class="breadcrumb-current">人工智慧基礎應用</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Course Hero Section -->
+        <div class="course-hero">
+            <div class="hero-content">
+                <div class="hero-info">
+                    <div class="course-code-badge">CS101</div>
+                    <h1 class="course-title-main">人工智慧基礎應用</h1>
+                    <p class="course-subtitle">深入淺出介紹人工智慧基本概念與實際應用，適合初學者入門</p>
+                    <div class="course-meta-grid">
+                        <div class="meta-item">
+                            <span class="meta-icon">📚</span>
+                            <span class="meta-text">2學分</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">🕐</span>
+                            <span class="meta-text">週三 14:00-16:00</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">📍</span>
+                            <span class="meta-text">資訊大樓 A101</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">👥</span>
+                            <span class="meta-text">限20人</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-actions">
+                    <div class="status-badge status-available">可報名</div>
+                    <button class="btn btn-primary" onclick="enrollCourse()">立即報名</button>
+                    <a href="#" class="btn btn-secondary">返回課程列表</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Course Description -->
+            <div class="content-section">
+                <h2 class="section-title">
+                    <span class="section-icon">📖</span>
+                    課程簡介
+                </h2>
+                <div class="section-content">
+                    <p>本課程專為第三人生大學的學員設計，以淺顯易懂的方式介紹人工智慧的基本概念與實際應用。課程內容涵蓋AI發展歷史、機器學習基礎、日常生活中的AI應用等主題。</p>
+                    <br>
+                    <p>透過豐富的實例和互動討論，幫助學員了解AI如何改變我們的生活，並學會運用基本的AI工具來提升生活品質。課程不需要程式設計背景，適合所有對科技有興趣的學員參與。</p>
+                    <br>
+                    <p>我們將從最基礎的概念開始，逐步深入到實際應用，讓每位學員都能跟上學習進度，並在課程結束後具備基本的AI素養。</p>
+                </div>
+            </div>
+
+            <!-- Learning Objectives -->
+            <div class="content-section">
+                <h2 class="section-title">
+                    <span class="section-icon">🎯</span>
+                    學習目標
+                </h2>
+                <ul class="objectives-list">
+                    <li>
+                        <span class="objective-icon">✓</span>
+                        <span>理解人工智慧的基本概念與發展歷程</span>
+                    </li>
+                    <li>
+                        <span class="objective-icon">✓</span>
+                        <span>認識機器學習、深度學習等核心技術</span>
+                    </li>
+                    <li>
+                        <span class="objective-icon">✓</span>
+                        <span>了解AI在日常生活中的各種應用實例</span>
+                    </li>
+                    <li>
+                        <span class="objective-icon">✓</span>
+                        <span>學會使用基本的AI工具和應用程式</span>
+                    </li>
+                    <li>
+                        <span class="objective-icon">✓</span>
+                        <span>培養對新科技的學習興趣和適應能力</span>
+                    </li>
+                    <li>
+                        <span class="objective-icon">✓</span>
+                        <span>建立正確的AI倫理觀念和使用態度</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Target Audience -->
+            <div class="content-section">
+                <h2 class="section-title">
+                    <span class="section-icon">👥</span>
+                    適合對象
+                </h2>
+                <div class="section-content">
+                    <p>本課程歡迎所有對人工智慧有興趣的學員參與，特別適合：</p>
+                    <div class="audience-tags">
+                        <span class="audience-tag">對科技有好奇心的學員</span>
+                        <span class="audience-tag">希望了解AI應用的學員</span>
+                        <span class="audience-tag">想要跟上科技潮流的學員</span>
+                        <span class="audience-tag">退休後想學習新知的學員</span>
+                        <span class="audience-tag">完全沒有程式背景也歡迎</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Curriculum -->
+            <div class="content-section">
+                <h2 class="section-title">
+                    <span class="section-icon">📋</span>
+                    課程大綱
+                </h2>
+                <table class="curriculum-table">
+                    <thead>
+                        <tr>
+                            <th>週次</th>
+                            <th>主題</th>
+                            <th>內容重點</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>第1週</td>
+                            <td>AI初探</td>
+                            <td>什麼是人工智慧？AI發展歷史與現況</td>
+                        </tr>
+                        <tr>
+                            <td>第2週</td>
+                            <td>機器學習入門</td>
+                            <td>機器如何學習？簡單的學習模式介紹</td>
+                        </tr>
+                        <tr>
+                            <td>第3週</td>
+                            <td>語音助理</td>
+                            <td>Siri、Alexa等語音助理的原理與使用</td>
+                        </tr>
+                        <tr>
+                            <td>第4週</td>
+                            <td>圖像識別</td>
+                            <td>AI如何「看」圖片？人臉識別、物體辨識</td>
+                        </tr>
+                        <tr>
+                            <td>第5週</td>
+                            <td>自然語言處理</td>
+                            <td>AI如何理解文字？翻譯軟體、聊天機器人</td>
+                        </tr>
+                        <tr>
+                            <td>第6週</td>
+                            <td>智慧家居</td>
+                            <td>智慧音箱、智慧家電的應用與體驗</td>
+                        </tr>
+                        <tr>
+                            <td>第7週</td>
+                            <td>醫療AI</td>
+                            <td>AI在健康照護中的應用案例</td>
+                        </tr>
+                        <tr>
+                            <td>第8週</td>
+                            <td>交通AI</td>
+                            <td>自動駕駛、智慧交通系統介紹</td>
+                        </tr>
+                        <tr>
+                            <td>第9週</td>
+                            <td>期中討論</td>
+                            <td>學習心得分享與問題討論</td>
+                        </tr>
+                        <tr>
+                            <td>第10週</td>
+                            <td>AI倫理</td>
+                            <td>AI的利與弊、隱私保護、倫理議題</td>
+                        </tr>
+                        <tr>
+                            <td>第11週</td>
+                            <td>實作體驗（一）</td>
+                            <td>手機AI功能實際操作</td>
+                        </tr>
+                        <tr>
+                            <td>第12週</td>
+                            <td>實作體驗（二）</td>
+                            <td>AI繪圖、AI寫作工具體驗</td>
+                        </tr>
+                        <tr>
+                            <td>第13週</td>
+                            <td>AI與創意</td>
+                            <td>AI在藝術、音樂、文學中的創新應用</td>
+                        </tr>
+                        <tr>
+                            <td>第14週</td>
+                            <td>AI與生活</td>
+                            <td>如何在日常生活中善用AI工具</td>
+                        </tr>
+                        <tr>
+                            <td>第15週</td>
+                            <td>未來趨勢</td>
+                            <td>AI發展趨勢與對社會的影響</td>
+                        </tr>
+                        <tr>
+                            <td>第16週</td>
+                            <td>成果發表</td>
+                            <td>學習成果分享與課程總結</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Teaching Methods -->
+            <div class="content-section">
+                <h2 class="section-title">
+                    <span class="section-icon">🎓</span>
+                    教學方式
+                </h2>
+                <div class="section-content">
+                    <ul style="list-style-type: disc; margin-left: 20px; line-height: 1.8;">
+                        <li><strong>互動講授：</strong>以生動有趣的方式講解概念，搭配大量實例說明</li>
+                        <li><strong>實作體驗：</strong>親自操作AI工具，實際感受科技的便利性</li>
+                        <li><strong>小組討論：</strong>鼓勵學員分享經驗，共同探討AI在生活中的應用</li>
+                        <li><strong>案例分析：</strong>透過真實案例了解AI技術的實際運用</li>
+                        <li><strong>影片教學：</strong>運用多媒體輔助教學，提升學習效果</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Assessment Methods -->
+            <div class="content-section">
+                <h2 class="section-title">
+                    <span class="section-icon">📊</span>
+                    評量方式
+                </h2>
+                <div class="section-content">
+                    <ul style="list-style-type: disc; margin-left: 20px; line-height: 1.8;">
+                        <li><strong>課堂參與（40%）：</strong>積極參與討論，出席率良好</li>
+                        <li><strong>實作練習（30%）：</strong>完成課堂上的AI工具操作練習</li>
+                        <li><strong>學習心得（20%）：</strong>撰寫學習心得報告（可手寫）</li>
+                        <li><strong>期末分享（10%）：</strong>分享課程學習收穫與應用心得</li>
+                    </ul>
+                    <p style="margin-top: 16px; color: var(--success-color); font-weight: 500;">
+                        💡 評量重點在於學習過程和參與度，不會有艱難的考試，讓每位學員都能輕鬆完成課程！
+                    </p>
+                </div>
+            </div>
+
+            <!-- Course Materials -->
+            <div class="content-section">
+                <h2 class="section-title">
+                    <span class="section-icon">📚</span>
+                    使用教材
+                </h2>
+                <div class="section-content">
+                    <ul style="list-style-type: disc; margin-left: 20px; line-height: 1.8;">
+                        <li><strong>自編講義：</strong>教師特別為銀髮族編寫的淺顯易懂講義</li>
+                        <li><strong>影片資源：</strong>精選的AI科普影片與實作示範</li>
+                        <li><strong>實作手冊：</strong>詳細的操作步驟說明書</li>
+                        <li><strong>參考書籍：</strong>《AI生活應用入門》（選購，學校圖書館有收藏）</li>
+                    </ul>
+                    <p style="margin-top: 16px; font-style: italic; color: var(--text-secondary);">
+                        📖 所有必要教材都會提供，學員無需額外購買昂貴書籍
+                    </p>
+                </div>
+            </div>
+
+            <!-- Teacher Information -->
+            <div class="content-section">
+                <h2 class="section-title">
+                    <span class="section-icon">👨‍🏫</span>
+                    授課教師
+                </h2>
+                <div class="teacher-card">
+                    <div class="teacher-avatar-large">張</div>
+                    <div class="teacher-info">
+                        <h3 class="teacher-name">張志明 教授</h3>
+                        <p class="teacher-title">資訊工程學系 教授兼系主任</p>
+                        <div class="teacher-bio">
+                            <p><strong>學歷：</strong>國立臺灣大學資訊工程學系博士</p>
+                            <p><strong>專長：</strong>人工智慧、機器學習、資料探勘</p>
+                            <p><strong>經歷：</strong>科技部人工智慧研究中心副主任、IEEE高級會員</p>
+                            <br>
+                            <p><strong>教學理念：</strong>「讓複雜的科技變得簡單易懂，讓每個人都能享受學習的樂趣。」張教授擁有20年的教學經驗，特別擅長將艱深的技術概念轉化為生活化的說明，深受學生喜愛。</p>
+                            <br>
+                            <p><strong>研究成果：</strong>發表國際期刊論文80餘篇，獲得多項教學優良獎，致力於推廣AI教育普及化。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enrollment Section -->
+            <div class="content-section enrollment-section">
+                <h2 class="enrollment-title">準備好開始您的AI學習之旅了嗎？</h2>
+                <p class="enrollment-text">加入我們，一起探索人工智慧的奧妙世界！</p>
+                <div class="enrollment-actions">
+                    <button class="btn btn-primary" onclick="enrollCourse()">立即報名此課程</button>
+                    <button class="btn btn-secondary" onclick="contactAdvisor()">諮詢課程顧問</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Course Information -->
+            <div class="sidebar-card">
+                <h3 class="sidebar-title">📋 課程資訊</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">課程代碼</span>
+                        <span class="info-value">CS101</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">學分數</span>
+                        <span class="info-value">2學分</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">上課時間</span>
+                        <span class="info-value">週三 14:00-16:00</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">教室</span>
+                        <span class="info-value">資訊大樓 A101</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">開課學院</span>
+                        <span class="info-value">資訊工程學系</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">修課人數</span>
+                        <span class="info-value">限20人</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">目前人數</span>
+                        <span class="info-value">12人</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Important Dates -->
+            <div class="sidebar-card">
+                <h3 class="sidebar-title">📅 重要日期</h3>
+                <div class="dates-list">
+                    <div class="date-item">
+                        <span class="date-label">報名截止</span>
+                        <span class="date-value">2025/07/15</span>
+                    </div>
+                    <div class="date-item">
+                        <span class="date-label">開課日期</span>
+                        <span class="date-value">2025/08/01</span>
+                    </div>
+                    <div class="date-item">
+                        <span class="date-label">結課日期</span>
+                        <span class="date-value">2025/11/20</span>
+                    </div>
+                    <div class="date-item">
+                        <span class="date-label">成果發表</span>
+                        <span class="date-value">2025/11/27</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fee Information -->
+            <div class="sidebar-card">
+                <h3 class="sidebar-title">💰 費用資訊</h3>
+                <div class="fee-breakdown">
+                    <div class="fee-item">
+                        <span>學分費</span>
+                        <span>NT$ 2,400</span>
+                    </div>
+                    <div class="fee-item">
+                        <span>講義費</span>
+                        <span>NT$ 200</span>
+                    </div>
+                    <div class="fee-item">
+                        <span>實作材料費</span>
+                        <span>NT$ 0</span>
+                    </div>
+                    <div class="fee-item fee-total">
+                        <span>總計</span>
+                        <span>NT$ 2,600</span>
+                    </div>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 12px; line-height: 1.5;">
+                    💡 比照進修部學分費收費標準<br>
+                    💳 可使用就學貸款<br>
+                    🎫 享有學生票優惠
+                </p>
+            </div>
+
+            <!-- FAQ -->
+            <div class="sidebar-card">
+                <h3 class="sidebar-title">❓ 常見問題</h3>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <span>需要有電腦基礎嗎？</span>
+                            <span>+</span>
+                        </div>
+                        <div class="faq-answer">
+                            不需要！課程從最基礎開始教學，只要會使用手機或平板就可以。
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <span>如何報名？</span>
+                            <span>+</span>
+                        </div>
+                        <div class="faq-answer">
+                            點擊「立即報名」按鈕，填寫報名表單即可，或致電學校教務處。
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <span>可以旁聽嗎？</span>
+                            <span>+</span>
+                        </div>
+                        <div class="faq-answer">
+                            歡迎第一堂課來旁聽體驗，如果喜歡再正式報名。
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <span>有作業嗎？</span>
+                            <span>+</span>
+                        </div>
+                        <div class="faq-answer">
+                            有簡單的練習作業，但不會造成負擔，主要是幫助學習。
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 16px;">
+                    📞 更多問題請洽：<br>
+                    教務處 04-2632-8001 轉 17031<br>
+                    ✉️ pu20640@pu.edu.tw
+                </p>
+            </div>
+
+            <!-- Recommended Courses -->
+            <div class="sidebar-card">
+                <h3 class="sidebar-title">💡 推薦課程</h3>
+                <div class="recommended-grid">
+                    <div class="recommended-item" onclick="viewCourse('FN201')">
+                        <div class="recommended-avatar">FN</div>
+                        <div class="recommended-info">
+                            <div class="recommended-title">金融科技概論</div>
+                            <div class="recommended-meta">2學分 • 李美玲教授</div>
+                        </div>
+                    </div>
+                    <div class="recommended-item" onclick="viewCourse('HE301')">
+                        <div class="recommended-avatar">HE</div>
+                        <div class="recommended-info">
+                            <div class="recommended-title">健康管理實務</div>
+                            <div class="recommended-meta">2學分 • 王建國教授</div>
+                        </div>
+                    </div>
+                    <div class="recommended-item" onclick="viewCourse('CS201')">
+                        <div class="recommended-avatar">CS</div>
+                        <div class="recommended-info">
+                            <div class="recommended-title">智慧生活科技應用</div>
+                            <div class="recommended-meta">2學分 • 張志明教授</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // FAQ Toggle
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('span:last-child');
+            
+            if (answer.classList.contains('show')) {
+                answer.classList.remove('show');
+                icon.textContent = '+';
+            } else {
+                // Close all other FAQs
+                document.querySelectorAll('.faq-answer').forEach(item => {
+                    item.classList.remove('show');
+                });
+                document.querySelectorAll('.faq-question span:last-child').forEach(item => {
+                    item.textContent = '+';
+                });
+                
+                // Open clicked FAQ
+                answer.classList.add('show');
+                icon.textContent = '-';
+            }
+        }
+
+        // Enrollment function
+        function enrollCourse() {
+            if (confirm('確定要報名「人工智慧基礎應用」課程嗎？\n\n課程費用：NT$ 2,600\n上課時間：週三 14:00-16:00')) {
+                alert('報名成功！\n\n我們將寄送報名確認信到您的信箱，並有專人與您聯繫繳費相關事宜。\n\n感謝您選擇第三人生大學！');
+            }
+        }
+
+        // Contact advisor function
+        function contactAdvisor() {
+            alert('課程諮詢服務\n\n📞 電話：04-2632-8001 轉 17031\n✉️ Email：pu20640@pu.edu.tw\n🕐 服務時間：週一至週五 09:00-17:00\n\n我們的課程顧問將為您詳細說明課程內容與報名流程！');
+        }
+
+        // View other courses
+        function viewCourse(courseCode) {
+            alert(`即將前往「${courseCode}」課程詳情頁面`);
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Back to top functionality
+        function addBackToTop() {
+            const backToTop = document.createElement('button');
+            backToTop.innerHTML = '↑';
+            backToTop.style.cssText = `
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                width: 50px;
+                height: 50px;
+                background: var(--primary-color);
+                color: white;
+                border: none;
+                border-radius: 50%;
+                font-size: 1.5rem;
+                cursor: pointer;
+                display: none;
+                z-index: 1000;
+                transition: all 0.3s ease;
+            `;
+            
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTop.style.display = 'block';
+                } else {
+                    backToTop.style.display = 'none';
+                }
+            });
+            
+            document.body.appendChild(backToTop);
+        }
+
+        // Initialize features
+        document.addEventListener('DOMContentLoaded', function() {
+            addBackToTop();
+            
+            // Animate sections on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'all 0.6s ease';
+                observer.observe(section);
+            });
+        });
+
+        // Print functionality
+        function printCourse() {
+            window.print();
+        }
+
+        // Share functionality
+        function shareCourse() {
+            if (navigator.share) {
+                navigator.share({
+                    title: '人工智慧基礎應用 - 第三人生大學',
+                    text: '推薦您這門很棒的AI入門課程！',
+                    url: window.location.href
+                });
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                const url = window.location.href;
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('課程連結已複製到剪貼簿！');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
+                        
