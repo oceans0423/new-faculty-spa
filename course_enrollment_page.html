@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>選課意願登記 - 第三人生大學</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #FF8A65;
+            --primary-dark: #FF7043;
+            --secondary-color: #26C6DA;
+            --accent-color: #667eea;
+            --success-color: #4CAF50;
+            --warning-color: #FF9800;
+            --danger-color: #f44336;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --text-light: #999;
+            --bg-primary: #fafafa;
+            --bg-secondary: #ffffff;
+            --border-color: #e0e0e0;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            box-shadow: var(--shadow-light);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-box {
+            padding: 8px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            outline: none;
+            width: 200px;
+            transition: border-color 0.3s;
+        }
+
+        .search-box:focus {
+            border-color: var(--primary-color);
+        }
+
+        .login-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .login-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Page Header Section */
+        .page-header-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .breadcrumb {
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb-link:hover {
+            color: var(--primary-color);
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-light);
+        }
+
+        .breadcrumb-current {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .page-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 32px;
+            line-height: 1.7;
+        }
+
+        .notice-banner {
+            background: linear-gradient(135deg, rgba(255, 138, 101, 0.1), rgba(38, 198, 218, 0.1));
+            border: 2px solid var(--primary-color);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 0 auto;
+            max-width: 900px;
+        }
+
+        .notice-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .notice-text {
+            color: var(--text-primary);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* Main Content Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        /* Left Content */
+        .left-content {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-light);
+            padding: 24px;
+        }
+
+        .filter-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-tab {
+            padding: 12px 24px;
+            border: 2px solid var(--border-color);
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-size: 1rem;
+        }
+
+        .filter-tab:hover,
+        .filter-tab.active {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Courses Section */
+        .courses-section {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-light);
+            overflow: hidden;
+        }
+
+        .courses-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 32px;
+            text-align: center;
+        }
+
+        .courses-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .courses-subtitle {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .courses-content {
+            padding: 32px;
+        }
+
+        .semester-group {
+            margin-bottom: 48px;
+        }
+
+        .semester-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .semester-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary-color);
+            text-align: center;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 24px;
+        }
+
+        /* Course Card */
+        .course-card {
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            background: white;
+            position: relative;
+        }
+
+        .course-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-light);
+            transform: translateY(-2px);
+        }
+
+        .course-card.selected {
+            border-color: var(--success-color);
+            background: rgba(76, 175, 80, 0.05);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .course-category {
+            background: rgba(255, 138, 101, 0.1);
+            color: var(--primary-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .course-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-available {
+            background: rgba(76, 175, 80, 0.1);
+            color: var(--success-color);
+        }
+
+        .status-limited {
+            background: rgba(255, 152, 0, 0.1);
+            color: var(--warning-color);
+        }
+
+        .status-full {
+            background: rgba(244, 67, 54, 0.1);
+            color: var(--danger-color);
+        }
+
+        .course-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .course-teacher {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .course-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .course-info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .course-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .select-btn {
+            flex: 1;
+            padding: 14px 20px;
+            border: 2px solid var(--primary-color);
+            background: white;
+            color: var(--primary-color);
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+
+        .select-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .select-btn.selected {
+            background: var(--success-color);
+            border-color: var(--success-color);
+            color: white;
+        }
+
+        .select-btn:disabled {
+            background: #f5f5f5;
+            border-color: var(--border-color);
+            color: var(--text-light);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .info-btn {
+            padding: 14px 16px;
+            border: 2px solid var(--border-color);
+            background: white;
+            color: var(--text-secondary);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .info-btn:hover {
+            border-color: var(--secondary-color);
+            color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Right Sidebar */
+        .right-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .sidebar-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-light);
+        }
+
+        .sidebar-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Progress Steps */
+        .progress-container {
+            margin-bottom: 24px;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 20px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: var(--border-color);
+            z-index: 1;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--border-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .step.active .step-circle {
+            background: var(--primary-color);
+        }
+
+        .step.completed .step-circle {
+            background: var(--success-color);
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .step.active .step-label {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* Selected Courses Summary */
+        .summary-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 12px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .selected-courses-list {
+            margin-bottom: 24px;
+        }
+
+        .selected-course-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: rgba(76, 175, 80, 0.1);
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+
+        .course-item-name {
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .remove-course-btn {
+            background: none;
+            border: none;
+            color: var(--danger-color);
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .remove-course-btn:hover {
+            background: rgba(244, 67, 54, 0.1);
+        }
+
+        .empty-selection {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            padding: 24px;
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+
+        .primary-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--success-color);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .primary-btn:hover:not(:disabled) {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .primary-btn:disabled {
+            background: var(--text-light);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .secondary-btn {
+            width: 100%;
+            padding: 12px;
+            background: white;
+            color: var(--text-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .secondary-btn:hover {
+            border-color: var(--danger-color);
+            color: var(--danger-color);
+        }
+
+        /* Help Info */
+        .help-info {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .help-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .help-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .help-icon {
+            color: var(--primary-color);
+            margin-top: 2px;
+            font-size: 1.1rem;
+        }
+
+        .help-text {
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .right-sidebar {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 16px;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .notice-banner {
+                padding: 24px;
+            }
+
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .course-info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-tabs {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 8px;
+            }
+
+            .filter-tab {
+                flex-shrink: 0;
+            }
+
+            .right-sidebar {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .summary-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .course-actions {
+                flex-direction: column;
+            }
+
+            .courses-header {
+                padding: 24px;
+            }
+
+            .courses-content {
+                padding: 24px;
+            }
+
+            .progress-steps {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .progress-line {
+                display: none;
+            }
+
+            .step {
+                flex-direction: row;
+                justify-content: flex-start;
+            }
+
+            .step-circle {
+                margin-bottom: 0;
+                margin-right: 12px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .course-card, .sidebar-card, .filter-section, .courses-section {
+            animation: fadeInUp 0.6s ease;
+        }
+
+        /* Success animation */
+        @keyframes checkmark {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .select-btn.selected::before {
+            content: '✓';
+            animation: checkmark 0.4s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">第三人生大學</a>
+            <nav class="nav-menu">
+                <a href="#" class="nav-link">首頁</a>
+                <a href="#" class="nav-link active">課程介紹</a>
+                <a href="#" class="nav-link">師資陣容</a>
+                <a href="#" class="nav-link">精選文章</a>
+                <a href="#" class="nav-link">最新消息</a>
+                <a href="#" class="nav-link">關於我們</a>
+            </nav>
+            <div class="user-info">
+                <input type="text" class="search-box" placeholder="搜尋課程..." id="headerSearch">
+                <button class="login-btn">登入/註冊</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Page Header Section -->
+        <section class="page-header-section">
+            <div class="breadcrumb">
+                <div class="breadcrumb-list">
+                    <a href="#" class="breadcrumb-link">首頁</a>
+                    <span class="breadcrumb-separator">></span>
+                    <a href="#" class="breadcrumb-link">課程介紹</a>
+                    <span class="breadcrumb-separator">></span>
+                    <span class="breadcrumb-current">選課意願登記</span>
+                </div>
+            </div>
+
+            <h1 class="page-title">選課意願登記</h1>
+            <p class="page-subtitle">
+                請選擇您有興趣的課程，我們將協助您完成正式選課手續<br>
+                此系統僅供意願登記，實際選課將由我們的服務人員為您處理
+            </p>
+            
+            <div class="notice-banner">
+                <div class="notice-title">
+                    <span>💡</span>
+                    重要說明
+                </div>
+                <div class="notice-text">
+                    這是選課意願登記系統，不是正式的選課系統。您在此選擇的課程表達了修課意願，我們的服務人員會根據您的選擇協助您在學校正式系統中完成選課手續，同時也能讓我們更好地了解課程需求和提供個人化的協助服務。
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Layout -->
+        <div class="main-layout">
+            <!-- Left Content -->
+            <div class="left-content">
+                <!-- Filter Section -->
+                <section class="filter-section">
+                    <h2 class="filter-title">
+                        <span>🏷️</span>
+                        課程分類
+                    </h2>
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" onclick="filterCourses('all')">全部課程</button>
+                        <button class="filter-tab" onclick="filterCourses('digital')">數位科技</button>
+                        <button class="filter-tab" onclick="filterCourses('art')">藝術創作</button>
+                        <button class="filter-tab" onclick="filterCourses('health')">健康養生</button>
+                        <button class="filter-tab" onclick="filterCourses('life')">生活應用</button>
+                        <button class="filter-tab" onclick="filterCourses('language')">語言學習</button>
+                    </div>
+                </section>
+
+                <!-- Courses Section -->
+                <section class="courses-section">
+                    <div class="courses-header">
+                        <h2 class="courses-title">可選課程</h2>
+                        <p class="courses-subtitle">點選「我想修這門課」表達修課意願</p>
+                    </div>
+
+                    <div class="courses-content">
+                        <!-- 第二學期課程 -->
+                        <div class="semester-group">
+                            <h3 class="semester-title">2025年第二學期課程</h3>
+                            <div class="courses-grid" id="semesterCourses">
+                                <!-- Course 1 -->
+                                <div class="course-card" data-category="digital" data-id="course1">
+                                    <div class="course-header">
+                                        <span class="course-category">數位科技</span>
+                                        <span class="course-status status-available">可選課</span>
+                                    </div>
+                                    <h4 class="course-name">智慧手機應用進階班</h4>
+                                    <div class="course-teacher">
+                                        <span>👨‍🏫</span>
+                                        <span>李志明老師</span>
+                                    </div>
+                                    <div class="course-info-grid">
+                                        <div class="course-info-item">
+                                            <span>📅</span>
+                                            <span>週二 14:00-16:00</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>👥</span>
+                                            <span>20人 (已8人)</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>📍</span>
+                                            <span>電腦教室A</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>⏰</span>
+                                            <span>12週課程</span>
+                                        </div>
+                                    </div>
+                                    <p class="course-description">
+                                        深入學習手機攝影技巧、社群媒體應用、雲端服務使用等進階功能，讓您成為手機應用達人。
+                                    </p>
+                                    <div class="course-actions">
+                                        <button class="select-btn" onclick="toggleCourse('course1', '智慧手機應用進階班')">
+                                            <span>📱</span>
+                                            <span>我想修這門課</span>
+                                        </button>
+                                        <button class="info-btn" onclick="showCourseInfo('course1')" title="詳細資訊">
+                                            ℹ️
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Course 2 -->
+                                <div class="course-card" data-category="art" data-id="course2">
+                                    <div class="course-header">
+                                        <span class="course-category">藝術創作</span>
+                                        <span class="course-status status-limited">名額有限</span>
+                                    </div>
+                                    <h4 class="course-name">水彩畫基礎班</h4>
+                                    <div class="course-teacher">
+                                        <span>👩‍🎨</span>
+                                        <span>陳美娟老師</span>
+                                    </div>
+                                    <div class="course-info-grid">
+                                        <div class="course-info-item">
+                                            <span>📅</span>
+                                            <span>週四 09:00-11:00</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>👥</span>
+                                            <span>15人 (已12人)</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>📍</span>
+                                            <span>美術教室</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>⏰</span>
+                                            <span>16週課程</span>
+                                        </div>
+                                    </div>
+                                    <p class="course-description">
+                                        從基礎的色彩理論到實際創作技巧，帶您進入水彩畫的美妙世界，培養藝術興趣與美感。
+                                    </p>
+                                    <div class="course-actions">
+                                        <button class="select-btn" onclick="toggleCourse('course2', '水彩畫基礎班')">
+                                            <span>🎨</span>
+                                            <span>我想修這門課</span>
+                                        </button>
+                                        <button class="info-btn" onclick="showCourseInfo('course2')" title="詳細資訊">
+                                            ℹ️
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Course 3 -->
+                                <div class="course-card" data-category="health" data-id="course3">
+                                    <div class="course-header">
+                                        <span class="course-category">健康養生</span>
+                                        <span class="course-status status-available">可選課</span>
+                                    </div>
+                                    <h4 class="course-name">銀髮族瑜珈班</h4>
+                                    <div class="course-teacher">
+                                        <span>🧘‍♀️</span>
+                                        <span>王雅芳老師</span>
+                                    </div>
+                                    <div class="course-info-grid">
+                                        <div class="course-info-item">
+                                            <span>📅</span>
+                                            <span>週一 10:00-11:30</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>👥</span>
+                                            <span>25人 (已5人)</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>📍</span>
+                                            <span>多功能教室</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>⏰</span>
+                                            <span>12週課程</span>
+                                        </div>
+                                    </div>
+                                    <p class="course-description">
+                                        專為銀髮族設計的溫和瑜珈課程，改善身體柔軟度、平衡感，促進身心健康。
+                                    </p>
+                                    <div class="course-actions">
+                                        <button class="select-btn" onclick="toggleCourse('course3', '銀髮族瑜珈班')">
+                                            <span>🧘</span>
+                                            <span>我想修這門課</span>
+                                        </button>
+                                        <button class="info-btn" onclick="showCourseInfo('course3')" title="詳細資訊">
+                                            ℹ️
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Course 4 -->
+                                <div class="course-card" data-category="life" data-id="course4">
+                                    <div class="course-header">
+                                        <span class="course-category">生活應用</span>
+                                        <span class="course-status status-available">可選課</span>
+                                    </div>
+                                    <h4 class="course-name">居家園藝種植班</h4>
+                                    <div class="course-teacher">
+                                        <span>🌱</span>
+                                        <span>趙綠茵老師</span>
+                                    </div>
+                                    <div class="course-info-grid">
+                                        <div class="course-info-item">
+                                            <span>📅</span>
+                                            <span>週三 14:00-16:00</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>👥</span>
+                                            <span>18人 (已6人)</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>📍</span>
+                                            <span>戶外花園</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>⏰</span>
+                                            <span>10週課程</span>
+                                        </div>
+                                    </div>
+                                    <p class="course-description">
+                                        學習在家中種植香草、蔬菜，享受園藝樂趣，同時獲得新鮮無毒的農作物。
+                                    </p>
+                                    <div class="course-actions">
+                                        <button class="select-btn" onclick="toggleCourse('course4', '居家園藝種植班')">
+                                            <span>🌿</span>
+                                            <span>我想修這門課</span>
+                                        </button>
+                                        <button class="info-btn" onclick="showCourseInfo('course4')" title="詳細資訊">
+                                            ℹ️
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Course 5 -->
+                                <div class="course-card" data-category="language" data-id="course5">
+                                    <div class="course-header">
+                                        <span class="course-category">語言學習</span>
+                                        <span class="course-status status-available">可選課</span>
+                                    </div>
+                                    <h4 class="course-name">旅遊英語會話班</h4>
+                                    <div class="course-teacher">
+                                        <span>🌍</span>
+                                        <span>Linda Johnson老師</span>
+                                    </div>
+                                    <div class="course-info-grid">
+                                        <div class="course-info-item">
+                                            <span>📅</span>
+                                            <span>週五 10:00-12:00</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>👥</span>
+                                            <span>20人 (已10人)</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>📍</span>
+                                            <span>語言教室</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>⏰</span>
+                                            <span>14週課程</span>
+                                        </div>
+                                    </div>
+                                    <p class="course-description">
+                                        學習實用的旅遊英語對話，包含機場、飯店、餐廳、購物等情境會話。
+                                    </p>
+                                    <div class="course-actions">
+                                        <button class="select-btn" onclick="toggleCourse('course5', '旅遊英語會話班')">
+                                            <span>✈️</span>
+                                            <span>我想修這門課</span>
+                                        </button>
+                                        <button class="info-btn" onclick="showCourseInfo('course5')" title="詳細資訊">
+                                            ℹ️
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Course 6 -->
+                                <div class="course-card" data-category="art" data-id="course6">
+                                    <div class="course-header">
+                                        <span class="course-category">藝術創作</span>
+                                        <span class="course-status status-full">額滿候補</span>
+                                    </div>
+                                    <h4 class="course-name">手工藝創作班</h4>
+                                    <div class="course-teacher">
+                                        <span>✂️</span>
+                                        <span>張巧手老師</span>
+                                    </div>
+                                    <div class="course-info-grid">
+                                        <div class="course-info-item">
+                                            <span>📅</span>
+                                            <span>週二 09:00-11:00</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>👥</span>
+                                            <span>12人 (已額滿)</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>📍</span>
+                                            <span>手工藝教室</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>⏰</span>
+                                            <span>15週課程</span>
+                                        </div>
+                                    </div>
+                                    <p class="course-description">
+                                        學習拼布、編織、串珠等多種手工藝技巧，製作實用又美觀的生活用品。
+                                    </p>
+                                    <div class="course-actions">
+                                        <button class="select-btn" onclick="toggleCourse('course6', '手工藝創作班')" disabled>
+                                            <span>✂️</span>
+                                            <span>課程已額滿</span>
+                                        </button>
+                                        <button class="info-btn" onclick="showCourseInfo('course6')" title="詳細資訊">
+                                            ℹ️
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 暑期課程 -->
+                        <div class="semester-group">
+                            <h3 class="semester-title">2025年暑期特別課程</h3>
+                            <div class="courses-grid">
+                                <!-- Summer Course 1 -->
+                                <div class="course-card" data-category="life" data-id="summer1">
+                                    <div class="course-header">
+                                        <span class="course-category">生活應用</span>
+                                        <span class="course-status status-available">可選課</span>
+                                    </div>
+                                    <h4 class="course-name">生態攝影實戰營</h4>
+                                    <div class="course-teacher">
+                                        <span>📸</span>
+                                        <span>黃自然老師</span>
+                                    </div>
+                                    <div class="course-info-grid">
+                                        <div class="course-info-item">
+                                            <span>📅</span>
+                                            <span>7/15-7/26</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>👥</span>
+                                            <span>12人 (已3人)</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>📍</span>
+                                            <span>戶外拍攝</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>⏰</span>
+                                            <span>2週密集</span>
+                                        </div>
+                                    </div>
+                                    <p class="course-description">
+                                        戶外實地拍攝，學習自然生態攝影技巧，記錄台灣美麗的自然風光。
+                                    </p>
+                                    <div class="course-actions">
+                                        <button class="select-btn" onclick="toggleCourse('summer1', '生態攝影實戰營')">
+                                            <span>📸</span>
+                                            <span>我想修這門課</span>
+                                        </button>
+                                        <button class="info-btn" onclick="showCourseInfo('summer1')" title="詳細資訊">
+                                            ℹ️
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Summer Course 2 -->
+                                <div class="course-card" data-category="art" data-id="summer2">
+                                    <div class="course-header">
+                                        <span class="course-category">藝術創作</span>
+                                        <span class="course-status status-limited">名額有限</span>
+                                    </div>
+                                    <h4 class="course-name">書法藝術體驗營</h4>
+                                    <div class="course-teacher">
+                                        <span>🖌️</span>
+                                        <span>文雅書老師</span>
+                                    </div>
+                                    <div class="course-info-grid">
+                                        <div class="course-info-item">
+                                            <span>📅</span>
+                                            <span>8/5-8/16</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>👥</span>
+                                            <span>10人 (已8人)</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>📍</span>
+                                            <span>書法教室</span>
+                                        </div>
+                                        <div class="course-info-item">
+                                            <span>⏰</span>
+                                            <span>2週密集</span>
+                                        </div>
+                                    </div>
+                                    <p class="course-description">
+                                        體驗傳統書法藝術之美，學習基礎筆法，感受文字之美與心靈沉靜。
+                                    </p>
+                                    <div class="course-actions">
+                                        <button class="select-btn" onclick="toggleCourse('summer2', '書法藝術體驗營')">
+                                            <span>🖌️</span>
+                                            <span>我想修這門課</span>
+                                        </button>
+                                        <button class="info-btn" onclick="showCourseInfo('summer2')" title="詳細資訊">
+                                            ℹ️
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Sidebar -->
+            <aside class="right-sidebar">
+                <!-- Progress Card -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <span>📋</span>
+                        選課流程
+                    </h3>
+                    <div class="progress-container">
+                        <div class="progress-steps">
+                            <div class="progress-line"></div>
+                            <div class="step active">
+                                <div class="step-circle">1</div>
+                                <div class="step-label">選擇課程</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-circle">2</div>
+                                <div class="step-label">提交意願</div>
+                            </div>
+                            <div class="step">
+                                <div class="step-circle">3</div>
+                                <div class="step-label">協助選課</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Card -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <span>📚</span>
+                        選課統計
+                    </h3>
+                    
+                    <div class="summary-stats">
+                        <div class="stat-card">
+                            <div class="stat-number" id="selectedCount">0</div>
+                            <div class="stat-label">已選課程</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalHours">0</div>
+                            <div class="stat-label">總學時</div>
+                        </div>
+                    </div>
+
+                    <div class="selected-courses-list" id="selectedCoursesList">
+                        <div class="empty-selection">
+                            <span>📝</span>
+                            <div>尚未選擇任何課程</div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="primary-btn" id="submitBtn" onclick="submitEnrollment()" disabled>
+                            提交選課意願
+                        </button>
+                        <button class="secondary-btn" onclick="clearAllCourses()">
+                            清空所有選擇
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Help Card -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <span>❓</span>
+                        需要協助？
+                    </h3>
+                    <div class="help-info">
+                        <div class="help-item">
+                            <span class="help-icon">💡</span>
+                            <span class="help-text">這是意願登記，實際選課由我們協助處理</span>
+                        </div>
+                        <div class="help-item">
+                            <span class="help-icon">📞</span>
+                            <span class="help-text">諮詢專線：04-2632-8001轉17031</span>
+                        </div>
+                        <div class="help-item">
+                            <span class="help-icon">✉️</span>
+                            <span class="help-text">信箱：pu20640@pu.edu.tw</span>
+                        </div>
+                        <div class="help-item">
+                            <span class="help-icon">🕐</span>
+                            <span class="help-text">服務時間：週一至週五 09:00-17:00</span>
+                        </div>
+                        <div class="help-item">
+                            <span class="help-icon">⚠️</span>
+                            <span class="help-text">提交後3個工作日內會聯絡您</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <script>
+        // 全域變數
+        let selectedCourses = new Set();
+        let courseData = {
+            'course1': { name: '智慧手機應用進階班', hours: 24 },
+            'course2': { name: '水彩畫基礎班', hours: 32 },
+            'course3': { name: '銀髮族瑜珈班', hours: 18 },
+            'course4': { name: '居家園藝種植班', hours: 20 },
+            'course5': { name: '旅遊英語會話班', hours: 28 },
+            'course6': { name: '手工藝創作班', hours: 30 },
+            'summer1': { name: '生態攝影實戰營', hours: 16 },
+            'summer2': { name: '書法藝術體驗營', hours: 16 }
+        };
+
+        // 課程篩選功能
+        function filterCourses(category) {
+            const filterBtns = document.querySelectorAll('.filter-tab');
+            const courseCards = document.querySelectorAll('.course-card');
+            
+            // 更新篩選按鈕狀態
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // 篩選課程卡片
+            courseCards.forEach(card => {
+                const cardCategory = card.dataset.category;
+                if (category === 'all' || cardCategory === category) {
+                    card.style.display = 'block';
+                    // 添加漸入動畫
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+        }
+
+        // 切換課程選擇
+        function toggleCourse(courseId, courseName) {
+            const button = event.target.closest('.select-btn');
+            const card = document.querySelector(`[data-id="${courseId}"]`);
+            
+            if (button.disabled) return;
+            
+            if (selectedCourses.has(courseId)) {
+                // 取消選擇
+                selectedCourses.delete(courseId);
+                button.classList.remove('selected');
+                button.innerHTML = `
+                    <span>${button.querySelector('span:first-child').textContent}</span>
+                    <span>我想修這門課</span>
+                `;
+                card.classList.remove('selected');
+            } else {
+                // 新增選擇
+                selectedCourses.add(courseId);
+                button.classList.add('selected');
+                button.innerHTML = `
+                    <span>✓</span>
+                    <span>已選擇</span>
+                `;
+                card.classList.add('selected');
+            }
+            
+            updateSummary();
+        }
+
+        // 更新選課統計
+        function updateSummary() {
+            const selectedCount = selectedCourses.size;
+            const totalHours = Array.from(selectedCourses).reduce((sum, courseId) => {
+                return sum + (courseData[courseId]?.hours || 0);
+            }, 0);
+            
+            // 更新統計數字
+            document.getElementById('selectedCount').textContent = selectedCount;
+            document.getElementById('totalHours').textContent = totalHours;
+            
+            // 更新選課列表
+            const coursesList = document.getElementById('selectedCoursesList');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            if (selectedCount === 0) {
+                coursesList.innerHTML = `
+                    <div class="empty-selection">
+                        <span>📝</span>
+                        <div>尚未選擇任何課程</div>
+                    </div>
+                `;
+                submitBtn.disabled = true;
+            } else {
+                let listHTML = '';
+                selectedCourses.forEach(courseId => {
+                    const course = courseData[courseId];
+                    listHTML += `
+                        <div class="selected-course-item">
+                            <span class="course-item-name">${course.name}</span>
+                            <button class="remove-course-btn" onclick="removeCourse('${courseId}')" title="移除課程">
+                                ✕
+                            </button>
+                        </div>
+                    `;
+                });
+                coursesList.innerHTML = listHTML;
+                submitBtn.disabled = false;
+            }
+        }
+
+        // 移除單一課程
+        function removeCourse(courseId) {
+            const button = document.querySelector(`[data-id="${courseId}"] .select-btn`);
+            const card = document.querySelector(`[data-id="${courseId}"]`);
+            
+            selectedCourses.delete(courseId);
+            button.classList.remove('selected');
+            button.innerHTML = `
+                <span>${button.querySelector('span:first-child').textContent}</span>
+                <span>我想修這門課</span>
+            `;
+            card.classList.remove('selected');
+            
+            updateSummary();
+        }
+
+        // 清空所有選擇
+        function clearAllCourses() {
+            if (selectedCourses.size === 0) return;
+            
+            if (confirm('確定要清空所有選擇的課程嗎？')) {
+                selectedCourses.forEach(courseId => {
+                    const button = document.querySelector(`[data-id="${courseId}"] .select-btn`);
+                    const card = document.querySelector(`[data-id="${courseId}"]`);
+                    
+                    button.classList.remove('selected');
+                    button.innerHTML = `
+                        <span>${button.querySelector('span:first-child').textContent}</span>
+                        <span>我想修這門課</span>
+                    `;
+                    card.classList.remove('selected');
+                });
+                
+                selectedCourses.clear();
+                updateSummary();
+            }
+        }
+
+        // 提交選課意願
+        function submitEnrollment() {
+            if (selectedCourses.size === 0) {
+                alert('請至少選擇一門課程');
+                return;
+            }
+            
+            const courseNames = Array.from(selectedCourses).map(id => courseData[id].name);
+            const totalHours = Array.from(selectedCourses).reduce((sum, id) => sum + courseData[id].hours, 0);
+            
+            const message = `確認提交以下選課意願：\n\n${courseNames.map(name => `• ${name}`).join('\n')}\n\n總計：${selectedCourses.size}門課程，${totalHours}學時\n\n我們將在3個工作日內聯絡您協助完成正式選課手續。`;
+            
+            if (confirm(message)) {
+                // 模擬提交成功
+                alert('選課意願提交成功！\n\n感謝您的申請，我們會儘快聯絡您協助完成正式選課手續。\n\n如有任何問題，請撥打 04-2632-8001轉17031');
+                
+                // 更新進度步驟
+                updateProgressSteps();
+                
+                // 清空選擇
+                setTimeout(() => {
+                    clearAllCourses();
+                }, 2000);
+            }
+        }
+
+        // 更新進度步驟
+        function updateProgressSteps() {
+            const steps = document.querySelectorAll('.step');
+            steps[0].classList.remove('active');
+            steps[0].classList.add('completed');
+            steps[1].classList.add('active');
+            
+            // 更新圓圈內容
+            steps[0].querySelector('.step-circle').textContent = '✓';
+        }
+
+        // 顯示課程詳細資訊
+        function showCourseInfo(courseId) {
+            const course = courseData[courseId];
+            const card = document.querySelector(`[data-id="${courseId}"]`);
+            const courseName = card.querySelector('.course-name').textContent;
+            const teacher = card.querySelector('.course-teacher').textContent;
+            const description = card.querySelector('.course-description').textContent;
+            
+            alert(`課程詳細資訊\n\n${courseName}\n${teacher}\n\n課程介紹：\n${description}\n\n更多詳細資訊請聯絡教務處：04-2632-8001轉17031`);
+        }
+
+        // 搜尋功能
+        function searchCourses(searchTerm) {
+            const cards = document.querySelectorAll('.course-card');
+            const term = searchTerm.toLowerCase();
+            
+            cards.forEach(card => {
+                const courseName = card.querySelector('.course-name').textContent.toLowerCase();
+                const teacher = card.querySelector('.course-teacher').textContent.toLowerCase();
+                const description = card.querySelector('.course-description').textContent.toLowerCase();
+                
+                const matches = courseName.includes(term) || 
+                               teacher.includes(term) || 
+                               description.includes(term);
+                
+                card.style.display = matches ? 'block' : 'none';
+            });
+        }
+
+        // 初始化頁面
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化統計
+            updateSummary();
+            
+            // 綁定搜尋功能
+            const headerSearch = document.getElementById('headerSearch');
+            if (headerSearch) {
+                headerSearch.addEventListener('input', function() {
+                    searchCourses(this.value);
+                });
+            }
+            
+            // 添加載入動畫
+            const elements = document.querySelectorAll('.course-card, .sidebar-card, .filter-section, .courses-section');
+            elements.forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    element.style.transition = 'all 0.6s ease';
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+            
+            // 鍵盤快速鍵
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    // ESC 清空搜尋
+                    if (headerSearch) {
+                        headerSearch.value = '';
+                        searchCourses('');
+                    }
+                }
+                if (e.ctrlKey && e.key === 's') {
+                    e.preventDefault();
+                    if (selectedCourses.size > 0) {
+                        submitEnrollment();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+                                        
