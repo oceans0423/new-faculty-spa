@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>常見問題 - 第三人生大學</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #FF8A65;
+            --primary-dark: #FF7043;
+            --secondary-color: #26C6DA;
+            --accent-color: #667eea;
+            --success-color: #4CAF50;
+            --warning-color: #FF9800;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --text-light: #999;
+            --bg-primary: #fafafa;
+            --bg-secondary: #ffffff;
+            --border-color: #e0e0e0;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.08);
+            --shadow-medium: 0 4px 20px rgba(0,0,0,0.12);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        /* --- Header --- */
+        .header {
+            background: white;
+            box-shadow: var(--shadow-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .login-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .login-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* --- Main Content --- */
+        .main-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .breadcrumb {
+            margin-bottom: 30px;
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .breadcrumb-link:hover {
+            color: var(--primary-color);
+        }
+        
+        .breadcrumb-separator { color: var(--text-light); }
+        .breadcrumb-current { color: var(--primary-color); font-weight: 500; }
+
+        /* --- Page Header --- */
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- FAQ Container --- */
+        .faq-container {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            box-shadow: var(--shadow-light);
+            overflow: hidden;
+        }
+        
+        .faq-item {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background-color: #f8f8f8;
+        }
+
+        .faq-question h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin: 0;
+            padding-right: 20px;
+        }
+
+        .faq-toggle-icon {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--primary-color);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+        }
+        
+        .faq-answer p {
+            padding: 0 24px 20px 24px;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        
+        /* Active state for accordion */
+        .faq-item.active .faq-question {
+            background-color: rgba(255, 138, 101, 0.05);
+        }
+        
+        .faq-item.active .faq-toggle-icon {
+            transform: rotate(45deg);
+        }
+
+        /* --- Contact CTA --- */
+        .contact-cta {
+            margin-top: 60px;
+            text-align: center;
+            padding: 40px;
+            background: #f8f9fa;
+            border-radius: 16px;
+        }
+        
+        .contact-cta h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .contact-cta p {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+        
+        .contact-btn {
+            background: var(--secondary-color);
+            color: white;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .contact-btn:hover {
+            background: #20b1c5;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* --- Footer --- */
+        .footer {
+            background: #2C3E50;
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .footer-section p, .footer-section a {
+            color: #BDC3C7;
+            text-decoration: none;
+            line-height: 1.8;
+            font-size: 0.9rem;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #34495E;
+            color: #95A5A6;
+            font-size: 0.9rem;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .nav-menu { display: none; }
+            .page-title { font-size: 2rem; }
+            .faq-question h3 { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="third_life_university_homepage.html" class="logo">第三人生大學</a>
+            <nav class="nav-menu">
+                <a href="third_life_university_homepage.html" class="nav-link">首頁</a>
+                <a href="course_overview_page.html" class="nav-link">課程介紹</a>
+                <a href="faculty_page.html" class="nav-link">師資陣容</a>
+                <a href="about_us.html" class="nav-link">關於我們</a>
+                <a href="#" class="nav-link active">常見問題</a>
+            </nav>
+            <div class="user-info">
+                <button class="login-btn">登入/註冊</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <div class="breadcrumb">
+            <div class="breadcrumb-list">
+                <a href="third_life_university_homepage.html" class="breadcrumb-link">首頁</a>
+                <span class="breadcrumb-separator">></span>
+                <span class="breadcrumb-current">常見問題</span>
+            </div>
+        </div>
+
+        <header class="page-header">
+            <h1 class="page-title">常見問題</h1>
+            <p class="page-subtitle">我們整理了學員們最常提出的問題，希望能幫助您快速找到解答。如果仍有疑問，歡迎隨時與我們聯繫。</p>
+        </header>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>參加這個計畫的學費嗎？是怎麼計算的？</h3>
+                    <span class="faq-toggle-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>我們的收費方式比照大學進修部的學分費標準，讓您能以親民的價格享受優質的大學教育資源。每門課程會根據其學分數收取對應的學分費，部分實作課程可能會酌收少許材料費。詳細的費用會在每門課的課程大綱中清楚標示，完全公開透明。</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>這個計畫是給誰參加的？年齡有什麼限制？</h3>
+                    <span class="faq-toggle-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>本計畫主要為55歲以上的中高齡學習者設計。但我們相信學習無關年齡，只要您對終身學習抱有熱情，都非常歡迎您加入我們這個大家庭。我們更鼓勵跨世代的交流與共學，讓不同年齡層的智慧與經驗在此交會。</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>如果我現在已經在學校的推廣教育部修課，還可以參加這個計畫嗎？</h3>
+                    <span class="faq-toggle-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>絕對可以！「第三人生大學」計畫與推廣教育部的課程是各自獨立的，您可以同時參加。兩邊的課程設計與目標各有側重，您可以根據自己的興趣與需求自由搭配，讓您的學習藍圖更加豐富多元。</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>這些課程只能在白天上嗎？可以晚上或假日上午嗎？</h3>
+                    <span class="faq-toggle-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>我們充分考慮到學員們不同的時間安排。目前課程主要安排在週間的白天，但我們也正積極規劃晚間與週末的課程。若有特定時段的需求，歡迎向我們反應，您的建議是我們未來開課的重要參考！</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>參加這個計畫的學生有正式學籍嗎？如果中途不想上了怎麼辦？</h3>
+                    <span class="faq-toggle-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>本計畫學員屬於進修部學員，具有正式學籍，可享有學生相關權益（如學生票、圖書館資源等）。我們理解學習路上可能會有各種規劃，若您中途因故需暫停學習，可以依學校規定辦理休學，保留學籍，待方便時再回來完成學業。</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>我之前在樂齡大學上過課，這些課程可以折抵學分嗎？</h3>
+                    <span class="faq-toggle-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>由於「第三人生大學」是具備正式學籍與學分的計畫，與樂齡大學的課程體系不同，因此目前無法直接折抵學分。但我們非常肯定您過去的學習經驗，這些寶貴的知識與經歷，絕對能幫助您在我們的課程中學得更快、更深入。</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>請問參加這個計畫是否有學歷限制呢？</h3>
+                    <span class="faq-toggle-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>完全沒有學歷限制！我們秉持終身學習與教育平權的精神，無論您過去的學歷背景為何，只要您有學習的熱忱，我們都張開雙臂歡迎。我們相信，生命的智慧比學歷證書更加珍貴。</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>請問我可以進到大學自行選修科系嗎？</h3>
+                    <span class="faq-toggle-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>本計畫的課程是我們特別為熟齡學習者精心規劃的跨領域課程模組，因此無法直接選修大學部其他科系的課程。不過，我們會定期舉辦各種通識講座、工作坊，並鼓勵與大學部學生進行交流活動，讓您能充分體驗豐富的大學學習氛圍。</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>請問我要報名，可以如何與各校聯繫？</h3>
+                    <span class="faq-toggle-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>本計畫目前由「靜宜大學」主導試辦。您可以直接透過本網站的「課程介紹」頁面進行線上報名意願登記，或直接撥打我們的服務專線：(04) 2632-8001 轉 17031，我們的課程顧問將很樂意為您提供一對一的諮詢與報名協助。</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>請問可以提供第三人生大學試辦計畫的詳細規定嗎？</h3>
+                    <span class="faq-toggle-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>當然可以。本試辦計畫依循教育部的指導方針，並由靜宜大學制定相關的學員章程與修業規定。我們已將詳細的計畫說明與規定整理成文件，您可以點擊此處 <a href="#" onclick="alert('功能開發中，將提供計畫簡章下載連結。')">下載計畫簡章</a>，或親至我們的辦公室索取紙本資料。</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="contact-cta">
+            <h3>還有其他問題嗎？</h3>
+            <p>我們的課程顧問隨時準備好為您服務，歡迎隨時與我們聯繫。</p>
+            <a href="#" class="contact-btn" onclick="alert('功能開發中，將導向聯絡我們頁面或彈出聯絡資訊。')">聯絡課程顧問</a>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>聯絡資訊</h3>
+                <p>📍 433303臺中市沙鹿區臺灣大道7段200號</p>
+                <p>📞 04-2632-8001轉17031</p>
+                <p>✉️ pu20640@pu.edu.tw</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速連結</h3>
+                <p><a href="course_overview_page.html">課程總覽</a></p>
+                <p><a href="#">報名方式</a></p>
+                <p><a href="#">常見問題</a></p>
+                <p><a href="student_dashboard.html">學員專區</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>關於我們</h3>
+                <p><a href="#">辦學理念</a></p>
+                <p><a href="faculty_page.html">師資團隊</a></p>
+                <p><a href="#">校園環境</a></p>
+                <p><a href="#">隱私政策</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>社群連結</h3>
+                <p><a href="#">Facebook</a></p>
+                <p><a href="#">Instagram</a></p>
+                <p><a href="#">LINE官方帳號</a></p>
+                <p><a href="#">YouTube頻道</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 第三人生大學. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const faqItems = document.querySelectorAll('.faq-item');
+
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                const answer = item.querySelector('.faq-answer');
+
+                question.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    
+                    // Close all items
+                    faqItems.forEach(i => {
+                        i.classList.remove('active');
+                        i.querySelector('.faq-answer').style.maxHeight = null;
+                    });
+                    
+                    // Open the clicked item if it wasn't active
+                    if (!isActive) {
+                        item.classList.add('active');
+                        answer.style.maxHeight = answer.scrollHeight + "px";
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

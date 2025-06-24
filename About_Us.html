@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>關於我們 - 第三人生大學</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #FF8A65;
+            --primary-dark: #FF7043;
+            --secondary-color: #26C6DA;
+            --accent-color: #667eea;
+            --success-color: #4CAF50;
+            --warning-color: #FF9800;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --text-light: #999;
+            --bg-primary: #fafafa;
+            --bg-secondary: #ffffff;
+            --border-color: #e0e0e0;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.08);
+            --shadow-medium: 0 4px 20px rgba(0,0,0,0.12);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        /* --- Header --- */
+        .header {
+            background: white;
+            box-shadow: var(--shadow-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .login-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .login-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* --- Main Content --- */
+        .main-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .breadcrumb {
+            margin-bottom: 30px;
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .breadcrumb-link:hover {
+            color: var(--primary-color);
+        }
+        
+        .breadcrumb-separator { color: var(--text-light); }
+        .breadcrumb-current { color: var(--primary-color); font-weight: 500; }
+
+        /* --- Hero Section --- */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* --- Content Sections --- */
+        .content-section {
+            margin-bottom: 80px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--accent-color);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .section-tag.local {
+            background: rgba(255, 138, 101, 0.1);
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .section-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        /* --- Tabs for MoE Guidelines --- */
+        .tabs-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-light);
+            overflow: hidden;
+        }
+
+        .tab-navigation {
+            display: flex;
+            background: #f8f9fa;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 16px 20px;
+            border: none;
+            background: transparent;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .tab-content-container {
+            padding: 30px;
+        }
+
+        .tab-content {
+            display: none;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* --- Timeline --- */
+        .timeline-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 3px;
+            background: var(--border-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1.5px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: white;
+            border: 4px solid var(--primary-color);
+            top: 20px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .timeline-left {
+            left: 0;
+        }
+
+        .timeline-right {
+            left: 50%;
+        }
+
+        .timeline-right::after {
+            left: -10px;
+        }
+
+        .timeline-content {
+            padding: 20px 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-light);
+            position: relative;
+        }
+        
+        .timeline-content .date {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+        
+        .timeline-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+        
+        .timeline-content p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        /* Learning Modules Section */
+        .modules-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .module-card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--shadow-light);
+            border-left: 5px solid var(--secondary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .module-card:nth-child(2) { border-color: var(--accent-color); }
+        .module-card:nth-child(3) { border-color: var(--success-color); }
+        
+        .module-card:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .module-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .module-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+        
+        .module-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .module-description {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            padding-left: 40px;
+        }
+
+        /* --- CTA Section --- */
+        .cta-section {
+            background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+            color: white;
+            padding: 60px 40px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        
+        .cta-text {
+            font-size: 1.1rem;
+            margin-bottom: 32px;
+            opacity: 0.9;
+        }
+        
+        .cta-btn {
+            background: white;
+            color: var(--accent-color);
+            padding: 14px 32px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* --- Footer --- */
+        .footer {
+            background: #2C3E50;
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .footer-section p, .footer-section a {
+            color: #BDC3C7;
+            text-decoration: none;
+            line-height: 1.8;
+            font-size: 0.9rem;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #34495E;
+            color: #95A5A6;
+            font-size: 0.9rem;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .nav-menu { display: none; }
+            .hero-title { font-size: 2.2rem; }
+            .section-title { font-size: 1.8rem; }
+            
+            .timeline-container::after { left: 10px; }
+            .timeline-item { width: 100%; padding-left: 50px; padding-right: 0; }
+            .timeline-right { left: 0%; }
+            .timeline-item::after, .timeline-right::after { left: 1px; }
+
+            .tab-navigation { flex-wrap: wrap; }
+            .tab-btn { flex-grow: 1; flex-basis: 33%; }
+        }
+
+        /* --- Animations --- */
+        .animated {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .animated.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="third_life_university_homepage.html" class="logo">第三人生大學</a>
+            <nav class="nav-menu">
+                <a href="third_life_university_homepage.html" class="nav-link">首頁</a>
+                <a href="course_overview_page.html" class="nav-link">課程介紹</a>
+                <a href="faculty_page.html" class="nav-link">師資陣容</a>
+                <a href="#" class="nav-link active">關於我們</a>
+                <a href="news_page.html" class="nav-link">最新消息</a>
+            </nav>
+            <div class="user-info">
+                <button class="login-btn">登入/註冊</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <div class="breadcrumb">
+            <div class="breadcrumb-list">
+                <a href="third_life_university_homepage.html" class="breadcrumb-link">首頁</a>
+                <span class="breadcrumb-separator">></span>
+                <span class="breadcrumb-current">關於我們</span>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <section class="hero-section animated">
+            <h1 class="hero-title">學習，是開啟第三人生的鑰匙</h1>
+            <p class="hero-subtitle">我們相信，生命的智慧不因年齡而凋零，反而隨歲月更顯豐厚。第三人生大學，是一個專為55歲以上朋友打造的學習與交流平台，致力於讓人生下半場，成為最精彩的篇章。</p>
+        </section>
+
+        <!-- MoE Guidelines Section -->
+        <section class="content-section animated">
+             <div class="section-header">
+                <span class="section-tag">National Vision</span>
+                <h2 class="section-title">響應國家願景：教育部的指導方針</h2>
+                <p class="section-description">本計畫響應教育部推動之高齡學習政策，以官方三大核心理念為基礎，打造一個具公信力且符合社會期待的學習平台。</p>
+            </div>
+            <div class="tabs-container">
+                <div class="tab-navigation">
+                    <button class="tab-btn active" onclick="openTab(event, 'philosophy')">學習理念</button>
+                    <button class="tab-btn" onclick="openTab(event, 'values')">核心價值</button>
+                    <button class="tab-btn" onclick="openTab(event, 'content')">學習內容</button>
+                </div>
+                <div class="tab-content-container">
+                    <div id="philosophy" class="tab-content active">
+                        <p>第三人生大學相信學習無關年齡，而是一種態度。我們鼓勵55歲以上的學習者在新階段勇敢探索，發展個人潛能，實現心中的理想。</p>
+                    </div>
+                    <div id="values" class="tab-content">
+                        <p>致力於促進終身學習文化，強調「全人健康、生涯轉型、社會連結」三大專業知能，幫助55歲以上中高齡者持續成長、拓展人際網絡，並透過學習累積新知識與技能，開創更豐富的人生。同時希望翻轉社會對中高齡者的既定印象，展現活力與貢獻，讓高齡化社會成為新機遇，而非挑戰。</p>
+                    </div>
+                    <div id="content" class="tab-content">
+                        <p>透過大學資源與專業師資，開設多元跨領域課程，涵蓋健康促進、職涯發展、社會參與、科技應用、人文藝術等領域。並與政府、企業及社會團體合作，提供更完整的學習支持系統。計畫將透過實體與線上課程並行的方式，讓學習更具彈性，並鼓勵世代共學，促進不同年齡層的交流互動。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Our School's Blueprint Section -->
+        <section class="content-section animated">
+            <div class="section-header">
+                <span class="section-tag local">Our Blueprint</span>
+                <h2 class="section-title">靜宜大學的實踐藍圖</h2>
+                <p class="section-description">承襲教育部指導方針，我們結合靜宜大學在人文學科的深厚底蘊，設計出獨特的「學習即行動」轉型模式，將抽象理念轉化為具體實踐。</p>
+            </div>
+        </section>
+
+
+        <!-- Founding Story -->
+        <section class="content-section animated">
+            <div class="section-header">
+                <h2 class="section-title">我們的起點</h2>
+                 <p class="section-description">當台灣即將於2025年邁入超高齡社會，我們看見一個重要的轉型契機。過去的樂齡教育多以休閒為主，但我們觀察到，現代熟齡族群更渴望找到新的生命角色與價值。因此，這個計畫應運而生。</p>
+            </div>
+            <div class="timeline-container">
+                <div class="timeline-item timeline-left animated">
+                    <div class="timeline-content">
+                        <div class="date">計畫動機</div>
+                        <h3>看見真實需求</h3>
+                        <p>我們發現，許多熟齡學習者需要的，不只是興趣課程，而是一個能協助他們進行「生涯轉型」、將豐厚生命經驗轉化為社會貢獻的系統化支持平台。</p>
+                    </div>
+                </div>
+                <div class="timeline-item timeline-right animated">
+                    <div class="timeline-content">
+                        <div class="date">學校優勢</div>
+                        <h3>大學資源的投入</h3>
+                        <p>本計畫由靜宜大學台灣文學系、中國文學系與生態人文學系共同主導，憑藉大學深厚的師資與學術資源，從人文關懷出發，為熟齡族群量身打造課程。</p>
+                    </div>
+                </div>
+                <div class="timeline-item timeline-left animated">
+                    <div class="timeline-content">
+                        <div class="date">核心目標</div>
+                        <h3>建立轉型平台</h3>
+                        <p>我們的目標是建立一個跨領域的學習平台，透過「從學習到行動」的轉型機制，鼓勵學員進行文化創新、社會參與及環境實踐，發揮新的社會價值。</p>
+                    </div>
+                </div>
+                <div class="timeline-item timeline-right animated">
+                    <div class="timeline-content">
+                        <div class="date">正式啟動</div>
+                        <h3>第三人生大學的誕生</h3>
+                        <p>基於以上理念，「第三人生大學」試辦計畫正式啟動。我們期許能陪伴每一位學習者，共同探索、成長，並在這個社會中持續發光發熱。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Learning Content -->
+        <section class="content-section animated">
+             <div class="section-header">
+                <h2 class="section-title">不只是學習，更是從知識到行動的旅程</h2>
+                <p class="section-description">我們的課程設計核心是「學習即行動」。所有課程都以支持學員「從學習者轉變為行動者」為導向，並規劃了三大核心學習模組：</p>
+            </div>
+            <div class="modules-container">
+                <div class="module-card animated">
+                    <div class="module-header">
+                        <div class="module-number">01</div>
+                        <h3 class="module-title">個人價值的探索與重塑</h3>
+                    </div>
+                    <p class="module-description">透過生命書寫、故事敘事與數位記錄，引導您回顧生命歷程，梳理個人經驗，重新建立對自我與未來的理解及願景。</p>
+                </div>
+                 <div class="module-card animated">
+                    <div class="module-header">
+                        <div class="module-number">02</div>
+                        <h3 class="module-title">文化與社會的實踐</h3>
+                    </div>
+                    <p class="module-description">引導您將個人故事外化為公共參與的行動力。透過文化導覽、社區參與、藝術創作與數位應用，在地方文化推廣與社群連結中，建立新的社會角色。</p>
+                </div>
+                 <div class="module-card animated">
+                    <div class="module-header">
+                        <div class="module-number">03</div>
+                        <h3 class="module-title">永續生活與實踐應用</h3>
+                    </div>
+                    <p class="module-description">聚焦於將轉型行動深植於日常生活。透過生態藝術、環境關懷與綠色療癒等課程，引導您從生活中實踐永續理念，探索新的生活模式。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Vision -->
+        <section class="content-section animated">
+            <div class="section-header">
+                <h2 class="section-title">我們的願景</h2>
+                <p class="section-description">我們的願景，是讓「第三人生大學」成為台灣高齡化社會的一座創新燈塔，徹底翻轉社會對中高齡者的既定印象。我們期待每一位學員都能成為智慧的傳承者、文化的創造者與社會的貢獻者，共同將高齡化社會的挑戰，轉化為一個更成熟、更有智慧、更多元共融的新機遇。</p>
+            </div>
+        </section>
+        
+        <!-- Call to Action -->
+        <section class="cta-section animated">
+            <h2 class="cta-title">準備好開啟您的學習旅程了嗎？</h2>
+            <p class="cta-text">無論您是想學習新技能、培養新興趣，還是結交新朋友，<br>第三人生大學都歡迎您的加入。</p>
+            <a href="course_overview_page.html" class="cta-btn">探索所有課程</a>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>聯絡資訊</h3>
+                <p>📍 433303臺中市沙鹿區臺灣大道7段200號</p>
+                <p>📞 04-2632-8001轉17031</p>
+                <p>✉️ pu20640@pu.edu.tw</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速連結</h3>
+                <p><a href="course_overview_page.html">課程總覽</a></p>
+                <p><a href="#">報名方式</a></p>
+                <p><a href="#">常見問題</a></p>
+                <p><a href="student_dashboard.html">學員專區</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>關於我們</h3>
+                <p><a href="#">辦學理念</a></p>
+                <p><a href="faculty_page.html">師資團隊</a></p>
+                <p><a href="#">校園環境</a></p>
+                <p><a href="#">隱私政策</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>社群連結</h3>
+                <p><a href="#">Facebook</a></p>
+                <p><a href="#">Instagram</a></p>
+                <p><a href="#">LINE官方帳號</a></p>
+                <p><a href="#">YouTube頻道</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 第三人生大學. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation on scroll
+            const animatedElements = document.querySelectorAll('.animated');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+
+        function openTab(evt, tabName) {
+            // Get all elements with class="tab-content" and hide them
+            const tabcontent = document.querySelectorAll(".tab-content");
+            tabcontent.forEach(tab => tab.style.display = "none");
+
+            // Get all elements with class="tab-btn" and remove the class "active"
+            const tablinks = document.querySelectorAll(".tab-btn");
+            tablinks.forEach(tab => tab.classList.remove("active"));
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
+</body>
+</html>

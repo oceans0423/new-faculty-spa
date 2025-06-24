@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社會文化課程 - 第三人生大學</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1976D2;
+            --primary-dark: #1565C0;
+            --secondary-color: #26C6DA;
+            --accent-color: #FFD54F;
+            --success-color: #4CAF50;
+            --warning-color: #FF9800;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --text-light: #999;
+            --bg-primary: #fafafa;
+            --bg-secondary: #ffffff;
+            --border-color: #e0e0e0;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            box-shadow: var(--shadow-light);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #FF8A65;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-box {
+            padding: 8px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            outline: none;
+            width: 200px;
+            transition: border-color 0.3s;
+        }
+
+        .search-box:focus {
+            border-color: var(--primary-color);
+        }
+
+        .login-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .login-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb-link:hover {
+            color: var(--primary-color);
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-light);
+        }
+
+        .breadcrumb-current {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        /* Category Hero */
+        .category-hero {
+            background: linear-gradient(135deg, var(--primary-color), #42A5F5);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 40%;
+            height: 200%;
+            background: rgba(255, 213, 79, 0.1);
+            transform: rotate(15deg);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+        }
+
+        .category-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .category-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .category-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .category-stats {
+            display: flex;
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--accent-color);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            color: var(--primary-color);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #FFEB3B;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        /* Filters Section */
+        .filters-section {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-light);
+            margin-bottom: 32px;
+        }
+
+        .filters-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .filter-label {
+            font-weight: 500;
+            color: var(--text-primary);
+            white-space: nowrap;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid var(--border-color);
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .sort-select {
+            padding: 8px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .sort-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        /* Course Grid */
+        .courses-section {
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .results-count {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 24px;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-light);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .course-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+            border-color: var(--primary-color);
+        }
+
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .course-level {
+            background: rgba(25, 118, 210, 0.1);
+            color: var(--primary-color);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .course-level.beginner {
+            background: rgba(76, 175, 80, 0.1);
+            color: var(--success-color);
+        }
+
+        .course-level.intermediate {
+            background: rgba(255, 152, 0, 0.1);
+            color: var(--warning-color);
+        }
+
+        .course-level.advanced {
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+        }
+
+        .course-status {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-available {
+            background: rgba(76, 175, 80, 0.1);
+            color: var(--success-color);
+        }
+
+        .status-limited {
+            background: rgba(255, 152, 0, 0.1);
+            color: var(--warning-color);
+        }
+
+        .status-full {
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+        }
+
+        .course-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .course-teacher {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .teacher-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .teacher-info {
+            flex: 1;
+        }
+
+        .teacher-name {
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .teacher-title {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .course-details {
+            margin-bottom: 14px;
+        }
+
+        .detail-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .detail-icon {
+            width: 16px;
+            text-align: center;
+        }
+
+        .course-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-course-primary {
+            flex: 1;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-course-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-course-secondary {
+            background: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-course-secondary:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Sidebar */
+        .content-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 32px;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .sidebar-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-light);
+        }
+
+        .sidebar-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Related Categories */
+        .related-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .related-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .related-item:hover {
+            background: #f8f9fa;
+        }
+
+        .related-icon {
+            font-size: 1.5rem;
+        }
+
+        .related-info {
+            flex: 1;
+        }
+
+        .related-name {
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+
+        .related-count {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Popular Courses */
+        .popular-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .popular-item {
+            display: flex;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        .popular-item:hover {
+            background: #f8f9fa;
+        }
+
+        .popular-rank {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .popular-rank.gold {
+            background: #FFD700;
+            color: #333;
+        }
+
+        .popular-rank.silver {
+            background: #C0C0C0;
+            color: #333;
+        }
+
+        .popular-rank.bronze {
+            background: #CD7F32;
+        }
+
+        .popular-info {
+            flex: 1;
+        }
+
+        .popular-title {
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        .popular-meta {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Learning Path */
+        .path-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .path-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .path-item:hover {
+            border-color: var(--primary-color);
+            background: rgba(25, 118, 210, 0.05);
+        }
+
+        .path-step {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--border-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .path-step.completed {
+            background: var(--success-color);
+        }
+
+        .path-step.current {
+            background: var(--primary-color);
+        }
+
+        .path-info {
+            flex: 1;
+        }
+
+        .path-title {
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+
+        .path-duration {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .content-layout {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .sidebar {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .course-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px 16px;
+            }
+
+            .category-hero {
+                padding: 40px 24px;
+            }
+
+            .category-title {
+                font-size: 2rem;
+            }
+
+            .category-stats {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+
+            .filters-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 16px;
+            }
+
+            .filter-group {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+
+            .filter-options {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .course-card {
+            animation: fadeInUp 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">第三人生大學</a>
+            <nav class="nav-menu">
+                <a href="#" class="nav-link">首頁</a>
+                <a href="#" class="nav-link active">課程介紹</a>
+                <a href="#" class="nav-link">師資陣容</a>
+                <a href="#" class="nav-link">關於我們</a>
+                <a href="#" class="nav-link">聯絡我們</a>
+            </nav>
+            <div class="user-info">
+                <input type="text" class="search-box" placeholder="搜尋課程...">
+                <button class="login-btn">登入/註冊</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <div class="breadcrumb-list">
+                <a href="#" class="breadcrumb-link">首頁</a>
+                <span class="breadcrumb-separator">></span>
+                <a href="#" class="breadcrumb-link">課程介紹</a>
+                <span class="breadcrumb-separator">></span>
+                <span class="breadcrumb-current">社會文化</span>
+            </div>
+        </div>
+
+        <!-- Category Hero -->
+        <div class="category-hero">
+            <div class="hero-content">
+                <span class="category-icon">🏛️</span>
+                <h1 class="category-title">社會文化課程</h1>
+                <p class="category-subtitle">
+                    探索人文社會的深度內涵，從歷史文化到當代議題，拓展視野與思辨能力，豐富人生的智慧底蘊。
+                </p>
+                <div class="category-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">10</div>
+                        <div class="stat-label">開設課程</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">220</div>
+                        <div class="stat-label">學員人數</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">專業教師</div>
+                    </div>
+                </div>
+                <div class="hero-actions">
+                    <button class="btn btn-primary" onclick="startLearningPath()">
+                        <span>📖</span>
+                        <span>開始學習之旅</span>
+                    </button>
+                    <a href="#" class="btn btn-secondary" onclick="viewAllCourses()">
+                        <span>🏛️</span>
+                        <span>瀏覽所有課程</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-layout">
+            <!-- Main Content -->
+            <div class="main-area">
+                <!-- Filters Section -->
+                <div class="filters-section">
+                    <div class="filters-row">
+                        <div class="filter-group">
+                            <span class="filter-label">難度等級：</span>
+                            <div class="filter-options">
+                                <button class="filter-btn active" onclick="filterByLevel('all')">全部</button>
+                                <button class="filter-btn" onclick="filterByLevel('beginner')">入門</button>
+                                <button class="filter-btn" onclick="filterByLevel('intermediate')">進階</button>
+                                <button class="filter-btn" onclick="filterByLevel('advanced')">專業</button>
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <span class="filter-label">開課狀態：</span>
+                            <div class="filter-options">
+                                <button class="filter-btn active" onclick="filterByStatus('all')">全部</button>
+                                <button class="filter-btn" onclick="filterByStatus('available')">可報名</button>
+                                <button class="filter-btn" onclick="filterByStatus('limited')">名額有限</button>
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <span class="filter-label">排序方式：</span>
+                            <select class="sort-select" onchange="sortCourses(this.value)">
+                                <option value="popular">熱門程度</option>
+                                <option value="difficulty">難度等級</option>
+                                <option value="latest">最新開課</option>
+                                <option value="alphabetical">課程名稱</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Courses Section -->
+                <div class="courses-section">
+                    <div class="section-header">
+                        <h2 class="section-title">社會文化課程</h2>
+                        <span class="results-count">共 10 門課程</span>
+                    </div>
+                    
+                    <div class="course-grid" id="courseGrid">
+                        <!-- Course 1 -->
+                        <div class="course-card" data-level="beginner" data-status="available">
+                            <div class="course-header">
+                                <span class="course-level beginner">入門</span>
+                                <span class="course-status status-available">可報名</span>
+                            </div>
+                            <h3 class="course-title">台灣史與地方文化探索</h3>
+                            <div class="course-teacher">
+                                <div class="teacher-avatar">林</div>
+                                <div class="teacher-info">
+                                    <div class="teacher-name">林志華 教授</div>
+                                    <div class="teacher-title">歷史系退休教授</div>
+                                </div>
+                            </div>
+                            <div class="course-details">
+                                <div class="detail-row">
+                                    <span class="detail-icon">📚</span>
+                                    <span>2學分 • 16週課程</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-icon">🕐</span>
+                                    <span>週二 14:00-16:00</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-icon">📍</span>
+                                    <span>人文教室A</span>
+                                </div>
+                            </div>
+                            <p class="course-description">
+                                深入了解台灣歷史脈絡與地方文化特色，從原住民文化到多元族群融合，認識我們生活土地的故事。
+                            </p>
+                            <div class="course-actions">
+                                <button class="btn-course-primary" onclick="enrollCourse('taiwan-history')">立即報名</button>
+                                <button class="btn-course-secondary" onclick="viewCourseDetail('taiwan-history')">查看詳情</button>
+                            </div>
+                        </div>
+
+                        <!-- Course 2 -->
+                        <div class="course-card" data-level="intermediate" data-status="available">
+                            <div class="course-header">
+                                <span class="course-level intermediate">進階</span>
+                                <span class="course-status status-available">可報名</span>
+                            </div>
+                            <h3 class="course-title">現代社會議題討論</h3>
+                            <div class="course-teacher">
+                                <div class="teacher-avatar">陳</div>
+                                <div class="teacher-info">
+                                    <div class="teacher-name">陳美惠 博士</div>
+                                    <div class="teacher-title">社會學專家</div>
+                                </div>
+                            </div>
+                            <div class="course-details">
+                                <div class="detail-row">
+                                    <span class="detail-icon">📚</span>
+                                    <span>2學分 • 12週課程</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-icon">🕐</span>
+                                    <span>週四 10:00-12:00</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-icon">📍</span>
+                                    <span>討論教室B</span>
+                                </div>
+                            </div>
+                            <p class="course-description">
+                                透過小組討論與案例分析，探討高齡化、環保、科技倫理等當代重要議題，培養批判思考能力。
+                            </p>
+                            <div class="course-actions">
+                                <button class="btn-course-primary" onclick="enrollCourse('social-issues')">立即報名</button>
+                                <button class="btn-course-secondary" onclick="viewCourseDetail('social-issues')">查看詳情</button>
+                            </div>
+                        </div>
+
+                        <!-- Course 3 -->
+                        <div class="course-card" data-level="beginner" data-status="limited">
+                            <div class="course-header">
+                                <span class="course-level beginner">入門</span>
+                                <span class="course-status status-limited">名額有限</span>
+                            </div>
+                            <h3 class="course-title">世界文明與宗教哲學</h3>
+                            <div class="course-teacher">
+                                <div class="teacher-avatar">王</div>
+                                <div class="teacher-info">
+                                    <div class="teacher-name">王志明 教授</div>
+                                    <div class="teacher-title">哲學系教授</div>
+                                </div>
+                            </div>
+                            <div class="course-details">
+                                <div class="detail-row">
+                                    <span class="detail-icon">📚</span>
+                                    <span>2學分 • 14週課程</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-icon">🕐</span>
+                                    <span>週一 15:00-17:00</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-icon">📍</span>
+                                    <span>文化講堂</span>
+                                </div>
+                            </div>
+                            <p class="course-description">
+                                探索世界各大文明的發展軌跡與宗教哲學思想，理解不同文化的智慧傳承與現代價值。
+                            </p>
+                            <div class="course-actions">
+                                <button class="btn-course-primary" onclick="enrollCourse('world-civilization')">立即報名</button>
+                                <button class="btn-course-secondary" onclick="viewCourseDetail('world-civilization')">查看詳情</button>
+                            </div>
+                        </div>
+
+                        <!-- Course 4 -->
+                        <div class="course-card" data-level="intermediate" data-status="available">
+                            <div class="course-header">
+                                <span class="course-level intermediate">進階</span>
+                                <span class="course-status status-available">可報名</span>
+                            </div>
+                            <h3 class="course-title">古典文學欣賞</h3>
+                            <div class="course-teacher">
+                                <div class="teacher-avatar">張</div>
+                                <div class="teacher-info">
+                                    <div class="teacher-name">張雅芳 老師</div>
+                                    <div class="teacher-title">中文系講師</div>
+                                </div>
+                            </div>
+                            <div class="course-details">
+                                <div class="detail-row">
+                                    <span class="detail-icon">📚</span>
+                                    <span>2學分 • 16週課程</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-icon">🕐</span>
+                                    <span>週三 09:00-11:00</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-icon">📍</span>
+                                    <span>文學研討室</span>
+                                </div>
+                            </div>
+                            <p class="course-description">
+                                從詩經到紅樓夢，品味中華古典文學的優美詞藻與深層意境，豐富文學素養與美學品味。
+                            </p>
+                            <div class="course-actions">
+                                <button class="btn-course-primary" onclick="enrollCourse('classical-literature')">立即報名</button>
+                                <button class="btn-course-secondary" onclick="viewCourseDetail('classical-literature')">查看詳情</button>
+                            </div>
+                        </div>
+
+                        <!-- Course 5 -->
+                        <div class="course-card" data-level="beginner" data-status="available">
+                            <div class="course-header">
+                                <span class="course-level beginner">入門</span>
+                                <span class="course-status status-available">可報名</span>
+                            </div>
+                            <h3 class="course-title">民俗節慶與傳統文化</h3>
+                            <div class="course-teacher">
+                                <div class="teacher-avatar">李</div>
+                                <div class="teacher-info">
+                                    <div class="teacher-name">李秀蘭 老師</div>
+                                    <div class="teacher-title">民俗文化專家</div>
+                                </div>
+                            </div>
+                            <div class="course-details">
+                                <div class="detail-row">
+                                    <span class="detail-icon">📚</span>
+                                    <span>1學分 • 10週課程</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-icon">🕐</span>
+                                    <span>週六 10:00-12:00</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-icon">📍</span>
+                                    <span>活動中心</span>
+                                </div>
+                            </div>
+                            <p class="course-description">
+                                認識傳統節慶的由來與意義，學習民俗技藝與文化傳承，重新體驗台灣豐富的文化底蘊。
+                            </p>
+                            <div class="course-actions">
+                                <button class="btn-course-primary" onclick="enrollCourse('folk-culture')">立即報名</button>
+                                <button class="btn-course-secondary" onclick="viewCourseDetail('folk-culture')">查看詳情</button>
+                            </div>
+                        </div>
+
+                        <!-- Course 6 -->
+                        <div class="course-card" data-level="advanced" data-status="available">
+                            <div class="course-header">
+                                <span class="course-level advanced">專業</span>
+                                <span class="course-status status-available">可報名</span>
+                            </div>
+                            <h3 class="course-title">當代政治與國際關係</h3>
+                            <div class="course-teacher">
+                                <div class="teacher-avatar">劉</div>
+                                <div class="teacher-info">
+                                    <div class="teacher-name">劉志強 博士</div>
+                                    <div class="teacher-title">政治學教授</div>
+                                </div>
+                            </div>
+                            <div class="course-details">
+                                <div class="detail-row">
+                                    <span class="detail-icon">📚</span>
+                                    <span>3學分 • 18週課程</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-icon">🕐</span>
+                                    <span>週五 14:00-17:00</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-icon">📍</span>
+                                    <span>國際會議廳</span>
+                                </div>
+                            </div>
+                            <p class="course-description">
+                                深度分析當代政治趨勢與國際局勢，培養全球視野與政治敏感度，理解複雜的國際關係。
+                            </p>
+                            <div class="course-actions">
+                                <button class="btn-course-primary" onclick="enrollCourse('politics-international')">立即報名</button>
+                                <button class="btn-course-secondary" onclick="viewCourseDetail('politics-international')">查看詳情</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Related Categories -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <span>🔗</span>
+                        相關分類
+                    </h3>
+                    <div class="related-list">
+                        <div class="related-item" onclick="viewCategory('art')">
+                            <span class="related-icon">🎨</span>
+                            <div class="related-info">
+                                <div class="related-name">藝術文創</div>
+                                <div class="related-count">15門課程</div>
+                            </div>
+                        </div>
+                        <div class="related-item" onclick="viewCategory('digital')">
+                            <span class="related-icon">💻</span>
+                            <div class="related-info">
+                                <div class="related-name">數位科技</div>
+                                <div class="related-count">18門課程</div>
+                            </div>
+                        </div>
+                        <div class="related-item" onclick="viewCategory('life')">
+                            <span class="related-icon">✨</span>
+                            <div class="related-info">
+                                <div class="related-name">生活美學</div>
+                                <div class="related-count">12門課程</div>
+                            </div>
+                        </div>
+                        <div class="related-item" onclick="viewCategory('sustainability')">
+                            <span class="related-icon">🌱</span>
+                            <div class="related-info">
+                                <div class="related-name">永續生活</div>
+                                <div class="related-count">8門課程</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Popular Courses -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <span>🔥</span>
+                        熱門課程
+                    </h3>
+                    <div class="popular-list">
+                        <div class="popular-item" onclick="viewCourseDetail('taiwan-history')">
+                            <div class="popular-rank gold">1</div>
+                            <div class="popular-info">
+                                <div class="popular-title">台灣史與地方文化探索</div>
+                                <div class="popular-meta">220人報名</div>
+                            </div>
+                        </div>
+                        <div class="popular-item" onclick="viewCourseDetail('social-issues')">
+                            <div class="popular-rank silver">2</div>
+                            <div class="popular-info">
+                                <div class="popular-title">現代社會議題討論</div>
+                                <div class="popular-meta">185人報名</div>
+                            </div>
+                        </div>
+                        <div class="popular-item" onclick="viewCourseDetail('world-civilization')">
+                            <div class="popular-rank bronze">3</div>
+                            <div class="popular-info">
+                                <div class="popular-title">世界文明與宗教哲學</div>
+                                <div class="popular-meta">165人報名</div>
+                            </div>
+                        </div>
+                        <div class="popular-item" onclick="viewCourseDetail('classical-literature')">
+                            <div class="popular-rank">4</div>
+                            <div class="popular-info">
+                                <div class="popular-title">古典文學欣賞</div>
+                                <div class="popular-meta">140人報名</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning Path -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <span>🛤️</span>
+                        建議學習路徑
+                    </h3>
+                    <div class="path-list">
+                        <div class="path-item" onclick="viewCourseDetail('taiwan-history')">
+                            <div class="path-step">1</div>
+                            <div class="path-info">
+                                <div class="path-title">台灣史與地方文化</div>
+                                <div class="path-duration">16週 • 文化基礎</div>
+                            </div>
+                        </div>
+                        <div class="path-item" onclick="viewCourseDetail('world-civilization')">
+                            <div class="path-step">2</div>
+                            <div class="path-info">
+                                <div class="path-title">世界文明與宗教哲學</div>
+                                <div class="path-duration">14週 • 視野拓展</div>
+                            </div>
+                        </div>
+                        <div class="path-item" onclick="viewCourseDetail('classical-literature')">
+                            <div class="path-step">3</div>
+                            <div class="path-info">
+                                <div class="path-title">古典文學欣賞</div>
+                                <div class="path-duration">16週 • 文學薰陶</div>
+                            </div>
+                        </div>
+                        <div class="path-item" onclick="viewCourseDetail('politics-international')">
+                            <div class="path-step">4</div>
+                            <div class="path-info">
+                                <div class="path-title">當代政治與國際關係</div>
+                                <div class="path-duration">18週 • 深度思辨</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <span>💬</span>
+                        需要協助？
+                    </h3>
+                    <div style="display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem; color: var(--text-secondary);">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span>📞</span>
+                            <span>04-2632-8001轉17031</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span>✉️</span>
+                            <span>pu20640@pu.edu.tw</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span>🕐</span>
+                            <span>週一至週五 09:00-17:00</span>
+                        </div>
+                        <button class="btn btn-primary" style="margin-top: 12px; width: 100%; padding: 10px;" onclick="contactAdvisor()">
+                            聯絡課程顧問
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Filter by level
+        function filterByLevel(level) {
+            const cards = document.querySelectorAll('.course-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button (level filter)
+            buttons.forEach(btn => {
+                if (btn.onclick.toString().includes('filterByLevel')) {
+                    btn.classList.remove('active');
+                }
+            });
+            event.target.classList.add('active');
+            
+            // Filter cards
+            cards.forEach(card => {
+                const cardLevel = card.dataset.level;
+                if (level === 'all' || cardLevel === level) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            updateResultsCount();
+        }
+
+        // Filter by status
+        function filterByStatus(status) {
+            const cards = document.querySelectorAll('.course-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button (status filter)
+            buttons.forEach(btn => {
+                if (btn.onclick.toString().includes('filterByStatus')) {
+                    btn.classList.remove('active');
+                }
+            });
+            event.target.classList.add('active');
+            
+            // Filter cards
+            cards.forEach(card => {
+                const cardStatus = card.dataset.status;
+                if (status === 'all' || cardStatus === status) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            updateResultsCount();
+        }
+
+        // Sort courses
+        function sortCourses(sortBy) {
+            const grid = document.getElementById('courseGrid');
+            const cards = Array.from(document.querySelectorAll('.course-card'));
+            
+            cards.sort((a, b) => {
+                switch(sortBy) {
+                    case 'difficulty':
+                        const levelOrder = {'beginner': 1, 'intermediate': 2, 'advanced': 3};
+                        return levelOrder[a.dataset.level] - levelOrder[b.dataset.level];
+                    case 'alphabetical':
+                        const titleA = a.querySelector('.course-title').textContent;
+                        const titleB = b.querySelector('.course-title').textContent;
+                        return titleA.localeCompare(titleB);
+                    case 'latest':
+                    case 'popular':
+                    default:
+                        return 0; // Keep original order
+                }
+            });
+            
+            // Re-append sorted cards
+            cards.forEach(card => grid.appendChild(card));
+        }
+
+        // Update results count
+        function updateResultsCount() {
+            const visibleCards = document.querySelectorAll('.course-card:not([style*="display: none"])');
+            const countElement = document.querySelector('.results-count');
+            countElement.textContent = `共 ${visibleCards.length} 門課程`;
+        }
+
+        // Course actions
+        function enrollCourse(courseId) {
+            alert(`報名課程：${courseId}\n\n即將前往報名頁面...`);
+        }
+
+        function viewCourseDetail(courseId) {
+            alert(`查看課程詳情：${courseId}\n\n即將前往課程詳情頁面...`);
+        }
+
+        // Hero actions
+        function startLearningPath() {
+            alert('開始學習之旅\n\n我們將為您推薦適合的人文社會課程，從歷史文化開始培養人文素養！');
+        }
+
+        function viewAllCourses() {
+            alert('瀏覽所有課程\n\n即將前往完整社會文化課程列表頁面...');
+        }
+
+        // Sidebar actions
+        function viewCategory(categoryId) {
+            alert(`前往分類：${categoryId}\n\n即將前往該分類的課程頁面...`);
+        }
+
+        function contactAdvisor() {
+            alert('聯絡課程顧問\n\n📞 04-2632-8001轉17031\n✉️ pu20640@pu.edu.tw\n\n我們的專業顧問將為您提供個人化的學習建議！');
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add fade-in animation for course cards
+            const cards = document.querySelectorAll('.course-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+
+            // Add scroll animations for sidebar
+            const sidebarCards = document.querySelectorAll('.sidebar-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            sidebarCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.6s ease';
+                observer.observe(card);
+            });
+
+            // Initialize results count
+            updateResultsCount();
+        });
+    </script>
+</body>
+</html>
+                            
