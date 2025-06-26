@@ -38,8 +38,8 @@
         /* General styling for the page */
         body {
             font-family: 'Noto Sans TC', 'sans-serif';
-            background-color: #FAF8F5; /* NEW: 主背景 */
-            color: #4A3F35;          /* NEW: 主要文字 */
+            background-color: #FAF8F5; /* 主背景 */
+            color: #4A3F35;          /* 主要文字 */
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
@@ -52,14 +52,69 @@
         .accordion-button.open .accordion-arrow {
             transform: rotate(45deg);
         }
-        /* MODIFIED: Styling for the main call to action button */
-        .cta-button {
-             @apply inline-flex items-center justify-center bg-theme-primary text-white font-bold py-3 px-8 rounded-lg text-lg hover:opacity-90 transition-all duration-300 transform hover:scale-105;
-        }
-        /* UPDATED: Enhanced styling for the main application button */
+        
+        /* Enhanced styling for the main application button */
         .main-cta-button {
              @apply inline-flex items-center justify-center bg-theme-primary text-white font-bold py-4 px-10 rounded-lg text-xl hover:opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl;
         }
+
+        /* MODIFIED: Styling for the Hero CTA button for a smoother transition */
+        .hero-cta-button {
+            --primary-color: #FFFFFF;
+            --hovered-color: #E67E22; /* Using theme-primary color */
+            position: relative;
+            display: flex;
+            font-weight: 600;
+            font-size: 20px;
+            gap: 0.5rem;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .hero-cta-button p {
+            margin: 0;
+            position: relative;
+            font-size: 20px;
+            color: var(--primary-color);
+            /* MODIFICATION: Added transition for smooth color change */
+            transition: color 0.3s ease-out;
+        }
+
+        .hero-cta-button::after {
+            position: absolute;
+            content: "";
+            width: 0;
+            left: 0;
+            bottom: -7px;
+            background: var(--hovered-color);
+            height: 2px;
+            transition: 0.3s ease-out;
+        }
+
+        /* MODIFICATION: Removed ::before pseudo-element for a cleaner effect */
+        .hero-cta-button:hover::after {
+            width: 100%;
+        }
+
+        /* MODIFICATION: Change text color directly on hover */
+        .hero-cta-button:hover p {
+            color: var(--hovered-color);
+        }
+
+        .hero-cta-button:hover svg {
+            transform: translateX(4px);
+            color: var(--hovered-color);
+        }
+
+        .hero-cta-button svg {
+            color: var(--primary-color);
+            transition: 0.2s;
+            position: relative;
+            width: 15px;
+            transition-delay: 0.2s;
+        }
+
     </style>
 </head>
 <body class="bg-theme-base">
@@ -81,14 +136,23 @@
         <!-- Section 2: Hero Section -->
         <section id="hero" class="relative min-h-[80vh] bg-cover bg-center flex items-center justify-center" style="background-image: url('https://images.unsplash.com/photo-1505816014357-96b5ff457e9a?q=80&w=2066&auto=format&fit=crop');">
             <div class="absolute inset-0 bg-black/40"></div> <!-- Overlay for text readability -->
-            <div class="relative z-10 text-center text-white px-6 py-24">
-                 <h1 class="text-5xl md:text-6xl font-black leading-tight">用學習，成就新自我</h1>
-                 <p class="mt-6 text-xl max-w-2xl mx-auto leading-relaxed">
+            <div class="relative z-10 text-center text-white px-6 py-24 flex flex-col items-center">
+                 <!-- Main Visual Title -->
+                 <h1 class="text-5xl md:text-6xl font-black leading-tight">生命敘事與藝術表達學分學程</h1>
+                 <!-- Secondary Title (H2) -->
+                 <h2 class="mt-4 text-3xl md:text-4xl font-bold">用學習，成就新自我</h2>
+                 <!-- Subtitle -->
+                 <p class="mt-4 text-xl max-w-2xl mx-auto leading-relaxed">
                     邀請您透過敘事與藝術，重新探索生命，設計屬於您的永續未來。
                  </p>
-                 <!-- MODIFICATION: Changed link to a button -->
-                 <div class="mt-10">
-                    <a href="#program" class="cta-button">探索我們的學程</a>
+                 <!-- CTA Button -->
+                 <div class="mt-12">
+                    <a href="#program" class="hero-cta-button">
+                        <p>探索我們的學程</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                    </a>
                  </div>
             </div>
         </section>
@@ -129,8 +193,7 @@
                     <h2 class="text-4xl md:text-5xl font-black text-theme-text">選擇一條轉型之路</h2>
                     <p class="mt-4 text-lg text-theme-text/70 leading-relaxed">探索您的七種第三人生新樣貌。點擊卡片，查看每種角色的詳細旅程。</p>
                  </div>
-                 <!-- MODIFICATION: Added images to course cards and adjusted structure -->
-                 <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                 <div class="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                     <!-- Course Card 1: Story -->
                     <div class="course-card bg-white rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 cursor-pointer flex flex-col overflow-hidden" data-course="story">
                         <img src="https://img.freepik.com/free-vector/female-hands-holding-pen-drawing-flowers-notebook-girl-sitting-table-with-cup-tea-mobile-phone-it-taking-notes-diary-flat-vector-illustration-hobby-art-concept_74855-24532.jpg?uid=R5565333&ga=GA1.1.2077232273.1746404860&semt=ais_hybrid&w=740" alt="女子正在筆記本上書寫的插圖" class="w-full h-48 object-cover">
@@ -511,4 +574,4 @@
         });
     </script>
 </body>
-</html>
+</ht
