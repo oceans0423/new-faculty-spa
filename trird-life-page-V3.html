@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>靜宜大學 第三人生大學 | 用學習，成就新自我</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Noto Sans TC for Chinese text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        // NEW COLOR PALETTE as per user request
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Noto Sans TC', 'sans-serif'],
+                    },
+                    colors: {
+                        'theme-base': '#FAF8F5',      // 溫暖的米白 (主背景)
+                        'theme-surface': '#FFFFFF',   // 純白 (卡片等表面)
+                        'theme-text': '#4A3F35',      // 深可可棕 (主要文字)
+                        'theme-primary': '#E67E22',   // 溫暖的陶土色 (主色)
+                        'theme-secondary': '#27AE60', // 深森綠 (輔助色)
+                        'theme-accent': '#FF6B6B',     // 活力珊瑚色 (強調色)
+                        'theme-dark': '#3D2C2A',      // 深咖啡 (頁尾)
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* General styling for the page */
+        body {
+            font-family: 'Noto Sans TC', 'sans-serif';
+            background-color: #FAF8F5; /* NEW: 主背景 */
+            color: #4A3F35;          /* NEW: 主要文字 */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        /* Custom styles for accordion to handle smooth transitions */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out, padding-top 0.4s ease-in-out, padding-bottom 0.4s ease-in-out;
+        }
+        .accordion-button.open .accordion-arrow {
+            transform: rotate(45deg);
+        }
+        /* MODIFIED: Styling for the main call to action button */
+        .cta-button {
+             @apply inline-flex items-center justify-center bg-theme-primary text-white font-bold py-3 px-8 rounded-lg text-lg hover:opacity-90 transition-all duration-300 transform hover:scale-105;
+        }
+        /* UPDATED: Enhanced styling for the main application button */
+        .main-cta-button {
+             @apply inline-flex items-center justify-center bg-theme-primary text-white font-bold py-4 px-10 rounded-lg text-xl hover:opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl;
+        }
+    </style>
+</head>
+<body class="bg-theme-base">
+
+    <!-- Section 1: Header -->
+    <header class="bg-theme-base/80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-200">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-3">
+                <img src="https://upload.wikimedia.org/wikipedia/zh/thumb/8/8b/Providence_University_Emblem.svg/1200px-Providence_University_Emblem.svg.png" alt="靜宜大學 校徽" class="h-10 w-10 object-contain">
+                <span class="text-lg font-bold text-theme-dark">靜宜大學 第三人生大學</span>
+            </a>
+            <a href="#apply" class="hidden md:inline-block bg-theme-primary text-white font-bold py-2 px-5 rounded-lg text-sm hover:opacity-90 transition-opacity">
+                立即報名
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Section 2: Hero Section -->
+        <section id="hero" class="relative min-h-[80vh] bg-cover bg-center flex items-center justify-center" style="background-image: url('https://images.unsplash.com/photo-1505816014357-96b5ff457e9a?q=80&w=2066&auto=format&fit=crop');">
+            <div class="absolute inset-0 bg-black/40"></div> <!-- Overlay for text readability -->
+            <div class="relative z-10 text-center text-white px-6 py-24">
+                 <h1 class="text-5xl md:text-6xl font-black leading-tight">用學習，成就新自我</h1>
+                 <p class="mt-6 text-xl max-w-2xl mx-auto leading-relaxed">
+                    邀請您透過敘事與藝術，重新探索生命，設計屬於您的永續未來。
+                 </p>
+                 <!-- MODIFICATION: Changed link to a button -->
+                 <div class="mt-10">
+                    <a href="#program" class="cta-button">探索我們的學程</a>
+                 </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Core Values -->
+        <section id="values" class="py-20 md:py-28 bg-theme-surface">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-4xl md:text-5xl font-black text-theme-text">我們的四大核心價值</h2>
+                    <p class="mt-4 text-lg text-theme-text/70 leading-relaxed">我們相信，學習不只是知識的累積，而是一場由內而外的轉變旅程。在「人文導向的學習模式」下，我們將與您一同實踐四大核心價值：</p>
+                </div>
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Value Card -->
+                    <div class="bg-white p-8 rounded-lg border-t-4 border-theme-primary shadow-lg">
+                         <h3 class="text-xl font-bold mb-3 text-theme-text">自我價值的再探索</h3>
+                         <p class="text-theme-text/80 leading-relaxed">卸下過往角色，在數十年生命經驗中，重新看見並肯定自我價值，為人生下一階段找到最堅實的內在定位。</p>
+                    </div>
+                     <div class="bg-white p-8 rounded-lg border-t-4 border-theme-secondary shadow-lg">
+                         <h3 class="text-xl font-bold mb-3 text-theme-text">生命動能的再創造</h3>
+                         <p class="text-theme-text/80 leading-relaxed">將深刻的自我體悟，轉化為前進的熱情與好奇心。在這裡，您不只是學生，更是創造者，點燃您的內心火花。</p>
+                    </div>
+                     <div class="bg-white p-8 rounded-lg border-t-4 border-theme-accent shadow-lg">
+                         <h3 class="text-xl font-bold mb-3 text-theme-text">社會影響的再塑造</h3>
+                         <p class="text-theme-text/80 leading-relaxed">您的經驗與智慧是社會最珍貴的資產。我們將協助您站上新舞台，成為文化的說書人、跨代的溝通者。</p>
+                    </div>
+                     <div class="bg-white p-8 rounded-lg border-t-4 border-gray-400 shadow-lg">
+                         <h3 class="text-xl font-bold mb-3 text-theme-text">永續生活的再設計</h3>
+                         <p class="text-theme-text/80 leading-relaxed">與我們一起，有意識地、自主地設計出一個身心靈平衡的理想生活。這份藍圖將是充實、幸福且可長久維持的。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Program Introduction -->
+        <section id="program" class="py-20 md:py-28 bg-theme-base">
+            <div class="container mx-auto px-6">
+                 <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-4xl md:text-5xl font-black text-theme-text">選擇一條轉型之路</h2>
+                    <p class="mt-4 text-lg text-theme-text/70 leading-relaxed">探索您的七種第三人生新樣貌。點擊卡片，查看每種角色的詳細旅程。</p>
+                 </div>
+                 <!-- MODIFICATION: Added images to course cards and adjusted structure -->
+                 <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    <!-- Course Card 1: Story -->
+                    <div class="course-card bg-white rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 cursor-pointer flex flex-col overflow-hidden" data-course="story">
+                        <img src="https://img.freepik.com/free-vector/female-hands-holding-pen-drawing-flowers-notebook-girl-sitting-table-with-cup-tea-mobile-phone-it-taking-notes-diary-flat-vector-illustration-hobby-art-concept_74855-24532.jpg?uid=R5565333&ga=GA1.1.2077232273.1746404860&semt=ais_hybrid&w=740" alt="女子正在筆記本上書寫的插圖" class="w-full h-48 object-cover">
+                        <div class="p-6 flex-grow flex flex-col">
+                            <span class="text-sm font-bold text-theme-primary bg-orange-50 px-3 py-1 rounded-full self-start">家族記憶的傳承者</span>
+                            <div class="flex-grow mt-4">
+                                <h3 class="text-xl font-bold text-theme-text">自我與家族故事書寫</h3>
+                                <p class="mt-2 text-theme-text/80 leading-relaxed">用AI為您的故事賦能，將珍貴的家族記憶，化為永恆的跨媒體敘事。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Course Card 2: Green -->
+                    <div class="course-card bg-white rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 cursor-pointer flex flex-col overflow-hidden" data-course="green">
+                         <img src="https://img.freepik.com/free-vector/watercolor-botanical-garden-background_23-2150230724.jpg?uid=R5565333&ga=GA1.1.2077232273.1746404860&semt=ais_items_boosted&w=740" alt="水彩風格的植物園背景" class="w-full h-48 object-cover">
+                        <div class="p-6 flex-grow flex flex-col">
+                            <span class="text-sm font-bold text-theme-secondary bg-green-50 px-3 py-1 rounded-full self-start">身心平衡的實踐家</span>
+                            <div class="flex-grow mt-4">
+                                <h3 class="text-xl font-bold text-theme-text">綠生活與綠療癒</h3>
+                                <p class="mt-2 text-theme-text/80 leading-relaxed">在家中打造一方療癒綠意，用自然節氣與親手做的發酵食，溫柔善待自己。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Course Card 3: Craft -->
+                    <div class="course-card bg-white rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 cursor-pointer flex flex-col overflow-hidden" data-course="craft">
+                        <img src="https://img.freepik.com/free-vector/diy-creative-workshop-concept_23-2148525570.jpg?uid=R5565333&ga=GA1.1.2077232273.1746404860&semt=ais_hybrid&w=740" alt="DIY 手作工作坊概念插圖" class="w-full h-48 object-cover">
+                        <div class="p-6 flex-grow flex flex-col">
+                             <span class="text-sm font-bold text-theme-accent bg-red-50 px-3 py-1 rounded-full self-start">生活美學的設計師</span>
+                            <div class="flex-grow mt-4">
+                                <h3 class="text-xl font-bold text-theme-text">文化創意手作</h3>
+                                <p class="mt-2 text-theme-text/80 leading-relaxed">融合在地文化與您的獨特創意，親手打造有溫度、有故事的文創作品。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Course Card 4: Digital -->
+                    <div class="course-card bg-white rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 cursor-pointer flex flex-col overflow-hidden" data-course="digital">
+                        <img src="https://img.freepik.com/free-vector/flat-design-retro-computer-windows-element_52683-114838.jpg?uid=R5565333&ga=GA1.1.2077232273.1746404860&semt=ais_hybrid&w=740" alt="復古電腦視窗元素" class="w-full h-48 object-cover">
+                        <div class="p-6 flex-grow flex flex-col">
+                            <span class="text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full self-start">跨代連結的分享家</span>
+                            <div class="flex-grow mt-4">
+                                <h3 class="text-xl font-bold text-theme-text">數位風格與智慧生活</h3>
+                                <p class="mt-2 text-theme-text/80 leading-relaxed">掌握最新數位工具，讓您的故事被看見，成為串連社群的在地文化策展人。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Course Card 5: Cards -->
+                     <div class="course-card bg-white rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 cursor-pointer flex flex-col overflow-hidden" data-course="cards">
+                        <img src="https://img.freepik.com/free-vector/hand-drawn-celestial-background_23-2151219922.jpg?uid=R5565333&ga=GA1.1.2077232273.1746404860&semt=ais_items_boosted&w=740" alt="手繪風格的星象背景" class="w-full h-48 object-cover">
+                        <div class="p-6 flex-grow flex flex-col">
+                            <span class="text-sm font-bold text-purple-600 bg-purple-50 px-3 py-1 rounded-full self-start">內在世界的探險家</span>
+                            <div class="flex-grow mt-4">
+                                <h3 class="text-xl font-bold text-theme-text">卡牌敘事與生命探索</h3>
+                                <p class="mt-2 text-theme-text/80 leading-relaxed">用牌卡開啟人生故事，重新看見自己的生命軌跡，描繪未來的行動藍圖。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Course Card 6: Culture -->
+                    <div class="course-card bg-white rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 cursor-pointer flex flex-col overflow-hidden" data-course="culture">
+                        <img src="https://img.freepik.com/free-vector/taiwan-word-with-colourful-landmarks_52683-44219.jpg?uid=R5565333&ga=GA1.1.2077232273.1746404860&semt=ais_items_boosted&w=740" alt="台灣主題與著名地標的插圖" class="w-full h-48 object-cover">
+                        <div class="p-6 flex-grow flex flex-col">
+                            <span class="text-sm font-bold text-yellow-600 bg-yellow-50 px-3 py-1 rounded-full self-start">在地文化的說書人</span>
+                            <div class="flex-grow mt-4">
+                                <h3 class="text-xl font-bold text-theme-text">台灣民俗與文化踏查</h3>
+                                <p class="mt-2 text-theme-text/80 leading-relaxed">走出教室，踏遍鄉土，親身感受台灣民俗的溫度與深度。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Course Card 7: Ecology -->
+                    <div class="course-card bg-white rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 cursor-pointer flex flex-col overflow-hidden" data-course="ecology">
+                        <img src="https://img.freepik.com/free-vector/abstract-tropical-leaves-background_52683-38859.jpg?uid=R5565333&ga=GA1.1.2077232273.1746404860&semt=ais_hybrid&w=740" alt="抽象風格的熱帶葉子背景" class="w-full h-48 object-cover">
+                        <div class="p-6 flex-grow flex flex-col">
+                             <span class="text-sm font-bold text-teal-600 bg-teal-50 px-3 py-1 rounded-full self-start">自然之美的代言人</span>
+                             <div class="flex-grow mt-4">
+                                <h3 class="text-xl font-bold text-theme-text">生態美學與藝術表達</h3>
+                                <p class="mt-2 text-theme-text/80 leading-relaxed">用鏡頭、畫筆與文字，將您對自然的感動，轉化為動人的藝術作品。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Flexibility and Support -->
+        <section id="support" class="py-20 md:py-28 bg-theme-surface">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-4xl md:text-5xl font-black text-theme-text">我們為您準備的彈性與支持</h2>
+                </div>
+                <div class="mt-16 grid gap-8 md:grid-cols-3">
+                    <div class="text-center p-8">
+                        <h3 class="text-7xl font-black text-theme-primary">10<span class="text-3xl font-bold">年</span></h3>
+                        <p class="mt-2 text-2xl font-bold text-theme-text">彈性修業</p>
+                        <p class="mt-2 text-theme-text/70 leading-relaxed">您可以依據自己的生活節奏自由修習，修業年限可放寬至10年。</p>
+                    </div>
+                    <div class="text-center p-8 bg-white rounded-lg shadow-md">
+                        <h3 class="text-7xl font-black text-theme-primary">1.75<span class="text-3xl font-bold">萬</span></h3>
+                        <p class="mt-2 text-2xl font-bold text-theme-text">學費減免補助</p>
+                        <p class="mt-2 text-theme-text/70 leading-relaxed">可享有行政院方案，就讀私立大學學士班，每學期最高減免補助。</p>
+                    </div>
+                    <div class="text-center p-8">
+                         <h3 class="text-7xl font-black text-theme-primary">2<span class="text-3xl font-bold">種</span></h3>
+                        <p class="mt-2 text-2xl font-bold text-theme-text">雙重學習認證</p>
+                        <p class="mt-2 text-theme-text/70 leading-relaxed">修滿學程可獲「學分學程證書」；繼續修滿學分更可取得「學士學位證書」。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Application Info -->
+        <section id="apply" class="py-20 md:py-28 bg-theme-base">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl md:text-5xl font-black text-center text-theme-text">立即行動，開啟您的轉型之旅</h2>
+                <div class="max-w-4xl mx-auto mt-16 bg-white p-8 md:p-12 rounded-lg shadow-xl">
+                    <div class="mb-10">
+                        <h3 class="text-2xl font-bold text-theme-text mb-4">報考資格</h3>
+                        <ul class="list-disc list-inside space-y-2 text-theme-text/80 text-lg leading-relaxed">
+                            <li>具國內公立或已立案之私立高級中等以上學校畢業，或具同等學力資格者。</li>
+                            <li>以年滿55歲者為優先對象，並開放30至55歲者報名。</li>
+                        </ul>
+                    </div>
+                    <div class="mb-10">
+                        <h3 class="text-2xl font-bold text-theme-text mb-4">重要時程</h3>
+                        <div class="space-y-4 text-lg">
+                            <div class="flex flex-col md:flex-row"><strong class="w-full md:w-1/3 text-theme-text">網路報名及繳費</strong><span class="w-full md:w-2/3 text-theme-text/80">114年7月22日(二) 上午10時 至 8月11日(一) 下午5時止</span></div>
+                             <div class="border-t border-gray-200 my-3"></div>
+                            <div class="flex flex-col md:flex-row"><strong class="w-full md:w-1/3 text-theme-text">放榜日期</strong><span class="w-full md:w-2/3 text-theme-text/80">114年8月27日(三)</span></div>
+                             <div class="border-t border-gray-200 my-3"></div>
+                            <div class="flex flex-col md:flex-row"><strong class="w-full md:w-1/3 text-theme-text">正取生報到</strong><span class="w-full md:w-2/3 text-theme-text/80">114年8月28日(四) 上午10時 至 8月29日(五) 下午3時止</span></div>
+                        </div>
+                    </div>
+                     <div class="mb-12">
+                        <h3 class="text-2xl font-bold text-theme-text mb-6">報名流程三步驟</h3>
+                         <div class="grid md:grid-cols-3 gap-8 text-center">
+                            <div>
+                                <div class="bg-theme-primary/20 text-theme-primary w-20 h-20 rounded-full flex items-center justify-center mx-auto text-3xl font-black">1</div>
+                                <h4 class="font-bold mt-4 text-theme-text text-xl">線上填寫資料</h4>
+                                <p class="text-base text-theme-text/70 mt-1 leading-relaxed">前往報名系統，填寫個人資料以完成報名。</p>
+                            </div>
+                            <div>
+                                <div class="bg-theme-primary/20 text-theme-primary w-20 h-20 rounded-full flex items-center justify-center mx-auto text-3xl font-black">2</div>
+                                <h4 class="font-bold mt-4 text-theme-text text-xl">上傳審查文件</h4>
+                                <p class="text-base text-theme-text/70 mt-1 leading-relaxed">將學歷證明、自傳、動機等合併成PDF檔上傳。</p>
+                            </div>
+                            <div>
+                                <div class="bg-theme-primary/20 text-theme-primary w-20 h-20 rounded-full flex items-center justify-center mx-auto text-3xl font-black">3</div>
+                                <h4 class="font-bold mt-4 text-theme-text text-xl">繳交報名費</h4>
+                                <p class="text-base text-theme-text/70 mt-1 leading-relaxed">報名費1,000元。可透過超商、ATM或臨櫃繳款。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <a href="https://alcat.pu.edu.tw/_exam/" target="_blank" class="main-cta-button">
+                            <span>立即前往報名系統</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7: FAQ -->
+        <section id="faq" class="py-20 md:py-28 bg-theme-surface">
+            <div class="container mx-auto px-6 max-w-3xl">
+                <h2 class="text-4xl md:text-5xl font-black text-center text-theme-text">常見問答</h2>
+                <div class="mt-12 space-y-3">
+                    <!-- FAQ Items Updated -->
+                    <div class="accordion-item bg-white border border-gray-200 rounded-lg">
+                        <button class="accordion-button w-full flex justify-between items-center text-left p-6 font-bold text-xl text-theme-text">
+                            <span>只有55歲以上才能報名嗎？年輕一點可以嗎？</span>
+                            <svg class="accordion-arrow w-6 h-6 text-theme-primary transition-transform duration-300 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" /></svg>
+                        </button>
+                        <div class="accordion-content"><p class="px-6 pb-6 text-theme-text/80 text-lg leading-relaxed">我們優先錄取55歲以上的學員，但同時也張開雙臂，非常歡迎30歲至55歲、希望為人生下半場提早規劃的朋友報名，一同加入這個充滿活力的學習社群。</p></div>
+                    </div>
+                    <div class="accordion-item bg-white border border-gray-200 rounded-lg">
+                        <button class="accordion-button w-full flex justify-between items-center text-left p-6 font-bold text-xl text-theme-text">
+                            <span>「學分學程證書」和「學士學位證書」有何不同？</span>
+                             <svg class="accordion-arrow w-6 h-6 text-theme-primary transition-transform duration-300 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" /></svg>
+                        </button>
+                        <div class="accordion-content"><p class="px-6 pb-6 text-theme-text/80 text-lg leading-relaxed">您可以把「學分學程證書」想像成一個專業、完整的「學習里程碑」。只要修滿學程規定的課程（含核心課程），就能獲頒此證書，證明您已掌握該領域的核心能力。若您對學習充滿熱情，希望繼續深造，可以繼續修滿大學規定的128畢業學分，最終就能獲頒與一般大學生完全相同的「學士學位證書」。這完全是彈性的，您可以依自己的人生規劃，自由決定學習的終點。</p></div>
+                    </div>
+                    <div class="accordion-item bg-white border border-gray-200 rounded-lg">
+                        <button class="accordion-button w-full flex justify-between items-center text-left p-6 font-bold text-xl text-theme-text">
+                            <span>學費大概是多少？如何計算？</span>
+                             <svg class="accordion-arrow w-6 h-6 text-theme-primary transition-transform duration-300 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" /></svg>
+                        </button>
+                        <div class="accordion-content"><p class="px-6 pb-6 text-theme-text/80 text-lg leading-relaxed">我們的收費方式非常彈性，是依據您當學期「實際修習的學分數」來計算。目前每學分為新台幣1,817元，若您一學期只修一門2學分的課，該課程的學分費即為3,634元（另計其他行政費用）。您可以完全掌握自己的花費，且符合資格者還能申請政府的學費減免補助。</p></div>
+                    </div>
+                    <div class="accordion-item bg-white border border-gray-200 rounded-lg">
+                        <button class="accordion-button w-full flex justify-between items-center text-left p-6 font-bold text-xl text-theme-text">
+                            <span>每學期一定要修很多課嗎？</span>
+                            <svg class="accordion-arrow w-6 h-6 text-theme-primary transition-transform duration-300 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" /></svg>
+                        </button>
+                        <div class="accordion-content"><p class="px-6 pb-6 text-theme-text/80 text-lg leading-relaxed">這正是我們學程最貼心的地方！為了讓您無壓力學習，規定上您每學期「至少」修習一門課就可以維持學籍。您可以根據自己的時間、體力與興趣，自由安排學習的步伐，完全沒有壓力。</p></div>
+                    </div>
+                     <div class="accordion-item bg-white border border-gray-200 rounded-lg">
+                        <button class="accordion-button w-full flex justify-between items-center text-left p-6 font-bold text-xl text-theme-text">
+                            <span>入學後，我算是正式的大學生嗎？</span>
+                            <svg class="accordion-arrow w-6 h-6 text-theme-primary transition-transform duration-300 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" /></svg>
+                        </button>
+                        <div class="accordion-content"><p class="px-6 pb-6 text-theme-text/80 text-lg leading-relaxed">是的，一旦註冊入學，您就擁有靜宜大學的正式學籍。您會拿到學生證，可以自由進出圖書館借閱書籍、使用體育館等校園設施，完整地享受與體驗大學生活的一切美好。</p></div>
+                    </div>
+                    <div class="accordion-item bg-white border border-gray-200 rounded-lg">
+                        <button class="accordion-button w-full flex justify-between items-center text-left p-6 font-bold text-xl text-theme-text">
+                            <span>可以跨系選修其他系的課嗎？</span>
+                            <svg class="accordion-arrow w-6 h-6 text-theme-primary transition-transform duration-300 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" /></svg>
+                        </button>
+                        <div class="accordion-content"><p class="px-6 pb-6 text-theme-text/80 text-lg leading-relaxed">在修習本學分學程的期間，為了讓您能更專注於生涯轉型的核心學習，目前規定是先修習學程內的專業課程。我們鼓勵您先在此領域深耕，待完成學程後，若選擇繼續攻讀學位，屆時將有更多元的選課空間。</p></div>
+                    </div>
+                     <div class="accordion-item bg-white border border-gray-200 rounded-lg">
+                        <button class="accordion-button w-full flex justify-between items-center text-left p-6 font-bold text-xl text-theme-text">
+                            <span>自傳及報考動機有建議的撰寫方向嗎？</span>
+                            <svg class="accordion-arrow w-6 h-6 text-theme-primary transition-transform duration-300 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" /></svg>
+                        </button>
+                        <div class="accordion-content"><p class="px-6 pb-6 text-theme-text/80 text-lg leading-relaxed">請完全不用擔心！我們沒有制式的格式，更看重的是您真實的故事與想法。您可以輕鬆地分享：過去的生命故事、為什麼想在此時重返校園、對我們哪門課特別心動，或是您對未來生活的想像…等等。請把這裡當成一個與我們聊聊天的機會，真誠永遠是最動人的。</p></div>
+                    </div>
+                    <div class="accordion-item bg-white border border-gray-200 rounded-lg">
+                        <button class="accordion-button w-full flex justify-between items-center text-left p-6 font-bold text-xl text-theme-text">
+                            <span>「十年修業年限」是什麼意思？</span>
+                            <svg class="accordion-arrow w-6 h-6 text-theme-primary transition-transform duration-300 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" /></svg>
+                        </button>
+                        <div class="accordion-content"><p class="px-6 pb-6 text-theme-text/80 text-lg leading-relaxed">「10年」代表的是我們提供給您的最大彈性。意思是，從您入學開始，您有長達10年的時間可以完成您的學業，包含了休學的時間。這讓您可以因為家庭、旅遊、健康等任何個人因素，隨時彈性地暫停或繼續您的學習旅程，完全沒有後顧之憂。</p></div>
+                    </div>
+                </div>
+                <div class="mt-12 bg-theme-primary/10 border-l-4 border-theme-primary text-theme-text p-6 rounded-r-lg">
+                    <h3 class="font-bold text-xl">還有其他問題嗎？</h3>
+                    <p class="mt-2 text-theme-text/80">我們非常樂意為您解答，歡迎透過以下方式與我們聯繫：</p>
+                    <ul class="mt-4 list-disc list-inside space-y-1">
+                        <li><strong>報名相關問題</strong>，請洽 <strong>招生組</strong> (分機：11172-11175)。</li>
+                        <li><strong>課程內容、註冊問題</strong>，請洽 <strong>綜合業務組</strong> (分機：11112-11119)。</li>
+                        <li>(本校總機：04-26328001)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-theme-dark text-white">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p>&copy; 靜宜大學 Providence University</p>
+            <p class="text-sm text-white/60 mt-2">433303臺中市沙鹿區臺灣大道七段200號</p>
+        </div>
+    </footer>
+
+    <!-- Modal for Course Details -->
+    <div id="course-modal" class="modal fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 opacity-0 pointer-events-none">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transform scale-95 transition-transform duration-300">
+            <div class="sticky top-0 bg-white/80 backdrop-blur-sm p-4 sm:p-6 border-b border-gray-200 flex justify-between items-center">
+                <h3 id="modal-title" class="text-2xl font-bold text-theme-text"></h3>
+                <button id="close-modal-btn" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="p-6 sm:p-8 space-y-8">
+                <div>
+                    <h4 class="font-bold text-xl text-theme-primary mb-2">這門課將帶您</h4>
+                    <ul id="modal-features" class="space-y-2 text-theme-text/80 text-lg leading-relaxed list-disc list-inside"></ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xl text-theme-primary mb-2">實作與體驗</h4>
+                    <p id="modal-practice" class="text-theme-text/80 text-lg leading-relaxed"></p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xl text-theme-primary mb-2">未來的可能性</h4>
+                    <p id="modal-future" class="text-theme-text/80 text-lg leading-relaxed"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const courseData = {
+            story: {
+                title: '自我與家族故事書寫',
+                features: ['透過AI協作，大幅提升您的書寫能力','體驗文字、圖像、聲音結合的跨媒體敘事','在訴說的過程中，溫柔地療癒自我'],
+                practice: '您將在課堂上實際操作AI工具，創作出屬於自己的跨媒體作品。',
+                future: '成為AI工具應用專家，獨立出版個人或家族的生命故事書。'
+            },
+            green: {
+                title: '綠生活與綠療癒',
+                features: ['學習在陽台種植香草，並運用它照顧身心','跟隨節氣輪轉，製作專屬的療癒香包','體驗從零開始製作全食物發酵品的喜悅'],
+                practice: '親手佈置陽台植栽、製作節氣香包與發酵食，並安排參訪療癒花園或自然農園。',
+                future: '成為社區的「綠生活達人」，開設DIY工作坊，甚至銜接綠生活療癒師的專業培訓。'
+            },
+            craft: {
+                title: '文化創意手作',
+                features: ['體驗文化內涵與現代設計的完美結合','培養編織、陶藝、紙藝等多元素材的創作能力','啟發您的跨領域創意思維，增添生活美感'],
+                practice: '課程以實作為核心，您將全程動手創作，將想法化為實際的手感作品。',
+                future: '在社區舉辦手作體驗工作坊，或設計具個人風格的文創商品進行販售。'
+            },
+            digital: {
+                title: '數位風格與智慧生活',
+                features: ['學習用影片、圖文創作吸引人的數位內容','學習社群傳播與建立影響力的策略','建構屬於您的個人數位品牌與價值認同'],
+                practice: '實際經營社群貼文，發表小型數位作品，建立個人品牌簡介頁，將學習成果完整呈現。',
+                future: '成為社區或協會的社群經營者，用數位工具紀錄地方活動、訪談街坊人物，為地方留下珍貴的數位足跡。'
+            },
+            cards: {
+                title: '卡牌敘事與生命探索',
+                features: ['運用牌卡圖像與象徵，開啟塵封的人生故事','溫柔地看見內在情緒，啟動深層的身心療癒','探索人生職涯第二春，描繪清晰的未來行動藍圖'],
+                practice: '課程中將實際體驗不同種類的牌卡，學習如何運用牌卡進行自我探索、情緒抒發和人際溝通。',
+                future: '可進一步銜接職涯諮詢師、牌卡溝通師等相關專業證照的培訓。'
+            },
+            culture: {
+                title: '台灣民俗與文化踏查',
+                features: ['走訪中部多元且豐富的民俗文化現場','透過實地踏查與參訪體驗，深入理解文化內涵','與地方耆老、匠人互動交流，聆聽第一手故事'],
+                practice: '課程將安排參訪古蹟、廟宇、老街、博物館，並體驗傳統戲曲、民俗技藝等文化活動。',
+                future: '成為社區的文化導覽員、規劃地方文化小旅行，將在地的美好分享給更多人。'
+            },
+            ecology: {
+                title: '生態美學與藝術表達',
+                features: ['學習生態美學的核心概念，建立人與自然的連結','以多元媒材表達對自然的感受與想法','從藝術創作的過程中，找到內心的療癒與啟發'],
+                practice: '實地觀察自然景觀、動植物，並運用攝影、繪畫、文字等方式記錄與創作。',
+                future: '可舉辦小型的個人生態藝術展，或將作品集結成冊，發表個人的自然書寫作品。'
+            }
+        };
+
+        const courseCards = document.querySelectorAll('.course-card');
+        const modal = document.getElementById('course-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalFeatures = document.getElementById('modal-features');
+        const modalPractice = document.getElementById('modal-practice');
+        const modalFuture = document.getElementById('modal-future');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        function openModal(courseId) {
+            const data = courseData[courseId];
+            if (!data) return;
+
+            modalTitle.textContent = data.title;
+            modalFeatures.innerHTML = data.features.map(feature => `<li>${feature}</li>`).join('');
+            modalPractice.textContent = data.practice;
+            modalFuture.textContent = data.future;
+
+            document.body.classList.add('modal-open');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closeModal() {
+            document.body.classList.remove('modal-open');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        courseCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const courseId = card.dataset.course;
+                openModal(courseId);
+            });
+        });
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) closeModal();
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') closeModal();
+        });
+        
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        accordionItems.forEach(item => {
+            const button = item.querySelector('.accordion-button');
+            const content = item.querySelector('.accordion-content');
+            button.addEventListener('click', () => {
+                const isOpening = !button.classList.contains('open');
+                
+                accordionItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.querySelector('.accordion-button').classList.remove('open');
+                        otherItem.querySelector('.accordion-content').style.maxHeight = '0';
+                    }
+                });
+                
+                if (isOpening) {
+                    button.classList.add('open');
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                } else {
+                    button.classList.remove('open');
+                    content.style.maxHeight = '0';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
